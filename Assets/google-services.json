@@ -1,0 +1,104 @@
+{
+  "project_info": {
+    "project_number": "17869266087",
+    "firebase_url": "https://wordpuzzle-a3ac5.firebaseio.com",
+    "project_id": "wordpuzzle-a3ac5",
+    "storage_bucket": "wordpuzzle-a3ac5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:17869266087:android:f8aa30a044173eb0",
+        "android_client_info": {
+          "package_name": "com.Unity.Wordnaut"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "17869266087-lt3gc6ap1npeopudht7966om0apnqp57.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaiWxiW2Ql5jAoISnpJCWYMS9OkjiiQag"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:17869266087:android:5bfc7dc9cdfdd9b9",
+        "android_client_info": {
+          "package_name": "com.wordnerds.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "17869266087-lt3gc6ap1npeopudht7966om0apnqp57.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaiWxiW2Ql5jAoISnpJCWYMS9OkjiiQag"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:17869266087:android:ea828661f26c0e2a",
+        "android_client_info": {
+          "package_name": "com.IPG.WO"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "17869266087-lt3gc6ap1npeopudht7966om0apnqp57.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaiWxiW2Ql5jAoISnpJCWYMS9OkjiiQag"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
