@@ -2,22 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-    public class  GameLauncher : MonoBehaviour
-    {
+public class  GameLauncher : MonoBehaviour
+{
 
-      // Use this for initialization
-       void Start()
-       {
+  // Use this for initialization
+   void Start()
+   {
+		GameController.Instance.RetrieveDataFromServer (gameObject);
+   }
 
-        RetrieveData.Instance.GetDailyLevels();
-        
 
-       }
-        // Update is called once per frame
-        void Update()
-        {
-               
-        }
-    }
+}
 
 

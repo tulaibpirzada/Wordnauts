@@ -2,15 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameController : MonoBehaviour {
+public class GameController : Singleton<GameController> {
 
-	// Use this for initialization
-	void Start () {
-		
+	GameReferences gameRef;
+	GameObject gameContextObject;
+
+	//Loads the game
+	public void RetrieveDataFromServer(GameObject gameObject)
+	{
+		gameContextObject = gameObject;
+		gameRef = gameContextObject.GetComponent<GameReferences> ();
+		RetrieveData.Instance.GetDailyLevels(LoadGame);
+
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public void LoadGame() {
+		MainMenuController.Instance.ShowMainMenuScreen (gameRef.mainMenuRef);
 	}
 }

@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainMenuController : MonoBehaviour {
+public class MainMenuController : Singleton<MainMenuController> {
 
-	// Use this for initialization
-	void Start () {
-		
+	MainMenuReferences mainMenuRef;
+
+	public void ShowMainMenuScreen(MainMenuReferences mainMenuReferences)
+	{
+		mainMenuRef = mainMenuReferences;
+		mainMenuRef.gameObject.SetActive (true);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public void HideGameStartScreen ()
+	{
+		mainMenuRef.gameObject.SetActive (false);
 	}
 }
