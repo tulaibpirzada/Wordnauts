@@ -14,7 +14,8 @@ public class MainMenuController : Singleton<MainMenuController> {
 
 	public void CheckAndLoadDailyPuzzle() {
 		if (PlayerModel.Instance.IsDailyLevelAvailable) {
-			//show daily level screen
+            //show daily level screen
+            LevelStartScreenController.Instance.ShowScreen();
 		} else {
 			// show error popup
 		}

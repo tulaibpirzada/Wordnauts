@@ -14,6 +14,7 @@ public class ScreenTransitionManager : Singleton<ScreenTransitionManager> {
 		screenReferencesDictionary.Add (GameConstants.Screens.SPLASH_SCREEN, gameRef.splashScreenRef.gameObject);
 		screenReferencesDictionary.Add (GameConstants.Screens.MAIN_MENU_SCREEN, gameRef.mainMenuRef.gameObject);
 		screenReferencesDictionary.Add (GameConstants.Screens.SINGLE_CLUE_SELECTION_SCREEN, gameRef.singleCluePuzzleSelectionRef.gameObject);
+        screenReferencesDictionary.Add(GameConstants.Screens.LEVEL_START_SCREEN, gameRef.levelStartScreenRef.gameObject);
 
 	}
 
