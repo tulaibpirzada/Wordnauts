@@ -9,11 +9,12 @@ public class GameController : Singleton<GameController> {
 	{
 		ScreenTransitionManager.Instance.ShowScreen (GameConstants.Screens.SPLASH_SCREEN);
 		RetrieveData.Instance.GetDailyLevels(LoadGame);
-		PlayerModel.Instance.SetUpPlayerData ();
+		
 
 	}
 
 	public void LoadGame() {
-		MainMenuController.Instance.ShowMainMenuScreen ();
+        PlayerModel.Instance.SetUpPlayerData();
+        MainMenuController.Instance.ShowMainMenuScreen ();
 	}
 }

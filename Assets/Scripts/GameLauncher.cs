@@ -10,6 +10,7 @@ public class  GameLauncher : MonoBehaviour
    {
 		ScreenTransitionManager.Instance.SetScreenReferences (gameObject);
 		GameController.Instance.RetrieveDataFromServer ();
+        Debug.Log("Main called after data fetch");
    }
 
 

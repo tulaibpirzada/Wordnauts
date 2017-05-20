@@ -8,7 +8,7 @@ using Firebase.Database;
     
 public class  RetrieveData : Singleton<RetrieveData>
 {
-	public Database dbObject;
+	public DatabaseModel dbObject;
 	public delegate void OnApiCallResponse();
 
 	private OnApiCallResponse callBackFunction; 
@@ -16,7 +16,7 @@ public class  RetrieveData : Singleton<RetrieveData>
 	RetrieveData ()
 	{
 		Debug.Log ("Running Constructor");
-		dbObject = new Database ();
+		dbObject = new DatabaseModel ();
 		Debug.Log (dbObject.dbPath);
        
 	}
