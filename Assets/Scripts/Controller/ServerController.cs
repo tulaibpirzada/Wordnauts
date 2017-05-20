@@ -17,16 +17,19 @@ class ServerController :Singleton<ServerController>
         //Extract user details from user model
         int levelNo = 0;
         string levelPath = DatabaseModel.Instance.subLevelName + "/" + levelNo.ToString() + "/";
-        string strPuzzleFromServer = GetChildDataFromSnapshot(DatabaseModel.Instance.DS, levelPath + "grid");
-        Debug.Log(strPuzzleFromServer);
+        Debug.Log("PopulateDL"+levelPath);
+        Debug.Log("PopulateDL" + DatabaseModel.Instance.dailyLevelSnapshot);
+        string strPuzzleFromServer = GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath + "grid");
+       // Debug.Log(strPuzzleFromServer);
+
         if (strPuzzleFromServer!=null)
         {
             ConvertPuzzletoGrid(strPuzzleFromServer);
-            DailyLevelModel.Instance.clue=GetChildDataFromSnapshot(DatabaseModel.Instance.DS, levelPath+"clue");
-            DailyLevelModel.Instance.gems=Convert.ToInt32(GetChildDataFromSnapshot(DatabaseModel.Instance.DS, levelPath+"pi"));
-            DailyLevelModel.Instance.prestigePoints = Convert.ToInt32(GetChildDataFromSnapshot(DatabaseModel.Instance.DS, levelPath+"prestige"));
-            DailyLevelModel.Instance.hints = Convert.ToInt32(GetChildDataFromSnapshot(DatabaseModel.Instance.DS, levelPath+"tickets"));
-            DailyLevelModel.Instance.solution=GetChildDataFromSnapshot(DatabaseModel.Instance.DS, levelPath+"solution");
+            DailyLevelModel.Instance.clue=GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath+"clue");
+            DailyLevelModel.Instance.gems=Convert.ToInt32(GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath+"pi"));
+            DailyLevelModel.Instance.prestigePoints = Convert.ToInt32(GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath+"prestige"));
+            DailyLevelModel.Instance.hints = Convert.ToInt32(GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath+"tickets"));
+            DailyLevelModel.Instance.solution=GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath+"solution");
         }
         else
         {
@@ -93,5 +96,6 @@ class ServerController :Singleton<ServerController>
             return null;
         }
     }
+ 
 }
 

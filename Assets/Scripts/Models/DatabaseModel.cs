@@ -11,6 +11,7 @@ public class DatabaseModel : Singleton<DatabaseModel>
     public string presPackName = "prestige_level_pack";
     public string regPackName = "regular_level_packs";
     public string subLevelName = "level_list";
-    public DataSnapshot DS;
-
+    public bool userExists = false;
+    public DataSnapshot dailyLevelSnapshot;
+    public DataSnapshot userDataSnapshot;
 }
