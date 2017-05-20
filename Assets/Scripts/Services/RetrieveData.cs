@@ -8,31 +8,32 @@ using Firebase.Database;
     
 public class  RetrieveData : Singleton<RetrieveData>
 {
-	public DatabaseModel dbObject;
+	//public DatabaseModel dbObject;
 	public delegate void OnApiCallResponse();
 
 	private OnApiCallResponse callBackFunction; 
 
 	RetrieveData ()
 	{
-		Debug.Log ("Running Constructor");
-		dbObject = new DatabaseModel ();
-		Debug.Log (dbObject.dbPath);
+	//	Debug.Log ("Running Constructor");
+	//	dbObject = new DatabaseModel ();
+	//	Debug.Log (dbObject.dbPath);
        
 	}
 
 	public void GetDailyLevels (OnApiCallResponse callBack)
 	{
-		Debug.Log (dbObject.dbPath);
+		Debug.Log (DatabaseModel.Instance.dbPath);
 		callBackFunction = callBack;
-		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl (dbObject.dbPath);
+		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl (DatabaseModel.Instance.dbPath);
 		FirebaseDatabase.DefaultInstance
-       .GetReference (dbObject.dailyPackName)
+       .GetReference (DatabaseModel.Instance.dailyPackName)
        .GetValueAsync ().ContinueWith (task => {
 			if (task.IsFaulted) {
 				// Handle the error...
 			} else if (task.IsCompleted) {
 				DataSnapshot snapshot = task.Result;
+               DatabaseModel.Instance.DS = snapshot;
 				Debug.Log (snapshot);
 				callBackFunction();
 			}

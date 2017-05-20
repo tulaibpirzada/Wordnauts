@@ -16,5 +16,8 @@ public class GameController : Singleton<GameController> {
 	public void LoadGame() {
         PlayerModel.Instance.SetUpPlayerData();
         MainMenuController.Instance.ShowMainMenuScreen ();
-	}
+        ServerController.Instance.PopulateDailyLevelData();
+        Debug.Log(DailyLevelModel.Instance.solution);
+
+    }
 }
