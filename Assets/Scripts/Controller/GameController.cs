@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class GameController : Singleton<GameController> {
 
-	GameReferences gameRef;
-	GameObject gameContextObject;
-
 	//Loads the game
-	public void RetrieveDataFromServer(GameObject gameObject)
+	public void RetrieveDataFromServer()
 	{
-		gameContextObject = gameObject;
-		gameRef = gameContextObject.GetComponent<GameReferences> ();
+		ScreenTransitionManager.Instance.ShowScreen (GameConstants.Screens.SPLASH_SCREEN);
 		RetrieveData.Instance.GetDailyLevels(LoadGame);
+		PlayerModel.Instance.SetUpPlayerData ();
 
 	}
 
 	public void LoadGame() {
-		MainMenuController.Instance.ShowMainMenuScreen (gameRef.mainMenuRef);
+		MainMenuController.Instance.ShowMainMenuScreen ();
 	}
 }

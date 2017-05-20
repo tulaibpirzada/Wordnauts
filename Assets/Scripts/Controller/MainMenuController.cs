@@ -6,14 +6,33 @@ public class MainMenuController : Singleton<MainMenuController> {
 
 	MainMenuReferences mainMenuRef;
 
-	public void ShowMainMenuScreen(MainMenuReferences mainMenuReferences)
+	public void ShowMainMenuScreen()
 	{
-		mainMenuRef = mainMenuReferences;
-		mainMenuRef.gameObject.SetActive (true);
+		GameObject menuMenuGameObject = ScreenTransitionManager.Instance.ShowScreen (GameConstants.Screens.MAIN_MENU_SCREEN);
+		mainMenuRef = menuMenuGameObject.GetComponent<MainMenuReferences> ();
 	}
 
-	public void HideGameStartScreen ()
-	{
-		mainMenuRef.gameObject.SetActive (false);
+	public void CheckAndLoadDailyPuzzle() {
+		if (PlayerModel.Instance.IsDailyLevelAvailable) {
+			//show daily level screen
+		} else {
+			// show error popup
+		}
+	}
+
+	public void ShowSingleCluePuzzleSelectionScreen() {
+		SingleCluePuzzleSelectionScreenController.Instance.LoadScreen ();
+	}
+
+	public void ShowMultiCluePuzzleSelectionScreen() {
+
+	}
+
+	public void ShowGetMoreHintsPopup() {
+		
+	}
+
+	public void ShowSettingsPopup() {
+
 	}
 }

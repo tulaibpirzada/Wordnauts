@@ -8,7 +8,8 @@ public class  GameLauncher : MonoBehaviour
   // Use this for initialization
    void Start()
    {
-		GameController.Instance.RetrieveDataFromServer (gameObject);
+		ScreenTransitionManager.Instance.SetScreenReferences (gameObject);
+		GameController.Instance.RetrieveDataFromServer ();
    }
 
 
