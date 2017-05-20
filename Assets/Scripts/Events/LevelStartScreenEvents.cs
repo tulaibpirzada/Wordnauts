@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class LevelStartScreenEvents : MonoBehaviour {
     public void LoadPuzzleButtonTapped() {
-        
+        LevelStartScreenController.Instance.LoadPuzzle();
     }
 }
