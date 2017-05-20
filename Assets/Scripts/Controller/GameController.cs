@@ -8,13 +8,25 @@ public class GameController : Singleton<GameController> {
 	public void RetrieveDataFromServer()
 	{
 		ScreenTransitionManager.Instance.ShowScreen (GameConstants.Screens.SPLASH_SCREEN);
-		RetrieveData.Instance.GetDailyLevels(LoadGame);
-		
+		RetrieveData.Instance.LoadGameData(LoadGame, SystemInfo.deviceUniqueIdentifier);
+        
 
-	}
+    }
 
-	public void LoadGame() {
-        PlayerModel.Instance.SetUpPlayerData();
+	public void LoadGame()
+    {
+        if (!DatabaseModel.Instance.userExists)
+        {
+            PlayerModel.Instance.SetUpPlayerData();
+            Debug.Log("user doesnot exist");
+        }
+        else
+        {
+            Debug.Log("user exist");
+        }
+        ServerController.Instance.PopulateDailyLevelData();
         MainMenuController.Instance.ShowMainMenuScreen ();
-	}
+        Debug.Log(DatabaseModel.Instance.userExists);
+
+    }
 }
