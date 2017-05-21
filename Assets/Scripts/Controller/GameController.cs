@@ -17,16 +17,17 @@ public class GameController : Singleton<GameController> {
     {
         if (!DatabaseModel.Instance.userExists)
         {
+            PlayerModel.Instance.SetUpPlayerData();
+            SendData.Instance.uploadPlayerData(SystemInfo.deviceUniqueIdentifier);
             Debug.Log("user doesnot exist");
         }
         else
         {
-			PlayerModel.Instance.SetUpPlayerData();
+			
             Debug.Log("user exist");
         }
         ServerController.Instance.PopulateDailyLevelData();
         MainMenuController.Instance.ShowMainMenuScreen ();
-        Debug.Log(DatabaseModel.Instance.userExists);
 
     }
 }

@@ -32,8 +32,7 @@ public class  RetrieveData : Singleton<RetrieveData>
 				// Handle the error...
 			} else if (task.IsCompleted) {
 				DataSnapshot snapshot = task.Result;
-               DatabaseModel.Instance.dailyLevelSnapshot = snapshot;
-				Debug.Log (snapshot);
+                DatabaseModel.Instance.dailyLevelSnapshot = snapshot;
 				callBackFunction();
 			}
 		});
@@ -41,20 +40,23 @@ public class  RetrieveData : Singleton<RetrieveData>
     public void GetUsersData(string deviceid)
     {
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl(DatabaseModel.Instance.dbPath);
-        FirebaseDatabase.DefaultInstance
-       .GetReference("users/"+deviceid)
-       .GetValueAsync().ContinueWith(task => {
+        DatabaseReference dBRef = FirebaseDatabase.DefaultInstance
+       .GetReference("users/" + deviceid);
+
+        dBRef.GetValueAsync().ContinueWith(task => {
            if (task.IsFaulted) {
                //Handle this error...
            } else if (task.IsCompleted) {
                DataSnapshot snapshot = task.Result;
-               if (snapshot!=null)
+                Debug.Log("key"+snapshot.Key);
+               // Debug.Log(if(snapshot.Value));
+               if (snapshot.Value != null)
                {
                    DatabaseModel.Instance.userExists = true;
                }
                DatabaseModel.Instance.userDataSnapshot = snapshot;
-               Debug.Log(snapshot);
-                GetDailyLevels();
+               //Debug.Log(snapshot);
+               GetDailyLevels();
            }
        });
 

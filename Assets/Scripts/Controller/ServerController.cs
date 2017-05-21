@@ -17,10 +17,8 @@ class ServerController :Singleton<ServerController>
         //Extract user details from user model
         int levelNo = 0;
         string levelPath = DatabaseModel.Instance.subLevelName + "/" + levelNo.ToString() + "/";
-        Debug.Log("PopulateDL"+levelPath);
-        Debug.Log("PopulateDL" + DatabaseModel.Instance.dailyLevelSnapshot);
         string strPuzzleFromServer = GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath + "grid");
-       // Debug.Log(strPuzzleFromServer);
+        
 
         if (strPuzzleFromServer!=null)
         {
@@ -77,7 +75,6 @@ class ServerController :Singleton<ServerController>
     {
         string result;
         DataSnapshot child;
-      //  Debug.Log(childName);
         if (snapshot.Exists && snapshot.HasChildren)
         {
             child = snapshot.Child(childName);
