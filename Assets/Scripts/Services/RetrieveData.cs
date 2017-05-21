@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Firebase;
@@ -15,8 +15,8 @@ public class  RetrieveData : Singleton<RetrieveData>
 
     public void LoadGameData(OnApiCallResponse callBack,string deviceID)
     {
-
-        GetUsersData(callBack, deviceID);
+        callBackFunction = callBack;
+        GetUsersData(deviceID);
 
 
     }
@@ -34,23 +34,19 @@ public class  RetrieveData : Singleton<RetrieveData>
 				DataSnapshot snapshot = task.Result;
                DatabaseModel.Instance.dailyLevelSnapshot = snapshot;
 				Debug.Log (snapshot);
-				
+				callBackFunction();
 			}
 		});
 	}
-    public void GetUsersData(OnApiCallResponse callBack,string deviceid)
+    public void GetUsersData(string deviceid)
     {
-        callBackFunction = callBack;
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl(DatabaseModel.Instance.dbPath);
         FirebaseDatabase.DefaultInstance
        .GetReference("users/"+deviceid)
        .GetValueAsync().ContinueWith(task => {
-           if (task.IsFaulted)
-           {
-               
-           }
-           else if (task.IsCompleted)
-           {
+           if (task.IsFaulted) {
+               //Handle this error...
+           } else if (task.IsCompleted) {
                DataSnapshot snapshot = task.Result;
                if (snapshot!=null)
                {
@@ -58,10 +54,8 @@ public class  RetrieveData : Singleton<RetrieveData>
                }
                DatabaseModel.Instance.userDataSnapshot = snapshot;
                Debug.Log(snapshot);
+                GetDailyLevels();
            }
-           GetDailyLevels();
-           callBackFunction();
-
        });
 
     }
