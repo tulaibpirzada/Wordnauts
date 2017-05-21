@@ -5,11 +5,17 @@ using UnityEngine;
 public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 
     GamePlayScreenReferences gamePlayScreenRef;
+    private const int rowSize = 15;
 
     public void LoadScreen() {
         GameObject gamePlayScreenGameObject = ScreenTransitionManager.Instance.ShowScreen(GameConstants.Screens.GAME_PLAY_SCREEN);
 		gamePlayScreenRef = gamePlayScreenGameObject.GetComponent<GamePlayScreenReferences>();
         GenerateGrid();
+        List<string> solutionList = new List<string>();
+        solutionList.Add("Tulaib");
+        solutionList.Add("Taskeen");
+        solutionList.Add("Tahoor");
+        GenerateSolutionBox(solutionList);
     }
 
 	public void SlideBackToMainMenu()
@@ -45,8 +51,8 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
         var padding = gamePlayScreenRef.letterGrid.padding;
         var letterGridRectTransform = gamePlayScreenRef.letterGrid.GetComponent<RectTransform>();
 
-		var numberOfRows = 3;
-		var numberOfColumns = 4;
+		var numberOfRows = 4;
+		var numberOfColumns = 3;
 		var horizontalSpacing = (numberOfColumns - 1) * spacing.x;
 		var verticalSpacing = (numberOfRows - 1) * spacing.y;
 		var horizontalPadding = padding.left + padding.right;
@@ -83,4 +89,85 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 
 		//_letterButtons[row + "," + column] = letterButtonGameObject.GetComponent<LetterButton>();
 	}
+
+    public void GenerateSolutionBox(List<string> solutionList)
+	{
+		//var solutionRowPrefab = Resources.Load("SolutionRow");
+		//var letterBoxPrefab = Resources.Load("LetterBox");
+		//var emptyLetterBoxPrefab = Resources.Load("EmptyLetterBox");
+
+		//var words = solution.Split(solutionSplit);
+
+		var numberOfLettersUsedInRow = 0;
+		GameObject solutionRow = null;
+
+        foreach (string word in solutionList)
+		{
+
+			//if (IsWordAlreadyAdded(word)) continue;
+
+            int wordLength = word.Length;
+			int spaceNeededForWord;
+			var availableSpace = rowSize - numberOfLettersUsedInRow;
+
+			if (numberOfLettersUsedInRow == 0)
+			{
+				spaceNeededForWord = wordLength;
+			}
+			else
+			{
+				spaceNeededForWord = wordLength + 1;
+			}
+
+			if (numberOfLettersUsedInRow == 0 || spaceNeededForWord > availableSpace)
+			{
+				numberOfLettersUsedInRow = 0;
+                solutionRow = (GameObject)Object.Instantiate(gamePlayScreenRef.solutionRow);
+                solutionRow.transform.SetParent(gamePlayScreenRef.solutionBox.transform);
+				solutionRow.transform.localScale = new Vector3(1, 1, 1);
+			}
+
+			if (solutionRow == null)
+			{
+                throw new System.Exception("Solution row is not created");
+			}
+
+			if (numberOfLettersUsedInRow != 0)
+			{
+                var emptyLetterBox = (GameObject)Object.Instantiate(gamePlayScreenRef.solutionEmptyLetterBox);
+				emptyLetterBox.transform.SetParent(solutionRow.transform);
+			}
+
+
+			//var letterQueue = new Queue<LetterBox>(wordLength);
+			//var letterList = new List<LetterBox>(wordLength);
+			for (var i = 0; i < wordLength; i++)
+			{
+                var letterBox = (GameObject)Object.Instantiate(gamePlayScreenRef.solutionLetterBox);
+				letterBox.transform.SetParent(solutionRow.transform);
+				letterBox.transform.localScale = new Vector3(1, 1, 1);
+
+				//letterQueue.Enqueue(letterBox.GetComponent<LetterBox>());
+				//letterList.Add(letterBox.GetComponent<LetterBox>());
+			}
+
+			//_wordToLettersMap.Add(new KeyValuePair<string, Queue<LetterBox>>(word, letterQueue));
+			//_letterBoxes.Add(new KeyValuePair<string, List<LetterBox>>(word, letterList));
+			numberOfLettersUsedInRow += spaceNeededForWord;
+		}
+	}
+
+	//private bool IsWordAlreadyAdded(string word)
+	//{
+	//	foreach (var keyValuePair in _wordToLettersMap)
+	//	{
+	//		if (keyValuePair.Key == word)
+	//		{
+	//			return true;
+	//		}
+	//	}
+
+	//	return false;
+	//}
+
 }
