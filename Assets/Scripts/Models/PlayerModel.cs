@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 [Serializable]
 public class PlayerModel: Singleton <PlayerModel>
@@ -10,18 +11,11 @@ public class PlayerModel: Singleton <PlayerModel>
     public int completionPercent;
     public int stars;
     public int hints;
-    public Dictionary<string, string> dailyLevel=new Dictionary<string, string>();
-  /*  dailyLevel = new Dictionary<string, string>();
-        dailyLevel.Add("isAvailable","true");
-        dailyLevel.Add("date",DateTime.Today.ToString());
-        dailyLevel.Add("LevelNo", */
-    public Dictionary<string, int> singleClue = new Dictionary<string, int>();
-    public Dictionary<string, int> multiClue = new Dictionary<string, int>();
-    public string dl;
-    public string sc;
-    public string mc;
     public int moneySpent;
     public int appRating;
+    public dailyLevelDic dailyLevel= new dailyLevelDic();
+    public singleClueDic singleClue;
+    public multiClueDic multiClue;
     
     public bool IsDailyLevelAvailable
 	{
@@ -39,25 +33,15 @@ public class PlayerModel: Singleton <PlayerModel>
         hints = 0;
         moneySpent = 0;
         appRating = 0;
+       // dailyLevel = new dailyLevelDic();
+        singleClue = new singleClueDic();
+        multiClue = new multiClueDic();
+        //dl = JsonUtility.ToJson(dailyLevel);
 
-        // setting up daily level data
-      //  dailyLevel = new Dictionary<string, string>();
-        dailyLevel.Add("isAvailable","true");
-        dailyLevel.Add("date",DateTime.Today.ToString());
-        dailyLevel.Add("LevelNo", "0");
-       // dl = JsonUtility.ToJson(dailyLevel);
 
-     //   singleClue = new Dictionary<string, int>();
-        singleClue.Add("LevelNo",0);
-        singleClue.Add("SubLevelNo", 0);
 
-       // multiClue = new Dictionary<string, int>();
-        multiClue.Add("LevelNo",0);
 
-        dl = JsonUtility.ToJson(dailyLevel);
-        sc = JsonUtility.ToJson(singleClue);
-        mc = JsonUtility.ToJson(multiClue);
 
-    }
+}
 
 }

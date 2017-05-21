@@ -15,8 +15,10 @@ public class GameController : Singleton<GameController> {
 
 	public void LoadGame()
     {
+      //  Debug.Log("in load Game");
         if (!DatabaseModel.Instance.userExists)
         {
+            
             PlayerModel.Instance.SetUpPlayerData();
             SendData.Instance.uploadPlayerData(SystemInfo.deviceUniqueIdentifier);
             Debug.Log("user doesnot exist");
