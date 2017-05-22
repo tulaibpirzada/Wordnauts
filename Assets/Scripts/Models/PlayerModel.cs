@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 [Serializable]
 public class PlayerModel: Singleton <PlayerModel>
 {
+    private string deviceID;
     public int completionPercent;
     public int stars;
     public int hints;
@@ -21,7 +22,15 @@ public class PlayerModel: Singleton <PlayerModel>
 		get;
 		set;
 	}*/
-
+    public void SetDeviceID()
+    {
+        deviceID = SystemInfo.deviceUniqueIdentifier;
+    }
+    public string GetDeviceId()
+    {
+        
+        return deviceID;
+    }
 
 	public void SetUpPlayerData()
 	{
@@ -46,6 +55,13 @@ public class PlayerModel: Singleton <PlayerModel>
         dailyLevel.LevelNo = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "dailyLevel/LevelNo"));
         dailyLevel.isAvailable = Convert.ToBoolean(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "dailyLevel/isAvailable"));
         dailyLevel.date = Convert.ToString(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "dailyLevel/date"));
+
+        if (!dailyLevel.isAvailable && dailyLevel.date!= DateTime.Now.ToString("dd.MM.yyy"))
+        {
+            dailyLevel.isAvailable = true;
+            dailyLevel.date = DateTime.Now.ToString("dd.MM.yyy");
+            SendData.Instance.UpdatePlayerDailyLevelData();
+        }
     }
     public void SetPlayerDataFromSnapshot()
     {

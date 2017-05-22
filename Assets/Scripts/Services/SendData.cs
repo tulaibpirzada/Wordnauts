@@ -10,17 +10,18 @@ using Firebase;
 
 class SendData : Singleton<SendData>
 {
-    public void uploadPlayerData(string deviceID)
+    public void uploadPlayerData()
     {
         //Initilize all the user fields and convert to JSON
         string json = JsonUtility.ToJson(PlayerModel.Instance);
         Debug.Log(json);
+        Debug.Log(PlayerModel.Instance.GetDeviceId());
 
 
         //Create a user entry
        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl(DatabaseModel.Instance.dbPath);
         FirebaseDatabase.DefaultInstance
-       .GetReference("users/").Child(deviceID).SetRawJsonValueAsync(json).ContinueWith(task =>
+       .GetReference("users/").Child(PlayerModel.Instance.GetDeviceId()).SetRawJsonValueAsync(json).ContinueWith(task =>
         {
             if (task.IsFaulted)
             {
@@ -34,6 +35,29 @@ class SendData : Singleton<SendData>
 
             }
         });
+    }
+
+    public void UpdatePlayerDailyLevelData()
+    {
+        string json = JsonUtility.ToJson(PlayerModel.Instance.dailyLevel);
+        Debug.Log(json);
+
+        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl(DatabaseModel.Instance.dbPath);
+        FirebaseDatabase.DefaultInstance
+       .GetReference("users/").Child(PlayerModel.Instance.GetDeviceId()).Child("dailyLevel").SetRawJsonValueAsync(json).ContinueWith(task =>
+       {
+           if (task.IsFaulted)
+           {
+               Debug.Log("Error updating user");
+
+           }
+           else if (task.IsCompleted)
+           {
+               Debug.Log("User Updated Successfully");
+
+
+           }
+       });
     }
 }
 

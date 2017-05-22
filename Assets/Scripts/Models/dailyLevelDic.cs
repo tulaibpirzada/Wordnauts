@@ -13,7 +13,7 @@ public class dailyLevelDic
     public dailyLevelDic()
     {
         isAvailable = true;
-        date = DateTime.Today.ToString();
+        date = DateTime.Now.ToString("dd.MM.yyy");
         LevelNo = 0;
     }
 }

@@ -13,10 +13,11 @@ public class  RetrieveData : Singleton<RetrieveData>
 
 	private OnApiCallResponse callBackFunction; 
 
-    public void LoadGameData(OnApiCallResponse callBack,string deviceID)
+    public void LoadGameData(OnApiCallResponse callBack)
     {
+        
         callBackFunction = callBack;
-        GetUsersData(deviceID);
+        GetUsersData();
 
 
     }
@@ -37,11 +38,11 @@ public class  RetrieveData : Singleton<RetrieveData>
 			}
 		});
 	}
-    public void GetUsersData(string deviceid)
+    public void GetUsersData()
     {
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl(DatabaseModel.Instance.dbPath);
         DatabaseReference dBRef = FirebaseDatabase.DefaultInstance
-       .GetReference("users/" + deviceid);
+       .GetReference("users/" + PlayerModel.Instance.GetDeviceId());
 
         dBRef.GetValueAsync().ContinueWith(task => {
            if (task.IsFaulted) {
