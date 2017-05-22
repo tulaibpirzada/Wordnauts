@@ -2,62 +2,70 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 [Serializable]
 public class PlayerModel: Singleton <PlayerModel>
 {
-   // public string deviceID;
+    private string deviceID;
     public int completionPercent;
     public int stars;
     public int hints;
-    public Dictionary<string, string> dailyLevel=new Dictionary<string, string>();
-  /*  dailyLevel = new Dictionary<string, string>();
-        dailyLevel.Add("isAvailable","true");
-        dailyLevel.Add("date",DateTime.Today.ToString());
-        dailyLevel.Add("LevelNo", */
-    public Dictionary<string, int> singleClue = new Dictionary<string, int>();
-    public Dictionary<string, int> multiClue = new Dictionary<string, int>();
-    public string dl;
-    public string sc;
-    public string mc;
     public int moneySpent;
     public int appRating;
+    public dailyLevelDic dailyLevel;
+    public singleClueDic singleClue;
+    public multiClueDic multiClue;
     
-    public bool IsDailyLevelAvailable
+    /*public bool IsDailyLevelAvailable
 	{
 		get;
 		set;
-	}
-
+	}*/
+    public void SetDeviceID()
+    {
+        deviceID = SystemInfo.deviceUniqueIdentifier;
+    }
+    public string GetDeviceId()
+    {
+        
+        return deviceID;
+    }
 
 	public void SetUpPlayerData()
 	{
-		this.IsDailyLevelAvailable = true;
+	//	this.IsDailyLevelAvailable = true;
        // deviceID= SystemInfo.deviceUniqueIdentifier;
         completionPercent = 0;
         stars = 0;
         hints = 0;
         moneySpent = 0;
         appRating = 0;
+        dailyLevel = new dailyLevelDic();
+        singleClue = new singleClueDic();
+        multiClue = new multiClueDic();
 
-        // setting up daily level data
-      //  dailyLevel = new Dictionary<string, string>();
-        dailyLevel.Add("isAvailable","true");
-        dailyLevel.Add("date",DateTime.Today.ToString());
-        dailyLevel.Add("LevelNo", "0");
-       // dl = JsonUtility.ToJson(dailyLevel);
 
-     //   singleClue = new Dictionary<string, int>();
-        singleClue.Add("LevelNo",0);
-        singleClue.Add("SubLevelNo", 0);
 
-       // multiClue = new Dictionary<string, int>();
-        multiClue.Add("LevelNo",0);
 
-        dl = JsonUtility.ToJson(dailyLevel);
-        sc = JsonUtility.ToJson(singleClue);
-        mc = JsonUtility.ToJson(multiClue);
+}
+    public void SetPlayerDailyLevelDataFromSnapshot()
+    {
+        dailyLevel = new dailyLevelDic();
+        dailyLevel.LevelNo = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "dailyLevel/LevelNo"));
+        dailyLevel.isAvailable = Convert.ToBoolean(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "dailyLevel/isAvailable"));
+        dailyLevel.date = Convert.ToString(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "dailyLevel/date"));
 
+        if (!dailyLevel.isAvailable && dailyLevel.date!= DateTime.Now.ToString("dd.MM.yyy"))
+        {
+            dailyLevel.isAvailable = true;
+            dailyLevel.date = DateTime.Now.ToString("dd.MM.yyy");
+            SendData.Instance.UpdatePlayerDailyLevelData();
+        }
     }
-
+    public void SetPlayerDataFromSnapshot()
+    {
+        stars = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "stars"));
+        hints = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "hints"));
+    }
 }
