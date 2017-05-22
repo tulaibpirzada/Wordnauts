@@ -8,6 +8,7 @@ public class LevelStartScreenController : Singleton<LevelStartScreenController> 
     public void ShowScreen() {
         GameObject levelStartScreenGameObject = ScreenTransitionManager.Instance.ShowScreen(GameConstants.Screens.LEVEL_START_SCREEN);
 		levelStartScreenRef = levelStartScreenGameObject.GetComponent<LevelStartScreenReferences>();
+        levelStartScreenRef.clueText.text = DailyLevelModel.Instance.Clue;
     }
 
     public void LoadPuzzle() {

@@ -6,4 +6,5 @@ using UnityEngine.UI;
 public class LevelStartScreenReferences : MonoBehaviour {
 
     public Button loadPuzzleButton;
+    public Text clueText;
 }

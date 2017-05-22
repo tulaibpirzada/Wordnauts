@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+
 
 public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 
@@ -12,9 +15,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 		gamePlayScreenRef = gamePlayScreenGameObject.GetComponent<GamePlayScreenReferences>();
         GenerateGrid();
         List<string> solutionList = new List<string>();
-        solutionList.Add("Tulaib");
-        solutionList.Add("Taskeen");
-        solutionList.Add("Tahoor");
+        solutionList.Add(DailyLevelModel.Instance.Solution);
         GenerateSolutionBox(solutionList);
     }
 
@@ -26,15 +27,15 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 	private void GenerateGrid()
 	{
 		var size = CalculateSize();
-
-        gamePlayScreenRef.letterGrid.padding = new RectOffset((int)size.y, (int)size.x, 0, (int)size.x);
+		//t,r,b,l      l,r,t,b
+		gamePlayScreenRef.letterGrid.padding = new RectOffset((int)size.x, (int)size.x, (int)size.y, 0);
         gamePlayScreenRef.letterGrid.cellSize = new Vector2(size.z, size.z);
 
 		var index = 1;
 
-		for (var i = 0; i < 3; i++)
+        for (var i = 0; i < DailyLevelModel.Instance.Columns; i++)
 		{
-			for (var j = 0; j < 4; j++)
+            for (var j = 0; j < DailyLevelModel.Instance.Rows; j++)
 			{
 				//var letter = _letterMatrix[i, j];
 				CreateLetterButton('A', i, j, index++, size.z);
@@ -51,28 +52,29 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
         var padding = gamePlayScreenRef.letterGrid.padding;
         var letterGridRectTransform = gamePlayScreenRef.letterGrid.GetComponent<RectTransform>();
 
-		var numberOfRows = 4;
-		var numberOfColumns = 3;
+		var numberOfRows = DailyLevelModel.Instance.Rows;
+		var numberOfColumns = DailyLevelModel.Instance.Columns;
 		var horizontalSpacing = (numberOfColumns - 1) * spacing.x;
 		var verticalSpacing = (numberOfRows - 1) * spacing.y;
 		var horizontalPadding = padding.left + padding.right;
 		var verticalPadding = padding.top + padding.bottom;
 		var width = letterGridRectTransform.rect.width - horizontalSpacing - horizontalPadding;
 		var height = letterGridRectTransform.rect.height - verticalSpacing - verticalPadding;
-        var size = Mathf.Min(Mathf.Min(height / numberOfRows, width / numberOfColumns), 500);
+		float minOfWAndH = Math.Min (height / numberOfRows, width / numberOfColumns);
+		var size = Math.Min(minOfWAndH, 500);
 
 		var leftOverWidth = width - size * numberOfColumns;
 		var leftOverHeight = height - size * numberOfRows;
 
-		horizontalPadding = Mathf.Max((int)(leftOverWidth / 2), padding.left);
-		verticalPadding = Mathf.Max((int)(leftOverHeight / 2), padding.top);
+		horizontalPadding = Math.Max((int)(leftOverWidth / 2), padding.left);
+		verticalPadding = Math.Max((int)(leftOverHeight / 2), padding.top);
 
 		return new Vector3(horizontalPadding, verticalPadding, size);
 	}
 
 	private void CreateLetterButton(char letter, int row, int column, int index, float size)
 	{
-        var letterButtonGameObject = (GameObject)Object.Instantiate(gamePlayScreenRef.letterButton);
+        var letterButtonGameObject = (GameObject)UnityEngine.Object.Instantiate(gamePlayScreenRef.letterButton);
         var letterButton = letterButtonGameObject.GetComponent<LetterButtonReferences>();
 
 		//letterButton.Letter = letter;
@@ -122,7 +124,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 			if (numberOfLettersUsedInRow == 0 || spaceNeededForWord > availableSpace)
 			{
 				numberOfLettersUsedInRow = 0;
-                solutionRow = (GameObject)Object.Instantiate(gamePlayScreenRef.solutionRow);
+				solutionRow = (GameObject)UnityEngine.Object.Instantiate(gamePlayScreenRef.solutionRow);
                 solutionRow.transform.SetParent(gamePlayScreenRef.solutionBox.transform);
 				solutionRow.transform.localScale = new Vector3(1, 1, 1);
 			}
@@ -134,7 +136,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 
 			if (numberOfLettersUsedInRow != 0)
 			{
-                var emptyLetterBox = (GameObject)Object.Instantiate(gamePlayScreenRef.solutionEmptyLetterBox);
+				var emptyLetterBox = (GameObject)UnityEngine.Object.Instantiate(gamePlayScreenRef.solutionEmptyLetterBox);
 				emptyLetterBox.transform.SetParent(solutionRow.transform);
 			}
 
@@ -143,7 +145,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 			//var letterList = new List<LetterBox>(wordLength);
 			for (var i = 0; i < wordLength; i++)
 			{
-                var letterBox = (GameObject)Object.Instantiate(gamePlayScreenRef.solutionLetterBox);
+				var letterBox = (GameObject)UnityEngine.Object.Instantiate(gamePlayScreenRef.solutionLetterBox);
 				letterBox.transform.SetParent(solutionRow.transform);
 				letterBox.transform.localScale = new Vector3(1, 1, 1);
 

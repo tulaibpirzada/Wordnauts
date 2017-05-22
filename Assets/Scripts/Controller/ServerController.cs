@@ -6,43 +6,42 @@ using UnityEngine;
 using Firebase.Database;
 
 
-class ServerController :Singleton<ServerController>
+class ServerController : Singleton<ServerController>
 {
-    public int rows;
-    public int cols;
-    public List<string> puzzle = new List<string>();
+    private Dictionary<string, object> dailyLevelDictionary = new Dictionary<string, object>();
 
     public void PopulateDailyLevelData()
-   {
+    {
         //Extract user details from user model
         int levelNo = 0;
         string levelPath = DatabaseModel.Instance.subLevelName + "/" + levelNo.ToString() + "/";
         string strPuzzleFromServer = GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath + "grid");
-        
 
-        if (strPuzzleFromServer!=null)
+
+        if (strPuzzleFromServer != null)
         {
             ConvertPuzzletoGrid(strPuzzleFromServer);
-            DailyLevelModel.Instance.clue=GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath+"clue");
-            DailyLevelModel.Instance.gems=Convert.ToInt32(GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath+"pi"));
-            DailyLevelModel.Instance.prestigePoints = Convert.ToInt32(GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath+"prestige"));
-            DailyLevelModel.Instance.hints = Convert.ToInt32(GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath+"tickets"));
-            DailyLevelModel.Instance.solution=GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath+"solution");
+            dailyLevelDictionary.Add("clue", GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath + "clue"));
+            dailyLevelDictionary.Add("prestige", GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath + "prestige"));
+            dailyLevelDictionary.Add("hints", GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath + "tickets"));
+            dailyLevelDictionary.Add("solution", GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath + "solution"));
+            DailyLevelModel.Instance.Populate(dailyLevelDictionary);
         }
         else
         {
             Debug.Log("Unable to Fetch Puzzle");
         }
-        
-
-   }
+    }
 
     public void ConvertPuzzletoGrid(string rawPuzzle)
     {
 
+        int rows = 0;
+        int cols;
+        List<string> puzzle = new List<string>();
         char[] array = rawPuzzle.ToCharArray();
-        rows = 0;
         int c = 1;
+        cols = c;
         for (int i = 1; i < array.Length - 1; i++)
         {
             if (array[i] == '[')
@@ -65,9 +64,9 @@ class ServerController :Singleton<ServerController>
                 c++;
             }
         }
-    DailyLevelModel.Instance.rows = rows;
-    DailyLevelModel.Instance.cols = cols;
-    DailyLevelModel.Instance.puzzle = puzzle;
+        dailyLevelDictionary.Add("rows", rows.ToString());
+        dailyLevelDictionary.Add("columns", cols.ToString());
+        dailyLevelDictionary.Add("puzzle", puzzle);
 
     }
 
@@ -93,6 +92,6 @@ class ServerController :Singleton<ServerController>
             return null;
         }
     }
- 
+
 }
 
