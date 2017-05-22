@@ -93,6 +93,11 @@ class ServerController :Singleton<ServerController>
             return null;
         }
     }
- 
+    public void GetUserDailyLevelData()
+    {
+        string temp=GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "dailyLevel/LevelNo");
+        Debug.Log(temp);
+    }
+
 }
 

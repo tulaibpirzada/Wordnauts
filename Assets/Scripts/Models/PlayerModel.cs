@@ -7,13 +7,12 @@ using Newtonsoft.Json;
 [Serializable]
 public class PlayerModel: Singleton <PlayerModel>
 {
-   // public string deviceID;
     public int completionPercent;
     public int stars;
     public int hints;
     public int moneySpent;
     public int appRating;
-    public dailyLevelDic dailyLevel= new dailyLevelDic();
+    public dailyLevelDic dailyLevel;
     public singleClueDic singleClue;
     public multiClueDic multiClue;
     
@@ -33,11 +32,9 @@ public class PlayerModel: Singleton <PlayerModel>
         hints = 0;
         moneySpent = 0;
         appRating = 0;
-       // dailyLevel = new dailyLevelDic();
+        dailyLevel = new dailyLevelDic();
         singleClue = new singleClueDic();
         multiClue = new multiClueDic();
-        //dl = JsonUtility.ToJson(dailyLevel);
-
 
 
 

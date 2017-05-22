@@ -27,8 +27,10 @@ public class GameController : Singleton<GameController> {
         {
 			
             Debug.Log("user exist");
+            ServerController.Instance.GetUserDailyLevelData();
         }
         ServerController.Instance.PopulateDailyLevelData();
+        
         MainMenuController.Instance.ShowMainMenuScreen ();
 
     }
