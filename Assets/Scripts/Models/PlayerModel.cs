@@ -16,16 +16,16 @@ public class PlayerModel: Singleton <PlayerModel>
     public singleClueDic singleClue;
     public multiClueDic multiClue;
     
-    public bool IsDailyLevelAvailable
+    /*public bool IsDailyLevelAvailable
 	{
 		get;
 		set;
-	}
+	}*/
 
 
 	public void SetUpPlayerData()
 	{
-		this.IsDailyLevelAvailable = true;
+	//	this.IsDailyLevelAvailable = true;
        // deviceID= SystemInfo.deviceUniqueIdentifier;
         completionPercent = 0;
         stars = 0;
@@ -40,5 +40,16 @@ public class PlayerModel: Singleton <PlayerModel>
 
 
 }
-
+    public void SetPlayerDailyLevelDataFromSnapshot()
+    {
+        dailyLevel = new dailyLevelDic();
+        dailyLevel.LevelNo = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "dailyLevel/LevelNo"));
+        dailyLevel.isAvailable = Convert.ToBoolean(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "dailyLevel/isAvailable"));
+        dailyLevel.date = Convert.ToString(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "dailyLevel/date"));
+    }
+    public void SetPlayerDataFromSnapshot()
+    {
+        stars = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "stars"));
+        hints = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "hints"));
+    }
 }

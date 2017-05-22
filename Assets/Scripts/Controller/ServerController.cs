@@ -15,7 +15,7 @@ class ServerController :Singleton<ServerController>
     public void PopulateDailyLevelData()
    {
         //Extract user details from user model
-        int levelNo = 0;
+        int levelNo = PlayerModel.Instance.dailyLevel.LevelNo;
         string levelPath = DatabaseModel.Instance.subLevelName + "/" + levelNo.ToString() + "/";
         string strPuzzleFromServer = GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath + "grid");
         
@@ -93,11 +93,8 @@ class ServerController :Singleton<ServerController>
             return null;
         }
     }
-    public void GetUserDailyLevelData()
-    {
-        string temp=GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "dailyLevel/LevelNo");
-        Debug.Log(temp);
-    }
+
+ 
 
 }
 

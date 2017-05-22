@@ -15,7 +15,6 @@ public class GameController : Singleton<GameController> {
 
 	public void LoadGame()
     {
-      //  Debug.Log("in load Game");
         if (!DatabaseModel.Instance.userExists)
         {
             
@@ -27,8 +26,10 @@ public class GameController : Singleton<GameController> {
         {
 			
             Debug.Log("user exist");
-            ServerController.Instance.GetUserDailyLevelData();
+            PlayerModel.Instance.SetPlayerDataFromSnapshot();
+            PlayerModel.Instance.SetPlayerDailyLevelDataFromSnapshot();
         }
+        Debug.Log(PlayerModel.Instance.dailyLevel.LevelNo);
         ServerController.Instance.PopulateDailyLevelData();
         
         MainMenuController.Instance.ShowMainMenuScreen ();
