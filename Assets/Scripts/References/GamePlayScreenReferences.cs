@@ -10,4 +10,6 @@ public class GamePlayScreenReferences : MonoBehaviour {
     public Object solutionRow;
     public Object solutionLetterBox;
     public Object solutionEmptyLetterBox;
+	public Text wordBeingCreatedLabel;
+	public Text clueLabel;
 }

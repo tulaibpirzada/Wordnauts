@@ -13,6 +13,8 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
     public void LoadScreen() {
         GameObject gamePlayScreenGameObject = ScreenTransitionManager.Instance.ShowScreen(GameConstants.Screens.GAME_PLAY_SCREEN);
 		gamePlayScreenRef = gamePlayScreenGameObject.GetComponent<GamePlayScreenReferences>();
+		gamePlayScreenRef.clueLabel.text = "Clue: " + DailyLevelModel.Instance.Clue;
+		gamePlayScreenRef.wordBeingCreatedLabel.text = "";
         GenerateGrid();
         List<string> solutionList = new List<string>();
         solutionList.Add(DailyLevelModel.Instance.Solution);
@@ -27,18 +29,17 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 	private void GenerateGrid()
 	{
 		var size = CalculateSize();
-		//t,r,b,l      l,r,t,b
 		gamePlayScreenRef.letterGrid.padding = new RectOffset((int)size.x, (int)size.x, (int)size.y, 0);
         gamePlayScreenRef.letterGrid.cellSize = new Vector2(size.z, size.z);
 
-		var index = 1;
+		var index = 0;
 
         for (var i = 0; i < DailyLevelModel.Instance.Columns; i++)
 		{
             for (var j = 0; j < DailyLevelModel.Instance.Rows; j++)
 			{
-				//var letter = _letterMatrix[i, j];
-				CreateLetterButton('A', i, j, index++, size.z);
+				var letter = DailyLevelModel.Instance.Puzzle[index];
+				CreateLetterButton(letter, i, j, index++, size.z);
 			}
 		}
 
@@ -72,16 +73,16 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 		return new Vector3(horizontalPadding, verticalPadding, size);
 	}
 
-	private void CreateLetterButton(char letter, int row, int column, int index, float size)
+	private void CreateLetterButton(string letter, int row, int column, int index, float size)
 	{
         var letterButtonGameObject = (GameObject)UnityEngine.Object.Instantiate(gamePlayScreenRef.letterButton);
         var letterButton = letterButtonGameObject.GetComponent<LetterButtonReferences>();
 
-		//letterButton.Letter = letter;
-		//letterButton.Column = column;
-		//letterButton.Index = index;
-		//letterButton.Row = row;
-		//letterButton.Size = size;
+		letterButton.Letter = letter;
+		letterButton.Column = column;
+		letterButton.Index = index;
+		letterButton.Row = row;
+		letterButton.Size = size;
 		//letterButton.IsBlock = letter == '_';
 		//letterButton.LetterSelectedSignal = LetterSelectedSignal;
 		//letterButton.LetterDeselectedSignal = LetterDeselectedSignal;
