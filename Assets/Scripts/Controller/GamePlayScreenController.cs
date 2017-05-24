@@ -9,6 +9,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 
     GamePlayScreenReferences gamePlayScreenRef;
     private const int rowSize = 15;
+    private List<LetterButtonReferences> letterButtonList;
 
     public void LoadScreen() {
         GameObject gamePlayScreenGameObject = ScreenTransitionManager.Instance.ShowScreen(GameConstants.Screens.GAME_PLAY_SCREEN);
@@ -16,9 +17,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 		gamePlayScreenRef.clueLabel.text = "Clue: " + DailyLevelModel.Instance.Clue;
 		gamePlayScreenRef.wordBeingCreatedLabel.text = "";
         GenerateGrid();
-        List<string> solutionList = new List<string>();
-        solutionList.Add(DailyLevelModel.Instance.Solution);
-        GenerateSolutionBox(solutionList);
+        GenerateSolutionBox(DailyLevelModel.Instance.Solution);
     }
 
 	public void SlideBackToMainMenu()
@@ -31,7 +30,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 		var size = CalculateSize();
 		gamePlayScreenRef.letterGrid.padding = new RectOffset((int)size.x, (int)size.x, (int)size.y, 0);
         gamePlayScreenRef.letterGrid.cellSize = new Vector2(size.z, size.z);
-
+        letterButtonList = new List<LetterButtonReferences>();
 		var index = 0;
 
         for (var i = 0; i < DailyLevelModel.Instance.Columns; i++)
@@ -88,12 +87,13 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 		//letterButton.LetterDeselectedSignal = LetterDeselectedSignal;
 
         letterButtonGameObject.transform.SetParent(gamePlayScreenRef.letterGrid.transform);
+        letterButtonList.Add(letterButton);
 		//view.GetLetterGrid.AddLetterButton(letterButton);
 
 		//_letterButtons[row + "," + column] = letterButtonGameObject.GetComponent<LetterButton>();
 	}
 
-    public void GenerateSolutionBox(List<string> solutionList)
+    private void GenerateSolutionBox(List<string> solutionList)
 	{
 		//var solutionRowPrefab = Resources.Load("SolutionRow");
 		//var letterBoxPrefab = Resources.Load("LetterBox");
@@ -159,6 +159,29 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 			numberOfLettersUsedInRow += spaceNeededForWord;
 		}
 	}
+
+    public void CreateWord(string character) {
+        gamePlayScreenRef.wordBeingCreatedLabel.text += character;
+    }
+
+    public void CheckIfWordCreatedIsCorrectSolution() {
+        foreach (string solutionString in DailyLevelModel.Instance.Solution) {
+            if (gamePlayScreenRef.wordBeingCreatedLabel.text == solutionString) {
+				foreach (LetterButtonReferences letterButton in letterButtonList)
+				{
+                    letterButton.CorrectlySelectLetter();
+				}
+                return;
+            }
+		}
+
+        //Deselect All Letters
+        foreach (LetterButtonReferences letterButton in letterButtonList) {
+            letterButton.DeselectLetter();
+        }
+        gamePlayScreenRef.wordBeingCreatedLabel.text = "";
+
+    }
 
 	//private bool IsWordAlreadyAdded(string word)
 	//{

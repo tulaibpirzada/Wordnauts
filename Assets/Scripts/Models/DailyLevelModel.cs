@@ -13,7 +13,7 @@ class DailyLevelModel : Singleton<DailyLevelModel>
 	private int rows;
 	private int columns;
     private string clue;
-    private string solution;
+    private List<string> solution;
 
 
 	public List<string> Puzzle
@@ -51,7 +51,7 @@ class DailyLevelModel : Singleton<DailyLevelModel>
 		get { return clue; }
 	}
 
-	public string Solution
+	public List<string> Solution
 	{
 		get { return solution; }
 	}
@@ -64,6 +64,8 @@ class DailyLevelModel : Singleton<DailyLevelModel>
 		rows = Utils.GetInt("rows", dataDictionary);
 		columns = Utils.GetInt("columns", dataDictionary);
         clue = Utils.GetString("clue", dataDictionary);
-        solution = Utils.GetString("solution", dataDictionary);
+        string solutionString = Utils.GetString("solution", dataDictionary);
+        solution = new List<string>();
+        solution.Add(solutionString);
 	}
 }
