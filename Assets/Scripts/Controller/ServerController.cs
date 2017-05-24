@@ -8,9 +8,12 @@ using Firebase.Database;
 
 class ServerController : Singleton<ServerController>
 {
-    private Dictionary<string, object> dailyLevelDictionary = new Dictionary<string, object>();
+   // private Dictionary<string, object> dailyLevelDictionary = new Dictionary<string, object>();
+    public List<string> gamePuzzle;
+    public int row;
+    public int column;
 
-    public void PopulateDailyLevelData()
+    /*public void PopulateDailyLevelData()
     {
         //Extract user details from user model
         int levelNo = PlayerModel.Instance.dailyLevel.LevelNo;
@@ -23,7 +26,7 @@ class ServerController : Singleton<ServerController>
             ConvertPuzzletoGrid(strPuzzleFromServer);
             dailyLevelDictionary.Add("clue", GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath + "clue"));
             dailyLevelDictionary.Add("prestige", GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath + "prestige"));
-            dailyLevelDictionary.Add("hints", GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath + "tickets"));
+            dailyLevelDictionary.Add("hints", GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath + "pi"));
             dailyLevelDictionary.Add("solution", GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath + "solution"));
             DailyLevelModel.Instance.Populate(dailyLevelDictionary);
         }
@@ -31,7 +34,7 @@ class ServerController : Singleton<ServerController>
         {
             Debug.Log("Unable to Fetch Puzzle");
         }
-    }
+    }*/
 
     public void ConvertPuzzletoGrid(string rawPuzzle)
     {
@@ -64,10 +67,12 @@ class ServerController : Singleton<ServerController>
                 c++;
             }
         }
-        dailyLevelDictionary.Add("rows", rows.ToString());
-        dailyLevelDictionary.Add("columns", cols.ToString());
-        dailyLevelDictionary.Add("puzzle", puzzle);
-
+        /* dailyLevelDictionary.Add("rows", rows.ToString());
+         dailyLevelDictionary.Add("columns", cols.ToString());
+         dailyLevelDictionary.Add("puzzle", puzzle);*/
+        row = rows;
+        column = cols;
+        gamePuzzle = puzzle;
     }
 
     public string GetChildDataFromSnapshot(DataSnapshot snapshot, string childName)

@@ -77,5 +77,15 @@ public static class Utils {
 
 		return result;
 	}
+    public static List<string> SplitAndSaveStrings(string input, char c)
+        {
+        List<string> s = new List<string>();
+        string[] splitString = input.Split(c);
+        foreach (string element in splitString)
+        {
+            s.Add(element);
+        }
+        return s;
+        }
     
 }

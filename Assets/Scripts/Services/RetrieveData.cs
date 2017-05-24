@@ -10,6 +10,7 @@ public class  RetrieveData : Singleton<RetrieveData>
 {
 	//public DatabaseModel dbObject;
 	public delegate void OnApiCallResponse();
+    public DataSnapshot snapshot;
 
 	private OnApiCallResponse callBackFunction; 
 
@@ -17,27 +18,17 @@ public class  RetrieveData : Singleton<RetrieveData>
     {
         
         callBackFunction = callBack;
+        
         GetUsersData();
+        
 
 
     }
 	public void GetDailyLevels ()
 	{
-		Debug.Log (DatabaseModel.Instance.dbPath);
-		
-		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl (DatabaseModel.Instance.dbPath);
-		FirebaseDatabase.DefaultInstance
-       .GetReference (DatabaseModel.Instance.dailyPackName)
-       .GetValueAsync ().ContinueWith (task => {
-			if (task.IsFaulted) {
-				// Handle the error...
-			} else if (task.IsCompleted) {
-				DataSnapshot snapshot = task.Result;
-                DatabaseModel.Instance.dailyLevelSnapshot = snapshot;
-				callBackFunction();
-			}
-		});
+      FetchSnapshot(DatabaseModel.Instance.dailyPackName, 0,true);
 	}
+
     public void GetUsersData()
     {
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl(DatabaseModel.Instance.dbPath);
@@ -49,19 +40,64 @@ public class  RetrieveData : Singleton<RetrieveData>
                //Handle this error...
            } else if (task.IsCompleted) {
                DataSnapshot snapshot = task.Result;
-                Debug.Log("key"+snapshot.Key);
-               // Debug.Log(if(snapshot.Value));
+               // Debug.Log("key"+snapshot.Key);
                if (snapshot.Value != null)
                {
                    DatabaseModel.Instance.userExists = true;
                }
                DatabaseModel.Instance.userDataSnapshot = snapshot;
-               //Debug.Log(snapshot);
-               GetDailyLevels();
+                GetSingleClueLevels();
+                GetMultiClueLevels();
+                GetDailyLevels();
            }
        });
 
     }
+   
+    public void GetSingleClueLevels()
+    {
+       
+        FetchSnapshot(DatabaseModel.Instance.singleClueName, 1,false);
+    }
 
+    public void GetMultiClueLevels()
+    {
+        FetchSnapshot(DatabaseModel.Instance.multiClueName, 2, false);
+    }
+    private void FetchSnapshot(string path,int puzzleType, bool IsCallback)
+    {
+        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl(DatabaseModel.Instance.dbPath);
+        FirebaseDatabase.DefaultInstance
+       .GetReference(path)
+       .GetValueAsync().ContinueWith(task => {
+           if (task.IsFaulted)
+           {
+               // Handle the error...
+           }
+           else if (task.IsCompleted)
+           {
+               snapshot=task.Result;
+               if (puzzleType==0)
+               {
+                   DatabaseModel.Instance.dailyLevelSnapshot = snapshot;
+               }
+               else if (puzzleType == 1)
+               {
+                   DatabaseModel.Instance.singleClueSnapshot = snapshot;
+               }
+               else
+               {
+                   DatabaseModel.Instance.multiClueSnapshot = snapshot;
+               }
+              // ds = snapshot;
+              // DatabaseModel.Instance.ds = snapshot;
+               if (IsCallback)
+               {
+                   callBackFunction();
+               }
+
+           }
+       });
+    }
 }
     

@@ -7,13 +7,13 @@ using System.Text;
 public class singleClueDic
 {
     public int LevelNo;
-    public int SubLevelNo;
+    public int PackNo;
 
     public singleClueDic()
     {
     
         LevelNo=0;
-        SubLevelNo = 0;
+        PackNo = 0;
     }
 }
 

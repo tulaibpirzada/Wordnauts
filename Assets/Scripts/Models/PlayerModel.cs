@@ -49,7 +49,7 @@ public class PlayerModel: Singleton <PlayerModel>
 
 
 }
-    public void SetPlayerDailyLevelDataFromSnapshot()
+    public void GetPlayerDailyLevelDataFromSnapshot()
     {
         dailyLevel = new dailyLevelDic();
         dailyLevel.LevelNo = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "dailyLevel/LevelNo"));
@@ -63,7 +63,20 @@ public class PlayerModel: Singleton <PlayerModel>
             SendData.Instance.UpdatePlayerDailyLevelData();
         }
     }
-    public void SetPlayerDataFromSnapshot()
+    public void GetPlayerMultiClueDataFromSnapshot()
+    {
+        multiClue = new multiClueDic();
+        multiClue.LevelNo = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "multiLevel/LevelNo"));
+       
+    }
+    public void GetPlayerSingleClueDataFromSnapshot()
+    {
+        singleClue = new singleClueDic();
+        singleClue.LevelNo= Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "singleClue/LevelNo"));
+        singleClue.PackNo = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "singleClue/PackNo"));
+
+    }
+    public void GetPlayerDataFromSnapshot()
     {
         stars = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "stars"));
         hints = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "hints"));

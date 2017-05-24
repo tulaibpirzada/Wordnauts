@@ -31,13 +31,19 @@ public class GameController : Singleton<GameController> {
         {
 			
             Debug.Log("user exist");
-            PlayerModel.Instance.SetPlayerDataFromSnapshot();
-            PlayerModel.Instance.SetPlayerDailyLevelDataFromSnapshot();
-           
+            PlayerModel.Instance.GetPlayerDataFromSnapshot();
+            PlayerModel.Instance.GetPlayerDailyLevelDataFromSnapshot();
+            PlayerModel.Instance.GetPlayerSingleClueDataFromSnapshot();
+            PlayerModel.Instance.GetPlayerMultiClueDataFromSnapshot();
         }
         //Debug.Log(PlayerModel.Instance.dailyLevel.LevelNo);
-        ServerController.Instance.PopulateDailyLevelData();
-     
+        //ServerController.Instance.PopulateDailyLevelData();
+        Debug.Log(DatabaseModel.Instance.dailyLevelSnapshot);
+        Debug.Log(DatabaseModel.Instance.singleClueSnapshot);
+        Debug.Log(DatabaseModel.Instance.multiClueSnapshot);
+        DailyLevelModel.Instance.Populate();
+        SingleClueModel.Instance.Populate();
+        MultiClueModel.Instance.Populate();
         MainMenuController.Instance.ShowMainMenuScreen ();
 
     }
