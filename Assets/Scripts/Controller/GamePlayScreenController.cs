@@ -10,8 +10,11 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
     GamePlayScreenReferences gamePlayScreenRef;
     private const int rowSize = 15;
     private List<LetterButtonReferences> letterButtonList;
+	private List<GameObject> solutionRowList;
+    public bool isGamePlayScreenShowingUp = false;
 
     public void LoadScreen() {
+        isGamePlayScreenShowingUp = true;
         GameObject gamePlayScreenGameObject = ScreenTransitionManager.Instance.ShowScreen(GameConstants.Screens.GAME_PLAY_SCREEN);
 		gamePlayScreenRef = gamePlayScreenGameObject.GetComponent<GamePlayScreenReferences>();
 		gamePlayScreenRef.clueLabel.text = "Clue: " + DailyLevelModel.Instance.Clue;
@@ -22,6 +25,15 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 
 	public void SlideBackToMainMenu()
 	{
+        isGamePlayScreenShowingUp = false;
+        foreach (LetterButtonReferences button in letterButtonList) {
+            Destroy(button.gameObject); 
+        }
+        letterButtonList.Clear();
+		foreach (GameObject solutionRow in solutionRowList) {
+			Destroy(solutionRow); 
+		}
+		solutionRowList.Clear();
 		MainMenuController.Instance.ShowMainMenuScreen();
 	}
 
@@ -100,7 +112,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 		//var emptyLetterBoxPrefab = Resources.Load("EmptyLetterBox");
 
 		//var words = solution.Split(solutionSplit);
-
+		solutionRowList = new List<GameObject>();
 		var numberOfLettersUsedInRow = 0;
 		GameObject solutionRow = null;
 
@@ -128,6 +140,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 				solutionRow = (GameObject)UnityEngine.Object.Instantiate(gamePlayScreenRef.solutionRow);
                 solutionRow.transform.SetParent(gamePlayScreenRef.solutionBox.transform);
 				solutionRow.transform.localScale = new Vector3(1, 1, 1);
+				solutionRowList.Add (solutionRow);
 			}
 
 			if (solutionRow == null)
