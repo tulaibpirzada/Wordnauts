@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 class SingleClueModel :Singleton<SingleClueModel>
 {
     private List<string> puzzle;
@@ -62,7 +63,7 @@ class SingleClueModel :Singleton<SingleClueModel>
         string packPath = packNo.ToString() + "/";
         string levelPath=packPath+ DatabaseModel.Instance.subLevelName + "/" + levelNo.ToString() + "/";
         string strPuzzleFromServer = ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.singleClueSnapshot, levelPath + "grid");
-
+        Debug.Log("Puzzle Pack count: " + DatabaseModel.Instance.singleClueSnapshot.ChildrenCount);
 
         if (strPuzzleFromServer != null)
         {
