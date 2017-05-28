@@ -50,7 +50,7 @@ class SingleClueModel
     public void Populate(string levelPath)
     {
         string strPuzzleFromServer = ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.singleClueSnapshot, levelPath + "grid");
-
+        Debug.Log("Puzzle Pack count: " + DatabaseModel.Instance.singleClueSnapshot.ChildrenCount);
 
         if (strPuzzleFromServer != null)
         {

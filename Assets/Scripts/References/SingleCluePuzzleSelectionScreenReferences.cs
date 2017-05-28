@@ -1,16 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SingleCluePuzzleSelectionScreenReferences : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public GameObject puzzlePackListItem;
+    public RectTransform scrollContentView;
+    public ScrollRect scrollView;
 }
