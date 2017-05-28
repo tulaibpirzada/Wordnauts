@@ -2,18 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-class SingleClueModel :Singleton<SingleClueModel>
+class SingleClueModel
 {
     private List<string> puzzle;
     private int hints;
     private int prestigePoints;
-    private int totalLevels;
-    private int totalPacks;
     private int rows;
     private int columns;
     private string clue;
     private string solution ;
-    private int requiredPointsToUnlock;
 
     public List<string> Puzzle
     {
@@ -28,11 +25,6 @@ class SingleClueModel :Singleton<SingleClueModel>
     public int PrestigePoints
     {
         get { return prestigePoints; }
-    }
-
-    public int TotalLevels
-    {
-        get { return totalLevels; }
     }
 
     public int Rows
@@ -55,26 +47,21 @@ class SingleClueModel :Singleton<SingleClueModel>
         get { return solution; }
     }
 
-    public void Populate()
+    public void Populate(string levelPath)
     {
-        int packNo = PlayerModel.Instance.singleClue.PackNo;
-        int levelNo= PlayerModel.Instance.singleClue.LevelNo;
-        string packPath = packNo.ToString() + "/";
-        string levelPath=packPath+ DatabaseModel.Instance.subLevelName + "/" + levelNo.ToString() + "/";
         string strPuzzleFromServer = ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.singleClueSnapshot, levelPath + "grid");
 
 
         if (strPuzzleFromServer != null)
         {
             ServerController.Instance.ConvertPuzzletoGrid(strPuzzleFromServer);
-            puzzle = ServerController.Instance.gamePuzzle;
-            rows = ServerController.Instance.row;
-            columns = ServerController.Instance.column;
-            requiredPointsToUnlock = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.singleClueSnapshot, packPath + "PrestigeToUnlock"));
-            clue = ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.singleClueSnapshot, levelPath + "clue");
-            hints = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.singleClueSnapshot, levelPath + "pi"));
-            prestigePoints = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.singleClueSnapshot, levelPath + "prestige"));
-            solution = ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.singleClueSnapshot, levelPath + "solution");
+            this.puzzle = ServerController.Instance.gamePuzzle;
+            this.rows = ServerController.Instance.row;
+            this.columns = ServerController.Instance.column;
+            this.clue = ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.singleClueSnapshot, levelPath + "clue");
+            this.hints = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.singleClueSnapshot, levelPath + "pi"));
+            this.prestigePoints = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.singleClueSnapshot, levelPath + "prestige"));
+            this.solution = ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.singleClueSnapshot, levelPath + "solution");
         }
 
         
