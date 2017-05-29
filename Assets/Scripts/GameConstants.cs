@@ -8,6 +8,7 @@ public class GameConstants : MonoBehaviour {
 		MAIN_MENU_SCREEN,
 		SINGLE_CLUE_SELECTION_SCREEN,
         LEVEL_START_SCREEN,
-        GAME_PLAY_SCREEN
+        GAME_PLAY_SCREEN,
+		LEVEL_END_SCREEN
 	}
 }

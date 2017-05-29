@@ -9,5 +9,6 @@ public class GameReferences : MonoBehaviour
 	public SingleCluePuzzleSelectionScreenReferences singleCluePuzzleSelectionRef;
 	public LevelStartScreenReferences levelStartScreenRef;
     public GamePlayScreenReferences gamePlayScreenRef;
+	public LevelEndScreenReferences levelEndScreenRef;
 
 }

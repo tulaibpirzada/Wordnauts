@@ -184,6 +184,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 				{
                     letterButton.CorrectlySelectLetter();
 				}
+				LevelEndScreenController.Instance.LoadScreen ();
                 return;
             }
 		}
