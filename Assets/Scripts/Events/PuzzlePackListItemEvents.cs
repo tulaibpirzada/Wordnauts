@@ -4,13 +4,8 @@ using UnityEngine;
 
 public class PuzzlePackListItemEvents : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+	public void PuzzlePackListItemTapped() {
+		PuzzlePackListItemReferences puzzlePackListItemRef = GetComponent<PuzzlePackListItemReferences> ();
+		SingleCluePuzzleSelectionScreenController.Instance.LoadPuzzlePackModelForSelectedListItem (puzzlePackListItemRef);
 	}
 }

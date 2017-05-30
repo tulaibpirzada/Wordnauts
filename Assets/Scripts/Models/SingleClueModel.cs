@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-class SingleClueModel
+
+public class SingleClueModel
 {
     private List<string> puzzle;
     private int hints;

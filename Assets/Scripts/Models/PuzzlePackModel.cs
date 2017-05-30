@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 
 
-class PuzzlePackModel
+public class PuzzlePackModel
 {
 
     
     private int requiredPointsToUnlock;
     private int totalLevels;
-    public Dictionary<int, object> levelsDictionary = new Dictionary<int, object>();
+	public List<SingleClueModel> levelsList = new List<SingleClueModel>();
 
 
     public int RequiredPointsToUnlock
@@ -36,9 +36,9 @@ class PuzzlePackModel
         for (int level = 0; level < totalLevels; level++)
         {
             levelPath = packPath + DatabaseModel.Instance.subLevelName + "/" + level.ToString() + "/";
-            SingleClueModel sc = new SingleClueModel();
-            sc.Populate(levelPath);
-            levelsDictionary.Add(level, sc);
+			PuzzleModel puzzleModel = new PuzzleModel();
+			puzzleModel.Populate(levelPath);
+			levelsList.Add(puzzleModel);
         }
     }
 }

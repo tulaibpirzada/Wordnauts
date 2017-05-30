@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-class MultiplePackModel:Singleton<MultiplePackModel>
+class MultiplePackModel: Singleton<MultiplePackModel>
 {
     private int totalPacks;
-    public Dictionary<int, object> packsDictionary = new Dictionary<int, object>();
+	public List<PuzzlePackModel> packsList = new List<PuzzlePackModel>();
     public int TotalPacks
     {
         get { return totalPacks; }
@@ -16,11 +16,11 @@ class MultiplePackModel:Singleton<MultiplePackModel>
     {
         TotalPacks =Convert.ToInt32(DatabaseModel.Instance.singleClueSnapshot.ChildrenCount);
         int packNo = PlayerModel.Instance.singleClue.PackNo;
-        for (int pack = 0; pack <=packNo; pack++)
+		for (int index = 0; index <=packNo; index++)
         {
-            PuzzlePackModel pp = new PuzzlePackModel();
-            pp.Populate(pack);
-            packsDictionary.Add(packNo, pp);
+            PuzzlePackModel pack = new PuzzlePackModel();
+			pack.Populate(index);
+			packsList.Add(pack);
         }
 
     }
