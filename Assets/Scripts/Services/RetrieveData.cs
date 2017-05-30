@@ -24,10 +24,6 @@ public class  RetrieveData : Singleton<RetrieveData>
 
 
     }
-	public void GetDailyLevels ()
-	{
-      FetchSnapshot(DatabaseModel.Instance.dailyPackName, 0,true);
-	}
 
     public void GetUsersData()
     {
@@ -40,35 +36,22 @@ public class  RetrieveData : Singleton<RetrieveData>
                //Handle this error...
            } else if (task.IsCompleted) {
                DataSnapshot snapshot = task.Result;
-               // Debug.Log("key"+snapshot.Key);
                if (snapshot.Value != null)
                {
                    DatabaseModel.Instance.userExists = true;
                }
                DatabaseModel.Instance.userDataSnapshot = snapshot;
-                GetSingleClueLevels();
-                GetMultiClueLevels();
-                GetDailyLevels();
+                FetchSnapshotofGame();
            }
        });
 
     }
    
-    public void GetSingleClueLevels()
-    {
-       
-        FetchSnapshot(DatabaseModel.Instance.singleClueName, 1,false);
-    }
-
-    public void GetMultiClueLevels()
-    {
-        FetchSnapshot(DatabaseModel.Instance.multiClueName, 2, false);
-    }
-    private void FetchSnapshot(string path,int puzzleType, bool IsCallback)
+    private void FetchSnapshotofGame()
     {
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl(DatabaseModel.Instance.dbPath);
         FirebaseDatabase.DefaultInstance
-       .GetReference(path)
+       .GetReference("game/")
        .GetValueAsync().ContinueWith(task => {
            if (task.IsFaulted)
            {
@@ -76,26 +59,13 @@ public class  RetrieveData : Singleton<RetrieveData>
            }
            else if (task.IsCompleted)
            {
-               snapshot=task.Result;
-               if (puzzleType==0)
-               {
-                   DatabaseModel.Instance.dailyLevelSnapshot = snapshot;
-               }
-               else if (puzzleType == 1)
-               {
-                   DatabaseModel.Instance.singleClueSnapshot = snapshot;
-               }
-               else
-               {
-                   DatabaseModel.Instance.multiClueSnapshot = snapshot;
-               }
-              // ds = snapshot;
-              // DatabaseModel.Instance.ds = snapshot;
-               if (IsCallback)
-               {
-                   callBackFunction();
-               }
 
+
+               snapshot = task.Result;
+               DatabaseModel.Instance.dailyLevelSnapshot = ServerController.Instance.GetDatasnapshot(snapshot, DatabaseModel.Instance.dailyPackName);
+               DatabaseModel.Instance.singleClueSnapshot = ServerController.Instance.GetDatasnapshot(snapshot, DatabaseModel.Instance.singleClueName);
+               DatabaseModel.Instance.multiClueSnapshot = ServerController.Instance.GetDatasnapshot(snapshot, DatabaseModel.Instance.multiClueName);
+               callBackFunction();             
            }
        });
     }

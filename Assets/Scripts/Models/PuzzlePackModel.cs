@@ -10,7 +10,7 @@ public class PuzzlePackModel
     
     private int requiredPointsToUnlock;
     private int totalLevels;
-	public List<SingleClueModel> levelsList = new List<SingleClueModel>();
+	public List<PuzzleModel> levelsList = new List<PuzzleModel>();
 
 
     public int RequiredPointsToUnlock
