@@ -11,16 +11,18 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
     private const int rowSize = 15;
     private List<LetterButtonReferences> letterButtonList;
 	private List<GameObject> solutionRowList;
+	private PuzzleModel puzzleModel;
     public bool isGamePlayScreenShowingUp = false;
 
-    public void LoadScreen() {
+    public void LoadScreen(PuzzleModel puzzleModel) {
+		this.puzzleModel = puzzleModel;
         isGamePlayScreenShowingUp = true;
         GameObject gamePlayScreenGameObject = ScreenTransitionManager.Instance.ShowScreen(GameConstants.Screens.GAME_PLAY_SCREEN);
 		gamePlayScreenRef = gamePlayScreenGameObject.GetComponent<GamePlayScreenReferences>();
-		gamePlayScreenRef.clueLabel.text = "Clue: " + DailyLevelModel.Instance.Clue;
+		gamePlayScreenRef.clueLabel.text = "Clue: " + puzzleModel.Clue[0];
 		gamePlayScreenRef.wordBeingCreatedLabel.text = "";
         GenerateGrid();
-        GenerateSolutionBox(DailyLevelModel.Instance.Solution);
+		GenerateSolutionBox(puzzleModel.Solution);
     }
 
 	public void SlideBackToMainMenu()
@@ -45,11 +47,11 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
         letterButtonList = new List<LetterButtonReferences>();
 		var index = 0;
 
-        for (var i = 0; i < DailyLevelModel.Instance.Columns; i++)
+		for (var i = 0; i < puzzleModel.Columns; i++)
 		{
-            for (var j = 0; j < DailyLevelModel.Instance.Rows; j++)
+			for (var j = 0; j < puzzleModel.Rows; j++)
 			{
-				var letter = DailyLevelModel.Instance.Puzzle[index];
+				var letter = puzzleModel.Puzzle[index];
 				CreateLetterButton(letter, i, j, index++, size.z);
 			}
 		}
@@ -64,8 +66,8 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
         var padding = gamePlayScreenRef.letterGrid.padding;
         var letterGridRectTransform = gamePlayScreenRef.letterGrid.GetComponent<RectTransform>();
 
-		var numberOfRows = DailyLevelModel.Instance.Rows;
-		var numberOfColumns = DailyLevelModel.Instance.Columns;
+		var numberOfRows = puzzleModel.Rows;
+		var numberOfColumns = puzzleModel.Columns;
 		var horizontalSpacing = (numberOfColumns - 1) * spacing.x;
 		var verticalSpacing = (numberOfRows - 1) * spacing.y;
 		var horizontalPadding = padding.left + padding.right;
@@ -178,7 +180,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
     }
 
     public void CheckIfWordCreatedIsCorrectSolution() {
-        foreach (string solutionString in DailyLevelModel.Instance.Solution) {
+		foreach (string solutionString in puzzleModel.Solution) {
             if (gamePlayScreenRef.wordBeingCreatedLabel.text == solutionString) {
 				foreach (LetterButtonReferences letterButton in letterButtonList)
 				{

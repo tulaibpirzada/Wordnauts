@@ -35,18 +35,21 @@ public class SingleCluePuzzleSelectionScreenController : Singleton<SingleCluePuz
 				puzzlePackListItemRef.newIcon.SetActive(false);
 				puzzlePackListItemRef.arrowIcon.SetActive(false);
 				puzzlePackListItemRef.lockIcon.SetActive(false);
+				puzzlePackListItemRef.button.enabled = true;
 				puzzlePackListItemRef.puzzlePackModel = MultiplePackModel.Instance.packsList [index];
 			} else if (index == PlayerModel.Instance.singleClue.PackNo) {
 				puzzlePackListItemRef.tickIcon.SetActive(false);
 				puzzlePackListItemRef.newIcon.SetActive(true);
 				puzzlePackListItemRef.arrowIcon.SetActive(true);
 				puzzlePackListItemRef.lockIcon.SetActive(false);
+				puzzlePackListItemRef.button.enabled = true;
 				puzzlePackListItemRef.puzzlePackModel = MultiplePackModel.Instance.packsList [index];
 			} else if (index > PlayerModel.Instance.singleClue.PackNo) {
 				puzzlePackListItemRef.tickIcon.SetActive(false);
 				puzzlePackListItemRef.newIcon.SetActive(false);
 				puzzlePackListItemRef.arrowIcon.SetActive(false);
 				puzzlePackListItemRef.lockIcon.SetActive(true);
+				puzzlePackListItemRef.button.enabled = false;
 				puzzlePackListItemRef.puzzlePackModel = null;
 			}
         }

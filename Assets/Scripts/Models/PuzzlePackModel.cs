@@ -10,7 +10,7 @@ public class PuzzlePackModel
     
     private int requiredPointsToUnlock;
     private int totalLevels;
-	public List<SingleClueModel> levelsList = new List<SingleClueModel>();
+	public List<PuzzleModel> levelsList = new List<PuzzleModel>();
 
 
     public int RequiredPointsToUnlock
@@ -37,7 +37,7 @@ public class PuzzlePackModel
         {
             levelPath = packPath + DatabaseModel.Instance.subLevelName + "/" + level.ToString() + "/";
 			PuzzleModel puzzleModel = new PuzzleModel();
-			puzzleModel.Populate(levelPath);
+			puzzleModel.Populate(DatabaseModel.Instance.singleClueSnapshot, levelPath);
 			levelsList.Add(puzzleModel);
         }
     }

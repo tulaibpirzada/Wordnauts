@@ -6,15 +6,21 @@ using Firebase.Database;
 using UnityEngine;
 class DailyLevelModel : Singleton<DailyLevelModel>
 {
+	private string levelPath;
     private List<string> puzzle;
     private int hints;
     private int prestigePoints;
     private int totalLevels;
 	private int rows;
 	private int columns;
-    private string clue;
-    private List<string> solution=new List<string>();
+	private List<string> clue = new List<string>();
+    private List<string> solution = new List<string>();
 
+
+	public string LevelPath
+	{
+		get { return levelPath; }
+	}
 
 	public List<string> Puzzle
 	{
@@ -46,7 +52,7 @@ class DailyLevelModel : Singleton<DailyLevelModel>
 		get { return columns; }
 	}
 
-	public string Clue
+	public List<string> Clue
 	{
 		get { return clue; }
 	}
@@ -69,7 +75,7 @@ class DailyLevelModel : Singleton<DailyLevelModel>
           solution.Add(solutionString);*/
         //Extract user details from user model
         int levelNo = PlayerModel.Instance.dailyLevel.LevelNo;
-        string levelPath = DatabaseModel.Instance.subLevelName + "/" + levelNo.ToString() + "/";
+		levelPath = DatabaseModel.Instance.subLevelName + "/" + levelNo.ToString() + "/";
         string strPuzzleFromServer = ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath + "grid");
 
 
@@ -79,7 +85,7 @@ class DailyLevelModel : Singleton<DailyLevelModel>
             puzzle = ServerController.Instance.gamePuzzle;
             rows= ServerController.Instance.row;
             columns= ServerController.Instance.column;
-            clue = ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath + "clue");
+			clue.Add(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath + "clue"));
             hints =Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath + "pi"));
             prestigePoints=Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath + "prestige"));
             solution.Add(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.dailyLevelSnapshot, levelPath + "solution"));

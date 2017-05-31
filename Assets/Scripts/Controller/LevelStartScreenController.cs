@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class LevelStartScreenController : Singleton<LevelStartScreenController> {
     LevelStartScreenReferences levelStartScreenRef;
+	PuzzleModel puzzleModel;
 
-    public void ShowScreen() {
+	public void ShowScreen(PuzzleModel puzzleModel) {
+		this.puzzleModel = puzzleModel;
         GameObject levelStartScreenGameObject = ScreenTransitionManager.Instance.ShowScreen(GameConstants.Screens.LEVEL_START_SCREEN);
 		levelStartScreenRef = levelStartScreenGameObject.GetComponent<LevelStartScreenReferences>();
-        levelStartScreenRef.clueText.text = DailyLevelModel.Instance.Clue;
+		levelStartScreenRef.clueText.text = puzzleModel.Clue[0];
     }
 
     public void LoadPuzzle() {
-        GamePlayScreenController.Instance.LoadScreen();
+		GamePlayScreenController.Instance.LoadScreen(puzzleModel);
     }
 }

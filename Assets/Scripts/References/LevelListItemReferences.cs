@@ -10,5 +10,5 @@ public class LevelListItemReferences : MonoBehaviour {
 	public GameObject lockIcon;
 	public GameObject arrowIcon;
 	public GameObject tickIcon;
-	public SingleClueModel singleClueModel;
+	public PuzzleModel puzzleModel;
 }

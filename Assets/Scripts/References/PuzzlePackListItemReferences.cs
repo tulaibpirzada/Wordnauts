@@ -9,5 +9,6 @@ public class PuzzlePackListItemReferences : MonoBehaviour {
 	public GameObject lockIcon;
 	public GameObject arrowIcon;
 	public GameObject tickIcon;
+	public Button button;
 	public PuzzlePackModel puzzlePackModel;
 }

@@ -7,7 +7,7 @@ using System.Text;
 class MultipleMultiPackModel : Singleton<MultipleMultiPackModel>
 {
     private int totalLevels;
-    public Dictionary<int,object> MultiLevelsModel= new Dictionary<int,object>();
+	public List<PuzzleModel> puzzleModelList= new List<PuzzleModel>();
     public int TotalLevels
     {
         get { return totalLevels; }
@@ -19,12 +19,12 @@ class MultipleMultiPackModel : Singleton<MultipleMultiPackModel>
         string levelPath;
         string path= DatabaseModel.Instance.subLevelName + "/";
         totalLevels = Convert.ToInt32(ServerController.Instance.getCountofChildren(DatabaseModel.Instance.multiClueSnapshot, path));
-        for (int levels=0; levels<levelNo; levels++)
+		for (int levels=0; levels < totalLevels; levels++)
         {
-            MultiClueModel mc = new MultiClueModel();
-            levelPath = path+ levelNo.ToString() + "/";
-            mc.Populate(levelPath);
-            MultiLevelsModel.Add(levels, mc);
+			PuzzleModel puzzleModel = new PuzzleModel();
+			levelPath = path + levels.ToString() + "/";
+			puzzleModel.Populate(DatabaseModel.Instance.multiClueSnapshot, levelPath);
+			puzzleModelList.Add(puzzleModel);
         }
     }
 }

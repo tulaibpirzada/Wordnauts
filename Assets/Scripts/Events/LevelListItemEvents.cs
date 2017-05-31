@@ -6,6 +6,7 @@ public class LevelListItemEvents : MonoBehaviour {
 
 	public void LevelListItemTapped() {
 		LevelListItemReferences levelListItemRef = GetComponent<LevelListItemReferences> ();
-//		SingleCluePuzzleSelectionScreenController.Instance.LoadPuzzlePackModelForSelectedListItem (puzzlePackListItemRef);
+		GamePlayScreenController.Instance.LoadScreen (levelListItemRef.puzzleModel);
+//		SingleClueLevelSelectionScreenController.Instance.ShowPuzzleScreen (levelListItemRef);
 	}
 }

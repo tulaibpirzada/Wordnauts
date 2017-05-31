@@ -11,5 +11,6 @@ public class GameReferences : MonoBehaviour
     public GamePlayScreenReferences gamePlayScreenRef;
 	public LevelEndScreenReferences levelEndScreenRef;
 	public SingleClueLevelSelectionScreenReferences singleClueLevelSelectionRef;
+	public MultiClueLevelSelectionScreenReferences multiClueLevelSelectionRef;
 
 }

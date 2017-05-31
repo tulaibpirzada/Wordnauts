@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Firebase.Database;
 
 public class PuzzleModel {
 	private List<string> puzzle;
@@ -47,9 +48,9 @@ public class PuzzleModel {
 		get { return solution; }
 	}
 
-	public void Populate(string levelPath)
+	public void Populate(DataSnapshot dataSnapShot, string levelPath)
 	{
-		string strPuzzleFromServer = ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.singleClueSnapshot, levelPath + "grid");
+		string strPuzzleFromServer = ServerController.Instance.GetChildDataFromSnapshot(dataSnapShot, levelPath + "grid");
 
 		if (strPuzzleFromServer != null)
 		{
@@ -57,10 +58,10 @@ public class PuzzleModel {
 			this.puzzle = ServerController.Instance.gamePuzzle;
 			this.rows = ServerController.Instance.row;
 			this.columns = ServerController.Instance.column;
-			this.clue.Add(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.singleClueSnapshot, levelPath + "clue"));
-			this.hints = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.singleClueSnapshot, levelPath + "pi"));
-			this.prestigePoints = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.singleClueSnapshot, levelPath + "prestige"));
-			this.solution.Add(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.singleClueSnapshot, levelPath + "solution"))
+			this.clue.Add(ServerController.Instance.GetChildDataFromSnapshot(dataSnapShot, levelPath + "clue"));
+			this.hints = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(dataSnapShot, levelPath + "pi"));
+			this.prestigePoints = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(dataSnapShot, levelPath + "prestige"));
+			this.solution.Add (ServerController.Instance.GetChildDataFromSnapshot (dataSnapShot, levelPath + "solution"));
 		}
 
 

@@ -44,7 +44,7 @@ public class SingleClueLevelSelectionScreenController : Singleton<SingleClueLeve
 			levelListItemRef.newIcon.SetActive(true);
 			levelListItemRef.arrowIcon.SetActive(true);
 			levelListItemRef.lockIcon.SetActive(false);
-			levelListItemRef.singleClueModel = puzzlePackModel.levelsList[index];
+			levelListItemRef.puzzleModel = puzzlePackModel.levelsList[index];
 //			} else if (index > PlayerModel.Instance.singleClue.PackNo) {
 //				puzzlePackListItemRef.tickIcon.SetActive(false);
 //				puzzlePackListItemRef.newIcon.SetActive(false);
@@ -55,7 +55,7 @@ public class SingleClueLevelSelectionScreenController : Singleton<SingleClueLeve
 		}
 	}
 
-	public void ShowPuzzleScreen() {
-		
+	public void ShowPuzzleScreen(LevelListItemReferences levelListItemRef) {
+		GamePlayScreenController.Instance.LoadScreen (levelListItemRef.puzzleModel);
 	}
 }

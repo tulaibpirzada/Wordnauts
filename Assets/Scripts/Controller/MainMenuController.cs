@@ -16,7 +16,8 @@ public class MainMenuController : Singleton<MainMenuController> {
 		if (PlayerModel.Instance.dailyLevel.isAvailable)
         {
             //Show daily level screen
-            LevelStartScreenController.Instance.ShowScreen();
+			PuzzleModel puzzleModel = PopulateDailyPuzzleData();
+			LevelStartScreenController.Instance.ShowScreen(puzzleModel);
 		}
         else
         {
@@ -24,12 +25,18 @@ public class MainMenuController : Singleton<MainMenuController> {
 		}
 	}
 
+	private PuzzleModel PopulateDailyPuzzleData() {
+		PuzzleModel puzzleModel = new PuzzleModel();
+		puzzleModel.Populate (DatabaseModel.Instance.dailyLevelSnapshot, DailyLevelModel.Instance.LevelPath);
+		return puzzleModel;
+	}
+
 	public void ShowSingleCluePuzzleSelectionScreen() {
 		SingleCluePuzzleSelectionScreenController.Instance.LoadScreen ();
 	}
 
 	public void ShowMultiCluePuzzleSelectionScreen() {
-
+		MultiClueLevelSelectionScreenController.Instance.LoadScreen ();
 	}
 
 	public void ShowGetMoreHintsPopup() {
