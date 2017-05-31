@@ -37,7 +37,7 @@ public class GameController : Singleton<GameController> {
             PlayerModel.Instance.GetPlayerMultiClueDataFromSnapshot();
         }
 
-        DailyLevelModel.Instance.Populate();
+       DailyLevelModel.Instance.Populate();
         MultiplePackModel.Instance.Populate();
         MultipleMultiPackModel.Instance.Populate();
         MainMenuController.Instance.ShowMainMenuScreen ();

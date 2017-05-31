@@ -7,6 +7,7 @@ using Firebase.Database;
 public class DatabaseModel : Singleton<DatabaseModel>
 {
     public string dbPath= "https://wordpuzzle-a3ac5.firebaseio.com/";
+    public string dbPathGame = "https://wordpuzzle-a3ac5.firebaseio.com/game";
     public string dailyPackName = "daily_level_pack";
     public string multiClueName = "prestige_level_pack";
     public string singleClueName = "regular_level_packs";
