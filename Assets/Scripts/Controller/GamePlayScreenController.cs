@@ -27,15 +27,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 
 	public void SlideBackToMainMenu()
 	{
-        isGamePlayScreenShowingUp = false;
-        foreach (LetterButtonReferences button in letterButtonList) {
-            Destroy(button.gameObject); 
-        }
-        letterButtonList.Clear();
-		foreach (GameObject solutionRow in solutionRowList) {
-			Destroy(solutionRow); 
-		}
-		solutionRowList.Clear();
+		ClearupGamePlayScreen ();
 		MainMenuController.Instance.ShowMainMenuScreen();
 	}
 
@@ -179,15 +171,15 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
         gamePlayScreenRef.wordBeingCreatedLabel.text += character;
     }
 
-    public void CheckIfWordCreatedIsCorrectSolution() {
+	public void CheckIfWordCreatedIsCorrectSolution() {
 		foreach (string solutionString in puzzleModel.Solution) {
             if (gamePlayScreenRef.wordBeingCreatedLabel.text == solutionString) {
 				foreach (LetterButtonReferences letterButton in letterButtonList)
 				{
                     letterButton.CorrectlySelectLetter();
 				}
-				LevelEndScreenController.Instance.LoadScreen ();
-                return;
+				StartCoroutine (ResetScreenAndLoadLevelEnd());
+				return;
             }
 		}
 
@@ -198,6 +190,25 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
         gamePlayScreenRef.wordBeingCreatedLabel.text = "";
 
     }
+
+	private IEnumerator ResetScreenAndLoadLevelEnd() {
+		yield return new WaitForSeconds (1);
+		ClearupGamePlayScreen ();
+		LevelEndScreenController.Instance.LoadScreen ();
+		yield return null;
+	}
+
+	private void ClearupGamePlayScreen() {
+		isGamePlayScreenShowingUp = false;
+		foreach (LetterButtonReferences button in letterButtonList) {
+			Destroy(button.gameObject); 
+		}
+		letterButtonList.Clear();
+		foreach (GameObject solutionRow in solutionRowList) {
+			Destroy(solutionRow); 
+		}
+		solutionRowList.Clear();
+	}
 
 	//private bool IsWordAlreadyAdded(string word)
 	//{
