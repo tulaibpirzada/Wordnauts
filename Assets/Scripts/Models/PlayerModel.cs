@@ -81,4 +81,9 @@ public class PlayerModel: Singleton <PlayerModel>
         stars = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "stars"));
         hints = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "hints"));
     }
+    public void UpdateCompletionPercentage()
+    {
+        completionPercent = ((singleClue.LevelNo) * (singleClue.PackNo)) +(multiClue.LevelNo)/(MultipleMultiPackModel.Instance.TotalLevels+(MultiplePackModel.Instance.TotalPacks* MultiplePackModel.Instance.packsList[0].TotalLevels));
+    }
+
 }

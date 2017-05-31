@@ -10,7 +10,10 @@ public class MainMenuController : Singleton<MainMenuController> {
 	{
 		GameObject menuMenuGameObject = ScreenTransitionManager.Instance.ShowScreen (GameConstants.Screens.MAIN_MENU_SCREEN);
 		mainMenuRef = menuMenuGameObject.GetComponent<MainMenuReferences> ();
-	}
+        mainMenuRef.Percentage.text = PlayerModel.Instance.completionPercent.ToString() +"%";
+        mainMenuRef.Star.text = PlayerModel.Instance.stars.ToString();
+
+    }
 
 	public void CheckAndLoadDailyPuzzle() {
 		if (PlayerModel.Instance.dailyLevel.isAvailable)
