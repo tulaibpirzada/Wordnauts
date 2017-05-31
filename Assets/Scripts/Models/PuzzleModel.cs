@@ -58,10 +58,12 @@ public class PuzzleModel {
 			this.puzzle = ServerController.Instance.gamePuzzle;
 			this.rows = ServerController.Instance.row;
 			this.columns = ServerController.Instance.column;
-			this.clue.Add(ServerController.Instance.GetChildDataFromSnapshot(dataSnapShot, levelPath + "clue"));
+			string clueString = ServerController.Instance.GetChildDataFromSnapshot (dataSnapShot, levelPath + "clue");
+			this.clue = new List<string> (clueString.Split (','));
 			this.hints = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(dataSnapShot, levelPath + "pi"));
 			this.prestigePoints = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(dataSnapShot, levelPath + "prestige"));
-			this.solution.Add (ServerController.Instance.GetChildDataFromSnapshot (dataSnapShot, levelPath + "solution"));
+			string solutionString = ServerController.Instance.GetChildDataFromSnapshot (dataSnapShot, levelPath + "solution");
+			this.solution = new List<string> (solutionString.Split(','));
 		}
 
 
