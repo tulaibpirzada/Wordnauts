@@ -21,6 +21,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 		gamePlayScreenRef = gamePlayScreenGameObject.GetComponent<GamePlayScreenReferences>();
 		gamePlayScreenRef.clueLabel.text = "Clue: " + puzzleModel.Clue[0];
 		gamePlayScreenRef.wordBeingCreatedLabel.text = "";
+        gamePlayScreenRef.hintsCount.text="Hints ("+PlayerModel.Instance.hints.ToString()+ ")";
         GenerateGrid();
 		GenerateSolutionBox(puzzleModel.Solution);
     }
