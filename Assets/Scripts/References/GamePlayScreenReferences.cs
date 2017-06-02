@@ -12,4 +12,5 @@ public class GamePlayScreenReferences : MonoBehaviour {
     public Object solutionEmptyLetterBox;
 	public Text wordBeingCreatedLabel;
 	public Text clueLabel;
+    public Text hintsCount;
 }

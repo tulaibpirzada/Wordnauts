@@ -81,4 +81,28 @@ public class PlayerModel: Singleton <PlayerModel>
         stars = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "stars"));
         hints = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "hints"));
     }
+    public void UpdateCompletionPercentage()
+    {
+        completionPercent = ((singleClue.LevelNo) * (singleClue.PackNo)) +(multiClue.LevelNo)/(MultipleMultiPackModel.Instance.TotalLevels+(MultiplePackModel.Instance.TotalPacks* MultiplePackModel.Instance.packsList[0].TotalLevels));
+    }
+    public void UpdateStarsAndHints(int PrestigePoints,int Hints)
+    {
+        stars = stars + PrestigePoints;
+        hints = hints + Hints;
+    }
+
+    public bool IsDailyLevelAvailableToday()
+    {
+        string today=DateTime.Now.ToString("dd.MM.yyy");
+        if (today==dailyLevel.date)
+        {
+            return dailyLevel.isAvailable;
+        }
+        else
+        {
+            dailyLevel.date = today;
+            dailyLevel.isAvailable = true;
+            return true;
+        }
+    }
 }

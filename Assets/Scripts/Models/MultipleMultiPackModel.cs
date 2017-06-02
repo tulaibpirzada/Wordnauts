@@ -18,7 +18,7 @@ class MultipleMultiPackModel : Singleton<MultipleMultiPackModel>
         int levelNo = PlayerModel.Instance.multiClue.LevelNo;
         string levelPath;
         string path= DatabaseModel.Instance.subLevelName + "/";
-        totalLevels = Convert.ToInt32(ServerController.Instance.getCountofChildren(DatabaseModel.Instance.multiClueSnapshot, path));
+        totalLevels = Convert.ToInt32(ServerController.Instance.GetCountofChildren(DatabaseModel.Instance.multiClueSnapshot, path));
 		for (int levels=0; levels < totalLevels; levels++)
         {
 			PuzzleModel puzzleModel = new PuzzleModel();

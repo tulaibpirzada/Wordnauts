@@ -114,7 +114,7 @@ class ServerController : Singleton<ServerController>
         }
     }
 
-    public long getCountofChildren(DataSnapshot snapshot,string path)
+    public long GetCountofChildren(DataSnapshot snapshot,string path)
     {
         DataSnapshot child = snapshot.Child(path);
         if (snapshot.Exists && snapshot.HasChildren)
@@ -125,5 +125,6 @@ class ServerController : Singleton<ServerController>
         return 0;
 
     }
+   
 }
 

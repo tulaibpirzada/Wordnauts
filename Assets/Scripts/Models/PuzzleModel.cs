@@ -21,12 +21,14 @@ public class PuzzleModel {
 	public int Hints
 	{
 		get { return hints; }
+        set { hints=value; }
 	}
 
 	public int PrestigePoints
 	{
 		get { return prestigePoints; }
-	}
+        set { prestigePoints=value; }
+    }
 
 	public int Rows
 	{
@@ -68,4 +70,8 @@ public class PuzzleModel {
 
 
 	}
+    public void UpdateReward()
+    {
+        PlayerModel.Instance.UpdateStarsAndHints(PrestigePoints, Hints);
+    }
 }

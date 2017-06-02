@@ -59,6 +59,29 @@ class SendData : Singleton<SendData>
            }
        });
     }
+    public void UpdatePlayerData()
+    {
+
+        string json = JsonUtility.ToJson(PlayerModel.Instance);
+        Debug.Log(json);
+
+        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl(DatabaseModel.Instance.dbPath);
+        FirebaseDatabase.DefaultInstance
+       .GetReference("users/").Child(PlayerModel.Instance.GetDeviceId()).SetRawJsonValueAsync(json).ContinueWith(task =>
+       {
+           if (task.IsFaulted)
+           {
+               Debug.Log("Error updating user");
+
+           }
+           else if (task.IsCompleted)
+           {
+               Debug.Log("User Updated Successfully");
+
+
+           }
+       });
+    }
 }
 
 

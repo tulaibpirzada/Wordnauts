@@ -35,11 +35,15 @@ public class GameController : Singleton<GameController> {
             PlayerModel.Instance.GetPlayerDailyLevelDataFromSnapshot();
             PlayerModel.Instance.GetPlayerSingleClueDataFromSnapshot();
             PlayerModel.Instance.GetPlayerMultiClueDataFromSnapshot();
+            
         }
 
        DailyLevelModel.Instance.Populate();
         MultiplePackModel.Instance.Populate();
         MultipleMultiPackModel.Instance.Populate();
+        PlayerModel.Instance.UpdateCompletionPercentage();
+
+/*        SendData.Instance.UpdatePlayerData();*/
         MainMenuController.Instance.ShowMainMenuScreen ();
 
     }
