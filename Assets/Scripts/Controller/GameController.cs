@@ -42,6 +42,11 @@ public class GameController : Singleton<GameController> {
         MultiplePackModel.Instance.Populate();
         MultipleMultiPackModel.Instance.Populate();
         PlayerModel.Instance.UpdateCompletionPercentage();
+      /*  PuzzleModel model = new PuzzleModel();
+        model.PrestigePoints = 2;
+        model.Hints = 4;
+        model.UpdateReward();
+        SendData.Instance.UpdatePlayerData();*/
         MainMenuController.Instance.ShowMainMenuScreen ();
 
     }

@@ -85,5 +85,9 @@ public class PlayerModel: Singleton <PlayerModel>
     {
         completionPercent = ((singleClue.LevelNo) * (singleClue.PackNo)) +(multiClue.LevelNo)/(MultipleMultiPackModel.Instance.TotalLevels+(MultiplePackModel.Instance.TotalPacks* MultiplePackModel.Instance.packsList[0].TotalLevels));
     }
-
+    public void UpdateStarsAndHints(int PrestigePoints,int Hints)
+    {
+        stars = stars + PrestigePoints;
+        hints = hints + Hints;
+    }
 }
