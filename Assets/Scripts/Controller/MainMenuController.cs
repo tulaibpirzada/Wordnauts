@@ -20,7 +20,8 @@ public class MainMenuController : Singleton<MainMenuController> {
         {
             //Show daily level screen
 			PuzzleModel puzzleModel = PopulateDailyPuzzleData();
-			LevelStartScreenController.Instance.ShowScreen(puzzleModel);
+            LevelEndScreenController.Instance.puzzleModel = puzzleModel;
+            LevelStartScreenController.Instance.ShowScreen(puzzleModel);
 		}
         else
         {
