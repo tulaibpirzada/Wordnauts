@@ -90,4 +90,19 @@ public class PlayerModel: Singleton <PlayerModel>
         stars = stars + PrestigePoints;
         hints = hints + Hints;
     }
+
+    public bool IsDailyLevelAvailableToday()
+    {
+        string today=DateTime.Now.ToString("dd.MM.yyy");
+        if (today==dailyLevel.date)
+        {
+            return dailyLevel.isAvailable;
+        }
+        else
+        {
+            dailyLevel.date = today;
+            dailyLevel.isAvailable = true;
+            return true;
+        }
+    }
 }
