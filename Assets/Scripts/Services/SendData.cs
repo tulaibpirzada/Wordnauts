@@ -10,7 +10,7 @@ using Firebase;
 
 class SendData : Singleton<SendData>
 {
-    public void uploadPlayerData()
+    public void UploadPlayerData()
     {
         //Initilize all the user fields and convert to JSON
         string json = JsonUtility.ToJson(PlayerModel.Instance);

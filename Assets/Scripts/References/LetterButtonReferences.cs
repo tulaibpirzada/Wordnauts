@@ -35,9 +35,11 @@ public class LetterButtonReferences : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        state = State.Selected;
-        letterButtonImage.color = selectedColor;
-        GamePlayScreenController.Instance.CreateWord(Letter);
+		if (state != State.Selected) {
+	        state = State.Selected;
+	        letterButtonImage.color = selectedColor;
+	        GamePlayScreenController.Instance.CreateWord(Letter);
+		}
     }
 
     public void DeselectLetter() {

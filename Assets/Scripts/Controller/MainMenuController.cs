@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,8 +11,9 @@ public class MainMenuController : Singleton<MainMenuController> {
 	{
 		GameObject menuMenuGameObject = ScreenTransitionManager.Instance.ShowScreen (GameConstants.Screens.MAIN_MENU_SCREEN);
 		mainMenuRef = menuMenuGameObject.GetComponent<MainMenuReferences> ();
-        mainMenuRef.Percentage.text = PlayerModel.Instance.completionPercent.ToString() +"%";
-        mainMenuRef.Star.text = PlayerModel.Instance.stars.ToString();
+        mainMenuRef.percentageLabel.text = PlayerModel.Instance.completionPercent.ToString() +"%";
+        mainMenuRef.starLabel.text = PlayerModel.Instance.stars.ToString();
+		mainMenuRef.progressBar.fillAmount =  (PlayerModel.Instance.completionPercent * 0.1f) / 100.0f;
 
     }
 
@@ -20,7 +22,6 @@ public class MainMenuController : Singleton<MainMenuController> {
         {
             //Show daily level screen
 			PuzzleModel puzzleModel = PopulateDailyPuzzleData();
-            LevelEndScreenController.Instance.puzzleModel = puzzleModel;
             LevelStartScreenController.Instance.ShowScreen(puzzleModel);
 		}
         else

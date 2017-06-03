@@ -195,7 +195,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 	private IEnumerator ResetScreenAndLoadLevelEnd() {
 		yield return new WaitForSeconds (1);
 		ClearupGamePlayScreen ();
-		LevelEndScreenController.Instance.LoadScreen ();
+		LevelEndScreenController.Instance.LoadScreen (puzzleModel);
 		yield return null;
 	}
 

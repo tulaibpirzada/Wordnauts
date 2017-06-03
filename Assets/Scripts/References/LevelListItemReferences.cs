@@ -10,5 +10,11 @@ public class LevelListItemReferences : MonoBehaviour {
 	public GameObject lockIcon;
 	public GameObject arrowIcon;
 	public GameObject tickIcon;
+	public Button button;
 	public PuzzleModel puzzleModel;
+	public enum LevelListType {
+		SingleClueLevelList,
+		MultiClueLevelList
+	}
+	public LevelListType levelListType;
 }

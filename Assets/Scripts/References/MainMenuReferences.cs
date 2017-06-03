@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MainMenuReferences : MonoBehaviour {
-    public Text Percentage;
-    public Text Star;
+    public Text percentageLabel;
+    public Text starLabel;
+	public Image progressBar;
 	
 }

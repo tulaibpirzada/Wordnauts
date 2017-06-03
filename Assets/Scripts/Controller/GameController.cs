@@ -24,7 +24,7 @@ public class GameController : Singleton<GameController> {
         {
             
             PlayerModel.Instance.SetUpPlayerData();
-            SendData.Instance.uploadPlayerData();
+            SendData.Instance.UploadPlayerData();
             Debug.Log("user doesnot exist");
         }
         else

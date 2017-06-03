@@ -14,11 +14,15 @@ public class MultiClueLevelSelectionScreenController : Singleton<MultiClueLevelS
 	}
 
 	public void SlideBackToMainMenu() {
+		ResetScrollView ();
+		MainMenuController.Instance.ShowMainMenuScreen();
+	}
+
+	private void ResetScrollView() {
 		foreach (GameObject levelItem in levelItemList) {
 			Destroy (levelItem);
 		}
 		levelItemList.Clear ();
-		MainMenuController.Instance.ShowMainMenuScreen();
 	}
 
 	private void PopulateScrollView() {
@@ -31,6 +35,7 @@ public class MultiClueLevelSelectionScreenController : Singleton<MultiClueLevelS
 			levelItemList.Add (listItemGameObject);
 			LevelListItemReferences levelListItemRef = listItemGameObject.GetComponent<LevelListItemReferences> ();
 			levelListItemRef.titleLabel.text = "Level " + (index + 1).ToString ();
+			levelListItemRef.levelListType = LevelListItemReferences.LevelListType.MultiClueLevelList;
 //			//			if (index < PlayerModel.Instance.singleClue.PackNo) {
 //			//				puzzlePackListItemRef.tickIcon.SetActive(true);
 //			//				puzzlePackListItemRef.newIcon.SetActive(false);
@@ -53,7 +58,8 @@ public class MultiClueLevelSelectionScreenController : Singleton<MultiClueLevelS
 		}
 	}
 
-//	public void ShowPuzzleScreen(LevelListItemReferences levelListItemRef) {
-//		GamePlayScreenController.Instance.LoadScreen (levelListItemRef.puzzleModel);
-//	}
+	public void ShowPuzzleScreen(LevelListItemReferences levelListItemRef) {
+		ResetScrollView ();
+		GamePlayScreenController.Instance.LoadScreen (levelListItemRef.puzzleModel);
+	}
 }

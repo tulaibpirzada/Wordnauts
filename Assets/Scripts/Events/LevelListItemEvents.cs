@@ -6,7 +6,11 @@ public class LevelListItemEvents : MonoBehaviour {
 
 	public void LevelListItemTapped() {
 		LevelListItemReferences levelListItemRef = GetComponent<LevelListItemReferences> ();
-		GamePlayScreenController.Instance.LoadScreen (levelListItemRef.puzzleModel);
-//		SingleClueLevelSelectionScreenController.Instance.ShowPuzzleScreen (levelListItemRef);
+		if (levelListItemRef.levelListType == LevelListItemReferences.LevelListType.SingleClueLevelList) {
+			
+			SingleClueLevelSelectionScreenController.Instance.ShowPuzzleScreen (levelListItemRef);
+		} else {
+			MultiClueLevelSelectionScreenController.Instance.ShowPuzzleScreen (levelListItemRef);
+		}
 	}
 }
