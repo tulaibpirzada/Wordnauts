@@ -50,22 +50,19 @@ class ServerController : Singleton<ServerController>
             if (array[i] == '[')
             {
 
-                c = 1;
+                c = 0;
             }
-            else if (Char.IsLetter(array[i]) || array[i] == '_')
+            else if (Char.IsLetter(array[i]))
             {
                 puzzle.Add(array[i].ToString());
-
+                c++;
             }
             else if (array[i] == ']')
             {
                 rows++;
                 cols = c;
             }
-            else
-            {
-                c++;
-            }
+
         }
         /* dailyLevelDictionary.Add("rows", rows.ToString());
          dailyLevelDictionary.Add("columns", cols.ToString());
