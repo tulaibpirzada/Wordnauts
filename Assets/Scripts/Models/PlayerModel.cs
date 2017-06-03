@@ -105,4 +105,66 @@ public class PlayerModel: Singleton <PlayerModel>
             return true;
         }
     }
+    public bool DailyLevelComplete()
+    {
+        dailyLevel.isAvailable = false;
+        dailyLevel.LevelNo = dailyLevel.LevelNo + 1;
+        int totalLevels=Convert.ToInt32(ServerController.Instance.GetDatasnapshot(DatabaseModel.Instance.dailyLevelSnapshot, DatabaseModel.Instance.subLevelName).ChildrenCount);
+        if (dailyLevel.LevelNo>=totalLevels)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    public bool MultiClueLevelComplete()
+    {
+        multiClue.LevelNo = multiClue.LevelNo + 1;
+        // all levels completed
+        if (multiClue.LevelNo >= MultipleMultiPackModel.Instance.TotalLevels)
+        {
+            return false;
+        }
+        //user can play more levels
+        else
+        {
+            return true;
+        }
+    }
+    public int SingleClueLevelComplete()
+    {
+        singleClue.LevelNo = singleClue.LevelNo + 1;
+        // all levels of a current pack are played
+        if (singleClue.LevelNo >= MultiplePackModel.Instance.packsList[singleClue.PackNo].TotalLevels)
+        {
+            // All packs played
+            if (singleClue.PackNo>= MultiplePackModel.Instance.TotalPacks)
+            {
+                return -1;
+            }
+            // Move to the next pack if prestigepoints condition is met
+            else
+            {
+                //low prestige points
+                if (PlayerModel.Instance.stars<MultiplePackModel.Instance.packsList[singleClue.PackNo+1].RequiredPointsToUnlock)
+                {
+                    return 0;
+                }
+                // Enough prestige points
+                    else
+                {
+                    singleClue.PackNo = singleClue.PackNo + 1;
+                    singleClue.LevelNo = 0;
+                    return 1;
+                }
+            }
+        }
+        else
+        {
+            singleClue.LevelNo = singleClue.LevelNo + 1;
+            return 2;
+        }
+    }
 }
