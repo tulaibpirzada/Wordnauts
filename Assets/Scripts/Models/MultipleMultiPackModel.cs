@@ -23,7 +23,7 @@ class MultipleMultiPackModel : Singleton<MultipleMultiPackModel>
         {
 			PuzzleModel puzzleModel = new PuzzleModel();
 			levelPath = path + levels.ToString() + "/";
-			puzzleModel.Populate(DatabaseModel.Instance.multiClueSnapshot, levelPath);
+			puzzleModel.Populate(DatabaseModel.Instance.multiClueSnapshot,3, levelPath);
 			puzzleModelList.Add(puzzleModel);
         }
     }

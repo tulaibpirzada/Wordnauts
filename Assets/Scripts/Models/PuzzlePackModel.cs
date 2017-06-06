@@ -37,7 +37,7 @@ public class PuzzlePackModel
         {
             levelPath = packPath + DatabaseModel.Instance.subLevelName + "/" + level.ToString() + "/";
 			PuzzleModel puzzleModel = new PuzzleModel();
-			puzzleModel.Populate(DatabaseModel.Instance.singleClueSnapshot, levelPath);
+			puzzleModel.Populate(DatabaseModel.Instance.singleClueSnapshot,2,levelPath);
 			levelsList.Add(puzzleModel);
         }
     }

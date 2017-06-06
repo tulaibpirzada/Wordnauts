@@ -12,12 +12,17 @@ public class PuzzleModel {
 	private int columns;
 	private List<string> clue = new List<string>();
 	private List<string> solution = new List<string>();
+    private int puzzleType;
 
 	public List<string> Puzzle
 	{
 		get { return puzzle; }
 	}
-
+    public int PuzzleType
+    {
+        get { return puzzleType; }
+        set { puzzleType = value; }
+    }
 	public int Hints
 	{
 		get { return hints; }
@@ -50,9 +55,10 @@ public class PuzzleModel {
 		get { return solution; }
 	}
 
-	public void Populate(DataSnapshot dataSnapShot, string levelPath)
+	public void Populate(DataSnapshot dataSnapShot,int pType, string levelPath)
 	{
 		string strPuzzleFromServer = ServerController.Instance.GetChildDataFromSnapshot(dataSnapShot, levelPath + "grid");
+        puzzleType=pType;
 
 		if (strPuzzleFromServer != null)
 		{
@@ -74,4 +80,5 @@ public class PuzzleModel {
     {
         PlayerModel.Instance.UpdateStarsAndHints(PrestigePoints, Hints);
     }
+   
 }

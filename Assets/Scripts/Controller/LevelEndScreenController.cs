@@ -14,6 +14,41 @@ public class LevelEndScreenController : Singleton<LevelEndScreenController> {
 		//update stars and hints
 		PlayerModel.Instance.UpdateStarsAndHints(puzzleModel.PrestigePoints, puzzleModel.Hints);
 		//update level no. / puzzle pack
+        if (puzzleModel.PuzzleType==1)
+        {
+            if(!PlayerModel.Instance.DailyLevelComplete())
+            {
+                //Show NO more levels to play
+            }
+        
+        }
+        else if (puzzleModel.PuzzleType==2)
+        {
+            int result=PlayerModel.Instance.SingleClueLevelComplete();
+            if (result==-1)
+            {
+                //show No more levels to play (All packs are completed)
+            }
+            else if(result==0)
+            {
+                //Prestige points are lower than the required ones screen
+            }
+            else if(result==1)
+            {
+                // all levels of current pack are finished
+            }
+            else
+            {
+                // do nothing just unlock the next level
+            }
+        }
+        else
+        {
+            if (!PlayerModel.Instance.MultiClueLevelComplete())
+            {
+                //Show NO more levels to play
+            }
+        }
 		//send update call
 		SendData.Instance.UpdatePlayerData();
 	}

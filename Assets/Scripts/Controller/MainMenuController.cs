@@ -18,7 +18,7 @@ public class MainMenuController : Singleton<MainMenuController> {
     }
 
 	public void CheckAndLoadDailyPuzzle() {
-		if (PlayerModel.Instance.dailyLevel.isAvailable)
+		if (PlayerModel.Instance.IsDailyLevelAvailableToday())
         {
             //Show daily level screen
 			PuzzleModel puzzleModel = PopulateDailyPuzzleData();
@@ -32,7 +32,7 @@ public class MainMenuController : Singleton<MainMenuController> {
 
 	private PuzzleModel PopulateDailyPuzzleData() {
 		PuzzleModel puzzleModel = new PuzzleModel();
-		puzzleModel.Populate (DatabaseModel.Instance.dailyLevelSnapshot, DailyLevelModel.Instance.LevelPath);
+		puzzleModel.Populate (DatabaseModel.Instance.dailyLevelSnapshot,1, DailyLevelModel.Instance.LevelPath);
 		return puzzleModel;
 	}
 
