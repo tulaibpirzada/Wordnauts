@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 using System.Linq;
 
 
@@ -11,6 +12,8 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
     private const int rowSize = 15;
     private List<LetterButtonReferences> letterButtonList;
 	private List<GameObject> solutionRowList;
+    private Dictionary<string, List<GameObject>> solutionLetterBoxDictionary;
+    private List<GameObject> wordCreatedLetterButtonList;
 	private PuzzleModel puzzleModel;
     public bool isGamePlayScreenShowingUp = false;
 
@@ -24,6 +27,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
         gamePlayScreenRef.hintsCount.text="Hints ("+PlayerModel.Instance.hints.ToString()+ ")";
         GenerateGrid();
 		GenerateSolutionBox(puzzleModel.Solution);
+        wordCreatedLetterButtonList = new List<GameObject>();
     }
 
 	public void SlideBackToMainMenu()
@@ -102,12 +106,8 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 
     private void GenerateSolutionBox(List<string> solutionList)
 	{
-		//var solutionRowPrefab = Resources.Load("SolutionRow");
-		//var letterBoxPrefab = Resources.Load("LetterBox");
-		//var emptyLetterBoxPrefab = Resources.Load("EmptyLetterBox");
-
-		//var words = solution.Split(solutionSplit);
 		solutionRowList = new List<GameObject>();
+        solutionLetterBoxDictionary = new Dictionary<string, List<GameObject>>();
 		var numberOfLettersUsedInRow = 0;
 		GameObject solutionRow = null;
 
@@ -150,17 +150,23 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 			}
 
 
-			//var letterQueue = new Queue<LetterBox>(wordLength);
-			//var letterList = new List<LetterBox>(wordLength);
+            //var letterQueue = new Queue<LetterBox>(wordLength);
+            //var letterList = new List<LetterBox>(wordLength);
+            List<GameObject> solutionLetterBoxList = new List<GameObject>();
 			for (var i = 0; i < wordLength; i++)
 			{
 				var letterBox = (GameObject)UnityEngine.Object.Instantiate(gamePlayScreenRef.solutionLetterBox);
 				letterBox.transform.SetParent(solutionRow.transform);
 				letterBox.transform.localScale = new Vector3(1, 1, 1);
-
+                solutionLetterBoxList.Add(letterBox);
+				LetterBoxReferences letterBoxRef = letterBox.GetComponent<LetterBoxReferences> ();
+				letterBoxRef.letterLabel.gameObject.SetActive (false);
+				Char character = word.ToCharArray () [i];
+				letterBoxRef.letterLabel.text = character.ToString ();
 				//letterQueue.Enqueue(letterBox.GetComponent<LetterBox>());
 				//letterList.Add(letterBox.GetComponent<LetterBox>());
 			}
+            solutionLetterBoxDictionary.Add(word, solutionLetterBoxList);
 
 			//_wordToLettersMap.Add(new KeyValuePair<string, Queue<LetterBox>>(word, letterQueue));
 			//_letterBoxes.Add(new KeyValuePair<string, List<LetterBox>>(word, letterList));
@@ -168,8 +174,9 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 		}
 	}
 
-    public void CreateWord(string character) {
+    public void CreateWord(string character, GameObject letterButton) {
         gamePlayScreenRef.wordBeingCreatedLabel.text += character;
+        wordCreatedLetterButtonList.Add(letterButton);
     }
 
 	public void CheckIfWordCreatedIsCorrectSolution() {
@@ -179,7 +186,9 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 				{
                     letterButton.CorrectlySelectLetter();
 				}
-				StartCoroutine (ResetScreenAndLoadLevelEnd());
+                MoveLetterButtonToSolutionRow(solutionString);
+				//StartCoroutine (ResetScreenAndLoadLevelEnd());
+                wordCreatedLetterButtonList.Clear();
 				return;
             }
 		}
@@ -188,6 +197,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
         foreach (LetterButtonReferences letterButton in letterButtonList) {
             letterButton.DeselectLetter();
         }
+        wordCreatedLetterButtonList.Clear();
         gamePlayScreenRef.wordBeingCreatedLabel.text = "";
 
     }
@@ -197,6 +207,28 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 		ClearupGamePlayScreen ();
 		LevelEndScreenController.Instance.LoadScreen (puzzleModel);
 		yield return null;
+	}
+
+    private void MoveLetterButtonToSolutionRow(string solutionString) {
+        List<GameObject> solutionBoxes = solutionLetterBoxDictionary.GetValue(solutionString);
+        Sequence sequence = DOTween.Sequence();
+        for (int i = 0; i < solutionBoxes.Count; i++) {
+            if (i == 0) {
+                sequence.Append(wordCreatedLetterButtonList[i].transform.DOMove(solutionBoxes[i].transform.position, 1.0f));
+            } else {
+                sequence.Join(wordCreatedLetterButtonList[i].transform.DOMove(solutionBoxes[i].transform.position, 1.0f));
+            }
+			sequence.Join (wordCreatedLetterButtonList [i].transform.DOScale (Vector3.zero, 1.0f));
+        }
+		sequence.AppendCallback(()=> SetSolutionWord(solutionBoxes));
+    }
+
+	private void SetSolutionWord(List<GameObject> solutionBoxes) {
+		for (int i = 0; i < solutionBoxes.Count; i++) {
+			Debug.Log ("Hello: "+ i);
+			LetterBoxReferences letterBox = solutionBoxes [i].GetComponent<LetterBoxReferences> ();
+			letterBox.letterLabel.gameObject.SetActive (true);
+		}
 	}
 
 	private void ClearupGamePlayScreen() {

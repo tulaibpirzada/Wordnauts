@@ -38,7 +38,7 @@ public class LetterButtonReferences : MonoBehaviour {
 		if (state != State.Selected) {
 	        state = State.Selected;
 	        letterButtonImage.color = selectedColor;
-	        GamePlayScreenController.Instance.CreateWord(Letter);
+            GamePlayScreenController.Instance.CreateWord(Letter, gameObject);
 		}
     }
 
