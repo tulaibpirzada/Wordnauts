@@ -26,8 +26,9 @@ public class MainMenuController : Singleton<MainMenuController> {
 		}
         else
         {
-			// Show screen "play again tomorrow"
-		}
+            // Show screen "play again tomorrow"
+            ScreenTransitionManager.Instance.ShowScreen(GameConstants.Screens.PLAY_AGAIN_TOMORROW);
+        }
 	}
 
 	private PuzzleModel PopulateDailyPuzzleData() {

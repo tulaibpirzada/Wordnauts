@@ -11,6 +11,7 @@ public class GameConstants : MonoBehaviour {
 		MULTI_CLUE_LEVEL_SELECTION_SCREEN,
         LEVEL_START_SCREEN,
         GAME_PLAY_SCREEN,
-		LEVEL_END_SCREEN
+		LEVEL_END_SCREEN,
+        PLAY_AGAIN_TOMORROW
 	}
 }
