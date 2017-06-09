@@ -12,13 +12,12 @@ public class LetterButtonReferences : MonoBehaviour {
     public Color errorColor;
     public Color correctlySelectedColor;
 
-
 	public string Letter { get; set; }
-
 	public int Column { get; set; }
 	public int Row { get; set; }
     public float Size { get; set; }
     public int Index { get; set; }
+    public bool IsMoved { get; set; }
 
     enum State { Selected, Deselected, CorrectlySelected, Error };
     private State state = State.Deselected;
