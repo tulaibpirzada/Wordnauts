@@ -200,15 +200,26 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 				foreach (KeyValuePair<string, LetterButtonReferences> letterButtonPair in letterButtonDictionary) {
 					letterButtonPair.Value.CorrectlySelectLetter();
 				}
+                
                 MoveLetterButtonToSolutionRow(solutionString);
 				//StartCoroutine (ResetScreenAndLoadLevelEnd())
 				return;
             }
-		}
+        }
+
+
+        Sequence _deselectTween= DOTween.Sequence(); ;
+        for (int i = 0; i < wordCreatedLetterButtonList.Count; i++)
+        {
+            Debug.Log(wordCreatedLetterButtonList.Count);
+            _deselectTween.Insert(0f, wordCreatedLetterButtonList[i].transform.DOPunchRotation(new Vector3(0, 0, 10f), 0.4f));           
+        }
+        _deselectTween.Play();
 
         //Deselect All Letters
-		foreach (KeyValuePair<string, LetterButtonReferences> letterButtonPair in letterButtonDictionary) {
-			letterButtonPair.Value.DeselectLetter();
+        foreach (KeyValuePair<string, LetterButtonReferences> letterButtonPair in letterButtonDictionary)
+        {
+            letterButtonPair.Value.DeselectLetter();
         }
         wordCreatedLetterButtonList.Clear();
         gamePlayScreenRef.wordBeingCreatedLabel.text = "";
