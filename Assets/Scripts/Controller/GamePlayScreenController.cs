@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,11 +11,13 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
     GamePlayScreenReferences gamePlayScreenRef;
     private const int rowSize = 15;
 	private Dictionary<string, LetterButtonReferences> letterButtonDictionary;
+    private List<LetterButtonReferences> letterButtonGridList;
 	private Dictionary<string, Vector3> letterButtonPositions;
 	private List<GameObject> solutionRowList;
     private Dictionary<string, List<GameObject>> solutionLetterBoxDictionary;
     private List<GameObject> wordCreatedLetterButtonList;
 	private PuzzleModel puzzleModel;
+    private int currentSolutionIndex;
     public bool isGamePlayScreenShowingUp = false;
 
     public void LoadScreen(PuzzleModel puzzleModel) {
@@ -29,6 +31,10 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
         GenerateGrid();
 		GenerateSolutionBox(puzzleModel.Solution);
         wordCreatedLetterButtonList = new List<GameObject>();
+        if (puzzleModel.Solution.Count > 0) {
+            currentSolutionIndex = 0;
+        }
+
     }
 
 	public void SlideBackToMainMenu()
@@ -43,6 +49,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 		gamePlayScreenRef.letterGrid.padding = new RectOffset((int)size.x, (int)size.x, (int)size.y, 0);
         gamePlayScreenRef.letterGrid.cellSize = new Vector2(size.z, size.z);
 		letterButtonDictionary = new Dictionary<string, LetterButtonReferences> ();
+        letterButtonGridList = new List<LetterButtonReferences>();
 		var index = 0;
 
 		for (var i = 0; i < puzzleModel.Columns; i++)
@@ -114,6 +121,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 
         letterButtonGameObject.transform.SetParent(gamePlayScreenRef.letterGrid.transform);
 		letterButtonDictionary[letterButton.Row + "," + letterButton.Column] = letterButton;
+        letterButtonGridList.Add(letterButton);
 		//view.GetLetterGrid.AddLetterButton(letterButton);
 
 		//_letterButtons[row + "," + column] = letterButtonGameObject.GetComponent<LetterButton>();
@@ -195,32 +203,33 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
     }
 
 	public void CheckIfWordCreatedIsCorrectSolution() {
-		foreach (string solutionString in puzzleModel.Solution) {
-            if (gamePlayScreenRef.wordBeingCreatedLabel.text == solutionString) {
-				foreach (KeyValuePair<string, LetterButtonReferences> letterButtonPair in letterButtonDictionary) {
-					letterButtonPair.Value.CorrectlySelectLetter();
-				}
-                
-                MoveLetterButtonToSolutionRow(solutionString);
-				//StartCoroutine (ResetScreenAndLoadLevelEnd())
-				return;
-            }
+        string solutionString = puzzleModel.Solution[currentSolutionIndex];
+        if (gamePlayScreenRef.wordBeingCreatedLabel.text == solutionString) {
+            foreach (GameObject letterButtonGameObject in wordCreatedLetterButtonList)
+			{
+                LetterButtonReferences letterButton = letterButtonGameObject.GetComponent<LetterButtonReferences>();
+				letterButton.CorrectlySelectLetter();
+			}
+            
+            MoveLetterButtonToSolutionRow(solutionString);
+			return;
         }
 
 
-        Sequence _deselectTween= DOTween.Sequence(); ;
+        Sequence deselectTween = DOTween.Sequence(); ;
         for (int i = 0; i < wordCreatedLetterButtonList.Count; i++)
         {
             Debug.Log(wordCreatedLetterButtonList.Count);
-            _deselectTween.Insert(0f, wordCreatedLetterButtonList[i].transform.DOPunchRotation(new Vector3(0, 0, 10f), 0.4f));           
+            deselectTween.Insert(0f, wordCreatedLetterButtonList[i].transform.DOPunchRotation(new Vector3(0, 0, 10f), 0.4f));           
         }
-        _deselectTween.Play();
+        deselectTween.Play();
 
-        //Deselect All Letters
-        foreach (KeyValuePair<string, LetterButtonReferences> letterButtonPair in letterButtonDictionary)
-        {
-            letterButtonPair.Value.DeselectLetter();
-        }
+		//Deselect All Letters
+		foreach (GameObject letterButtonGameObject in wordCreatedLetterButtonList)
+		{
+			LetterButtonReferences letterButton = letterButtonGameObject.GetComponent<LetterButtonReferences>();
+			letterButton.DeselectLetter();
+		}
         wordCreatedLetterButtonList.Clear();
         gamePlayScreenRef.wordBeingCreatedLabel.text = "";
 
@@ -255,14 +264,19 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
             LetterButtonReferences letterButton = wordCreatedLetterButtonList[i].GetComponent<LetterButtonReferences>();
             letterButton.IsMoved = true;
 		}
+        gamePlayScreenRef.wordBeingCreatedLabel.text = "";
         wordCreatedLetterButtonList.Clear();
-        ReconstructGrid();
+        if (currentSolutionIndex + 1 < puzzleModel.Solution.Count) {
+            ReconstructGrid();
+        } else {
+            StartCoroutine(ResetScreenAndLoadLevelEnd());
+		}
 	}
 
 	private void ClearupGamePlayScreen() {
 		isGamePlayScreenShowingUp = false;
-		foreach (KeyValuePair<string, LetterButtonReferences> letterButtonPair in letterButtonDictionary) {
-			Destroy(letterButtonPair.Value.gameObject); 
+        foreach (LetterButtonReferences letterButton in letterButtonGridList) {
+			Destroy(letterButton.gameObject); 
 		}
 		letterButtonDictionary.Clear();
 		foreach (GameObject solutionRow in solutionRowList) {
@@ -272,24 +286,77 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController> {
 	}
 
 	private void ReconstructGrid() {
+        Dictionary<string, LetterButtonReferences> updatedLetterButtonDictionary = new Dictionary<string, LetterButtonReferences>();
 		Sequence dropSequence = DOTween.Sequence();
 		for (int i = puzzleModel.Rows - 1; i >= 0; i--)
 		{
 			for (int j = 0; j < puzzleModel.Columns; j++)
 			{
                 LetterButtonReferences letterButton = letterButtonDictionary[i + "," + j];
-                if (!letterButton.IsMoved) {
-                    continue;
-                } else {
-                    int upperRow = i - 1;
-                    LetterButtonReferences upperRowLetterButton = letterButtonDictionary[upperRow + "," + j];
-                    Vector3 usedButtonPosition = letterButtonPositions[i + "," + j];
-					upperRowLetterButton.IsMoved = true;
-					dropSequence.Append (upperRowLetterButton.transform.DOMove (usedButtonPosition, 0.3f));
-                }
+				if (letterButton != null) {
+					if (!letterButton.IsMoved) {
+						updatedLetterButtonDictionary [i + "," + j] = letterButton;
+						continue;
+					} else {
+						bool isLetterButtonAvailableForPosition = false;
+						for (int upperRow = i - 1; upperRow >= 0; upperRow--) {
+							LetterButtonReferences upperRowLetterButton = letterButtonDictionary [upperRow + "," + j];
+							if (upperRowLetterButton != null) {
+								if (upperRowLetterButton.IsMoved) {
+									continue;
+								} else {
+									Vector3 usedButtonPosition = letterButtonPositions [i + "," + j];
+									upperRowLetterButton.IsMoved = true;
+									updatedLetterButtonDictionary [i + "," + j] = upperRowLetterButton;
+//									upperRowLetterButton.transform.position = usedButtonPosition;
+									isLetterButtonAvailableForPosition = true;
+									dropSequence.Append (upperRowLetterButton.transform.DOMove (usedButtonPosition, 0.3f));
+									break;
+								}
+							} else {
+								updatedLetterButtonDictionary [i + "," + j] = null;
+								break;
+							}
+						}
+						if (!isLetterButtonAvailableForPosition) {
+							updatedLetterButtonDictionary [i + "," + j] = null;
+						}
+//						if (i - 1 < 0) {
+//							updatedLetterButtonDictionary [i + "," + j] = null;
+//						}
+					}
+				} else {
+					updatedLetterButtonDictionary [i + "," + j] = null;
+					continue;
+				}
 			}
 		}
+//		ResetLetterButtonDictionaryAndPositionList (updatedLetterButtonDictionary);
+        dropSequence.AppendCallback(()=>ResetLetterButtonDictionaryAndPositionList(updatedLetterButtonDictionary));
 	}
+
+    private void ResetLetterButtonDictionaryAndPositionList(Dictionary<string, LetterButtonReferences> updatedLetterButtonDictionary) {
+        letterButtonDictionary.Clear();
+        foreach (KeyValuePair<string, LetterButtonReferences> letterButtonPair in updatedLetterButtonDictionary) {
+            letterButtonDictionary.Add(letterButtonPair.Key, letterButtonPair.Value);
+        }
+		letterButtonPositions.Clear ();
+		foreach (KeyValuePair<string, LetterButtonReferences> letterButtonPair in letterButtonDictionary)
+		{
+			if (letterButtonPair.Value != null) {
+				letterButtonPositions [letterButtonPair.Key] = letterButtonPair.Value.gameObject.transform.position;
+			} else {
+				letterButtonPositions [letterButtonPair.Key] = Vector3.zero;
+			}
+		}
+		foreach (KeyValuePair<string, LetterButtonReferences> letterButtonPair in updatedLetterButtonDictionary) {
+			if (letterButtonPair.Value != null) {
+				letterButtonPair.Value.IsMoved = false;
+			}
+		}
+        currentSolutionIndex++;
+
+    }
 
 	//private bool IsWordAlreadyAdded(string word)
 	//{
