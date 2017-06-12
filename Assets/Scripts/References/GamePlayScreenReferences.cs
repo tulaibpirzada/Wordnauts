@@ -10,7 +10,9 @@ public class GamePlayScreenReferences : MonoBehaviour {
     public Object solutionRow;
     public Object solutionLetterBox;
     public Object solutionEmptyLetterBox;
+    public GameObject hintsButton;
 	public Text wordBeingCreatedLabel;
 	public Text clueLabel;
     public Text hintsCount;
+    public Object hintedLetter;
 }
