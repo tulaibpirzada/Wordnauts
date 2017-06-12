@@ -15,4 +15,5 @@ public class GamePlayScreenReferences : MonoBehaviour {
 	public Text clueLabel;
     public Text hintsCount;
     public Object hintedLetter;
+    public Transform CanvasTransform;
 }

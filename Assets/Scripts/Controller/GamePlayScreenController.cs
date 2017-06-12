@@ -431,7 +431,6 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
     public bool ReavealHints(string solutionString)
     {
         List<GameObject> solutionBoxes = solutionLetterBoxDictionary.GetValue(solutionString);
-        //Sequence sequence = DOTween.Sequence();
         for (int i = 0; i < solutionBoxes.Count; i++)
         {
 
@@ -439,19 +438,23 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
             if (!letterBox.letterLabel.gameObject.activeSelf)
             {
                 GameObject hintRevealLetter = (GameObject)Instantiate(gamePlayScreenRef.hintedLetter);
-                // Text temp = (Text)hintRevealLetter;
                 hintRevealLetter.GetComponent<Text>().text = letterBox.letterLabel.text;
-                //   hintRevealLetter.transform.position = gamePlayScreenRef.hintsButton.transform.position;
-                hintRevealLetter.GetComponent<Transform>().position = new Vector3(0, 0, 0);
+                hintRevealLetter.transform.SetParent(gamePlayScreenRef.CanvasTransform,false);
+                hintRevealLetter.transform.position = gamePlayScreenRef.hintsButton.transform.position;
                 hintRevealLetter.SetActive(true);
-                //       hintRevealLetter.transform.DOMove(solutionBoxes[i].transform.position, 10);
-                letterBox.letterLabel.gameObject.SetActive(true);
+                hintRevealLetter.transform.DOMove(solutionBoxes[i].transform.position, 0.1f).SetEase(Ease.InQuad).OnComplete(() => ShowHintInSolutionBox(hintRevealLetter,letterBox.letterLabel.gameObject));
                 PlayerModel.Instance.hints--;
                 return true;
 
             }
         }
         return false;
+    }
+
+    public void ShowHintInSolutionBox(GameObject objectOld,GameObject objectNew)
+    {
+        objectOld.SetActive(false);
+        objectNew.SetActive(true);
     }
     private void ShowHintsText()
 {
