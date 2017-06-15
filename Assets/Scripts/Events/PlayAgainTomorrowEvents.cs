@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-class PlayAgainTomorrowEvents : MonoBehaviour
+public class PlayAgainTomorrowEvents : MonoBehaviour
 {
     public void screenTapped()
     {
-        LevelEndScreenController.Instance.SlideBackToMainMenu();
+        MainMenuController.Instance.ShowMainMenuScreen();
     }
+    
 }
 

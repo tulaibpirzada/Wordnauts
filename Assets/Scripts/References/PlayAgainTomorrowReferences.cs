@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-class PlayAgainTomorrowReferences : MonoBehaviour
+public class PlayAgainTomorrowReferences : MonoBehaviour
 {
 
 }
