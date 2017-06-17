@@ -11,7 +11,13 @@ public class SettingScreenController : Singleton<SettingScreenController>
         settingsScreenRef = settingsScreenGameObject.GetComponent<SettingsScreenReferences>();
      
     }
-   
+   public void SFXToggleHandler()
+    {
+        if(LocalSettingsController.Instance.Load())
+        {
+            
+        }
+    }
 
 }
 

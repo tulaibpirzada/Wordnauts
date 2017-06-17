@@ -8,6 +8,21 @@ public class SettingsScreenEvents : MonoBehaviour {
     {
         MainMenuController.Instance.ShowMainMenuScreen();
     }
+    public void SFXToggleChanged()
+    {
 
+    }
+    public void AlertsToggleChanged()
+    {
+
+    }
+    public void FeedbackButtonPressed()
+    {
+
+    }
+    public void RateUsButtonPressed()
+    {
+
+    }
 
 }

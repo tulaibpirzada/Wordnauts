@@ -17,11 +17,6 @@ public class PlayerModel: Singleton <PlayerModel>
     public singleClueDic singleClue;
     public multiClueDic multiClue;
     
-    /*public bool IsDailyLevelAvailable
-	{
-		get;
-		set;
-	}*/
     public void SetDeviceID()
     {
         deviceID = SystemInfo.deviceUniqueIdentifier;
@@ -31,11 +26,9 @@ public class PlayerModel: Singleton <PlayerModel>
         
         return deviceID;
     }
-
-	public void SetUpPlayerData()
+   
+    public void SetUpPlayerData()
 	{
-	//	this.IsDailyLevelAvailable = true;
-       // deviceID= SystemInfo.deviceUniqueIdentifier;
         completionPercent = 0;
         stars = 0;
         hints = 0;
