@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SettingsScreenEvents : MonoBehaviour {
 
-    public void screenTapped()
+    public void ScreenTapped()
     {
         MainMenuController.Instance.ShowMainMenuScreen();
     }
