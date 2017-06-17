@@ -52,5 +52,6 @@ public class MainMenuController : Singleton<MainMenuController> {
 
 	public void ShowSettingsPopup() {
 
+        SettingScreenController.Instance.LoadScreen();
 	}
 }
