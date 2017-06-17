@@ -19,8 +19,8 @@ public class ScreenTransitionManager : Singleton<ScreenTransitionManager> {
         screenReferencesDictionary.Add (GameConstants.Screens.LEVEL_START_SCREEN, gameRef.levelStartScreenRef.gameObject);
         screenReferencesDictionary.Add (GameConstants.Screens.GAME_PLAY_SCREEN, gameRef.gamePlayScreenRef.gameObject);
 		screenReferencesDictionary.Add (GameConstants.Screens.LEVEL_END_SCREEN, gameRef.levelEndScreenRef.gameObject);
-        screenReferencesDictionary.Add(GameConstants.Screens.PLAY_AGAIN_TOMORROW, gameRef.playAgainTomorrowRef.gameObject);
         screenReferencesDictionary.Add(GameConstants.Screens.SETTINGS_SCREEN, gameRef.settingsScreenRef.gameObject);
+		screenReferencesDictionary.Add(GameConstants.Screens.NO_MORE_DAILY_LEVELS_POPUP, gameRef.noMoreDailyLevelPopupRef.gameObject);
     }
 
 	public GameObject ShowScreen(GameConstants.Screens screen) {

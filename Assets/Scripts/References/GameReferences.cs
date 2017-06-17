@@ -12,7 +12,7 @@ public class GameReferences : MonoBehaviour
 	public LevelEndScreenReferences levelEndScreenRef;
 	public SingleClueLevelSelectionScreenReferences singleClueLevelSelectionRef;
 	public MultiClueLevelSelectionScreenReferences multiClueLevelSelectionRef;
-    public PlayAgainTomorrowReferences playAgainTomorrowRef;
     public SettingsScreenReferences settingsScreenRef;
+	public NoMoreDailyLevelPopupReferences noMoreDailyLevelPopupRef;
 
 }
