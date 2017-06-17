@@ -1,4 +1,4 @@
-﻿﻿﻿using System;
+﻿﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -397,6 +397,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
             }
         }
         currentSolutionIndex++;
+		gamePlayScreenRef.clueLabel.text = "Clue: " + puzzleModel.Clue[currentSolutionIndex];
 
     }
 
