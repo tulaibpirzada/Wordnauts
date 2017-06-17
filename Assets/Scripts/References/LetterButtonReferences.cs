@@ -27,9 +27,9 @@ public class LetterButtonReferences : MonoBehaviour {
         gameObject.transform.localScale = new Vector3(1f, 1f);
 		letterButtonLabel.text = Letter.ToUpper();
 		letterButtonLabel.fontSize = (int)Size / 2;
-        BoxCollider2D boxCollider = gameObject.GetComponent<BoxCollider2D>();
-        boxCollider.offset = new Vector2(0.0f, 8.0f);
-        boxCollider.size = new Vector2(Size - 20.0f, Size - 20.0f);
+		CircleCollider2D circleCollider = gameObject.GetComponent<CircleCollider2D>();
+		circleCollider.offset = new Vector2(0.0f, 8.0f);
+		circleCollider.radius = (Size - 20.0f)/2.0f;
 	}
 
     private void OnTriggerEnter2D(Collider2D collision)
