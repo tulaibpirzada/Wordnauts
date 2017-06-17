@@ -4,13 +4,8 @@ using UnityEngine;
 
 public class MultiClueLevelSelectionScreenEvents : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public void BackButtonTapped()
+    {
+        MultiClueLevelSelectionScreenController.Instance.SlideBackToMainMenu();
+    }
 }
