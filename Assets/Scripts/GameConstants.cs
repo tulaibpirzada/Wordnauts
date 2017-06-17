@@ -12,6 +12,6 @@ public class GameConstants : MonoBehaviour {
         LEVEL_START_SCREEN,
         GAME_PLAY_SCREEN,
 		LEVEL_END_SCREEN,
-        PLAY_AGAIN_TOMORROW
+        NO_MORE_DAILY_LEVELS_POPUP
 	}
 }
