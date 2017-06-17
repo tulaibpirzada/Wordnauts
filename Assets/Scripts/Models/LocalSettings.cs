@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class LocalSettings: Singleton<LocalSettings>
+public class LocalSettings
 {
     public bool isSFXToggle;
     public bool isAlertsToggle;
