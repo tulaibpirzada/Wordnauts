@@ -14,5 +14,6 @@ public class GameReferences : MonoBehaviour
 	public MultiClueLevelSelectionScreenReferences multiClueLevelSelectionRef;
     public SettingsScreenReferences settingsScreenRef;
 	public NoMoreDailyLevelPopupReferences noMoreDailyLevelPopupRef;
+    public PuzzlePackLockedByPrestigeScreenReferences puzzlePackLockedByPrestigeScreenRef;
 
 }

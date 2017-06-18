@@ -21,6 +21,7 @@ public class ScreenTransitionManager : Singleton<ScreenTransitionManager> {
 		screenReferencesDictionary.Add (GameConstants.Screens.LEVEL_END_SCREEN, gameRef.levelEndScreenRef.gameObject);
         screenReferencesDictionary.Add(GameConstants.Screens.SETTINGS_SCREEN, gameRef.settingsScreenRef.gameObject);
 		screenReferencesDictionary.Add(GameConstants.Screens.NO_MORE_DAILY_LEVELS_POPUP, gameRef.noMoreDailyLevelPopupRef.gameObject);
+        screenReferencesDictionary.Add(GameConstants.Screens.PUZZLE_PACK_LOCKED_BY_PRESTIGE_POPUP, gameRef.puzzlePackLockedByPrestigeScreenRef.gameObject);
     }
 
 	public GameObject ShowScreen(GameConstants.Screens screen) {

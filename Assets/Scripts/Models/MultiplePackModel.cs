@@ -16,7 +16,7 @@ class MultiplePackModel: Singleton<MultiplePackModel>
     {
         TotalPacks =Convert.ToInt32(DatabaseModel.Instance.singleClueSnapshot.ChildrenCount);
         int packNo = PlayerModel.Instance.singleClue.PackNo;
-		for (int index = 0; index <=packNo; index++)
+		for (int index = 0; index <=packNo+1; index++)
         {
             PuzzlePackModel pack = new PuzzlePackModel();
 			pack.Populate(index);

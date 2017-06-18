@@ -32,6 +32,7 @@ public class LevelEndScreenController : Singleton<LevelEndScreenController> {
             else if(result==0)
             {
                 //Prestige points are lower than the required ones screen
+                PuzzlePackLockedByPrestigeScreenController.Instance.LoadScreen();
             }
             else if(result==1)
             {
