@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class SingleCluePuzzleSelectionScreenController : Singleton<SingleCluePuzzleSelectionScreenController> {
 
 	SingleCluePuzzleSelectionScreenReferences singleCluePuzzleSelectionScreenRef;
@@ -44,7 +45,18 @@ public class SingleCluePuzzleSelectionScreenController : Singleton<SingleCluePuz
 				puzzlePackListItemRef.lockIcon.SetActive(false);
 				puzzlePackListItemRef.button.enabled = true;
 				puzzlePackListItemRef.puzzlePackModel = MultiplePackModel.Instance.packsList [index];
-			} else if (index > PlayerModel.Instance.singleClue.PackNo) {
+			}
+            else if (index == PlayerModel.Instance.singleClue.PackNo+1)
+            {
+                puzzlePackListItemRef.tickIcon.SetActive(false);
+                puzzlePackListItemRef.newIcon.SetActive(false);
+                puzzlePackListItemRef.arrowIcon.SetActive(false);
+                puzzlePackListItemRef.lockIcon.SetActive(true);
+                puzzlePackListItemRef.button.enabled = true;
+                puzzlePackListItemRef.puzzlePackModel = null;
+                puzzlePackListItemRef.puzzlePackModel = MultiplePackModel.Instance.packsList[index];
+            }
+            else if (index > PlayerModel.Instance.singleClue.PackNo) {
 				puzzlePackListItemRef.tickIcon.SetActive(false);
 				puzzlePackListItemRef.newIcon.SetActive(false);
 				puzzlePackListItemRef.arrowIcon.SetActive(false);
@@ -64,6 +76,13 @@ public class SingleCluePuzzleSelectionScreenController : Singleton<SingleCluePuz
     }
 
 	public void LoadPuzzlePackModelForSelectedListItem(PuzzlePackListItemReferences puzzlePackListItemRef) {
-		SingleClueLevelSelectionScreenController.Instance.LoadScreen (puzzlePackListItemRef.puzzlePackModel);
+        if (puzzlePackListItemRef.puzzlePackModel.RequiredPointsToUnlock < PlayerModel.Instance.stars)
+        {
+            SingleClueLevelSelectionScreenController.Instance.LoadScreen(puzzlePackListItemRef.puzzlePackModel);
+        }
+        else
+        {
+            PuzzlePackLockedByPrestigeScreenController.Instance.LoadScreen();
+        }
 	}
 }

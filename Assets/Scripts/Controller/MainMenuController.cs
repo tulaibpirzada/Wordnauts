@@ -28,7 +28,7 @@ public class MainMenuController : Singleton<MainMenuController> {
         {
             // Show screen "play again tomorrow"
 
-			ScreenTransitionManager.Instance.ShowScreen(GameConstants.Screens.NO_MORE_DAILY_LEVELS_POPUP);
+            NoMoreDailyLevelPopupController.Instance.LoadScreen();
         }
 	}
 

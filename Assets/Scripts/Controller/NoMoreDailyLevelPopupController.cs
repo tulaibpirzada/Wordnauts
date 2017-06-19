@@ -9,5 +9,8 @@ public class NoMoreDailyLevelPopupController : Singleton<NoMoreDailyLevelPopupCo
 		GameObject noMoreDailyLevelPopupGameObject = ScreenTransitionManager.Instance.ShowScreen(GameConstants.Screens.NO_MORE_DAILY_LEVELS_POPUP);
 		noMoreDailyLevelPopupRef = noMoreDailyLevelPopupGameObject.GetComponent<NoMoreDailyLevelPopupReferences>();
 
-	}
+        noMoreDailyLevelPopupRef.dayLabel.text = System.DateTime.Now.DayOfWeek.ToString();
+        noMoreDailyLevelPopupRef.dateLabel.text = System.DateTime.Now.Day.ToString();
+
+    }
 }
