@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,11 +14,12 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
     private Dictionary<string, LetterButtonReferences> letterButtonDictionary;
     private List<LetterButtonReferences> letterButtonGridList;
     private Dictionary<string, Vector3> letterButtonPositions;
-    private List<GameObject> solutionRowList;
-    private Dictionary<string, List<GameObject>> solutionLetterBoxDictionary;
+    private GameObject solutionRow;
+    private List<GameObject> solutionLetterBoxList;
     private List<GameObject> wordCreatedLetterButtonList;
     private PuzzleModel puzzleModel;
     private int currentSolutionIndex;
+    private Dictionary<int, bool> cluesIndexSolvedStatusDictionary;
     public bool isGamePlayScreenShowingUp = false;
 
     public void LoadScreen(PuzzleModel puzzleModel)
@@ -30,12 +31,20 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
         gamePlayScreenRef.clueLabel.text = "Clue: " + puzzleModel.Clue[0];
         gamePlayScreenRef.wordBeingCreatedLabel.text = "";
         gamePlayScreenRef.hintsCount.text = "Hints (" + PlayerModel.Instance.hints.ToString() + ")";
+        solutionLetterBoxList = new List<GameObject>();
+        gamePlayScreenRef.leftButton.gameObject.SetActive(false);
+        gamePlayScreenRef.rightButton.gameObject.SetActive(false);
         GenerateGrid();
-        GenerateSolutionBox(puzzleModel.Solution);
+        GenerateSolutionBox();
         wordCreatedLetterButtonList = new List<GameObject>();
+        cluesIndexSolvedStatusDictionary = new Dictionary<int, bool>();
+        for (int index = 0; index < puzzleModel.Solution.Count; index++) {
+            cluesIndexSolvedStatusDictionary.Add(index, false);
+        }
         if (puzzleModel.Solution.Count > 0)
         {
             currentSolutionIndex = 0;
+            gamePlayScreenRef.rightButton.gameObject.SetActive(true);
         }
 
     }
@@ -118,86 +127,64 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
         letterButton.Row = row;
         letterButton.Size = size;
         letterButton.IsMoved = false;
-        //letterButton.IsBlock = letter == '_';
-        //letterButton.LetterSelectedSignal = LetterSelectedSignal;
-        //letterButton.LetterDeselectedSignal = LetterDeselectedSignal;
 
         letterButtonGameObject.transform.SetParent(gamePlayScreenRef.letterGrid.transform);
         letterButtonDictionary[letterButton.Row + "," + letterButton.Column] = letterButton;
         letterButtonGridList.Add(letterButton);
-        //view.GetLetterGrid.AddLetterButton(letterButton);
-
-        //_letterButtons[row + "," + column] = letterButtonGameObject.GetComponent<LetterButton>();
     }
 
-    private void GenerateSolutionBox(List<string> solutionList)
+    private void GenerateSolutionBox()
     {
-        solutionRowList = new List<GameObject>();
-        solutionLetterBoxDictionary = new Dictionary<string, List<GameObject>>();
         var numberOfLettersUsedInRow = 0;
-        GameObject solutionRow = null;
+        //GameObject solutionRow = null;
 
-        foreach (string word in solutionList)
+        string word = puzzleModel.Solution[currentSolutionIndex];
+        Debug.Log("Solution:" + word);
+
+        int wordLength = word.Length;
+        int spaceNeededForWord;
+        var availableSpace = rowSize - numberOfLettersUsedInRow;
+
+        if (numberOfLettersUsedInRow == 0)
         {
-            Debug.Log("Solution:" + word);
-            //if (IsWordAlreadyAdded(word)) continue;
-
-            int wordLength = word.Length;
-            int spaceNeededForWord;
-            var availableSpace = rowSize - numberOfLettersUsedInRow;
-
-            if (numberOfLettersUsedInRow == 0)
-            {
-                spaceNeededForWord = wordLength;
-            }
-            else
-            {
-                spaceNeededForWord = wordLength + 1;
-            }
-
-            if (numberOfLettersUsedInRow == 0 || spaceNeededForWord > availableSpace)
-            {
-                numberOfLettersUsedInRow = 0;
-                solutionRow = (GameObject)UnityEngine.Object.Instantiate(gamePlayScreenRef.solutionRow);
-                solutionRow.transform.SetParent(gamePlayScreenRef.solutionBox.transform);
-                solutionRow.transform.localScale = new Vector3(1, 1, 1);
-                solutionRowList.Add(solutionRow);
-            }
-
-            if (solutionRow == null)
-            {
-                throw new System.Exception("Solution row is not created");
-            }
-
-            if (numberOfLettersUsedInRow != 0)
-            {
-                var emptyLetterBox = (GameObject)UnityEngine.Object.Instantiate(gamePlayScreenRef.solutionEmptyLetterBox);
-                emptyLetterBox.transform.SetParent(solutionRow.transform);
-            }
-
-
-            //var letterQueue = new Queue<LetterBox>(wordLength);
-            //var letterList = new List<LetterBox>(wordLength);
-            List<GameObject> solutionLetterBoxList = new List<GameObject>();
-            for (var i = 0; i < wordLength; i++)
-            {
-                var letterBox = (GameObject)UnityEngine.Object.Instantiate(gamePlayScreenRef.solutionLetterBox);
-                letterBox.transform.SetParent(solutionRow.transform);
-                letterBox.transform.localScale = new Vector3(1, 1, 1);
-                solutionLetterBoxList.Add(letterBox);
-                LetterBoxReferences letterBoxRef = letterBox.GetComponent<LetterBoxReferences>();
-                letterBoxRef.letterLabel.gameObject.SetActive(false);
-                Char character = word.ToCharArray()[i];
-                letterBoxRef.letterLabel.text = character.ToString();
-                //letterQueue.Enqueue(letterBox.GetComponent<LetterBox>());
-                //letterList.Add(letterBox.GetComponent<LetterBox>());
-            }
-            solutionLetterBoxDictionary.Add(word, solutionLetterBoxList);
-
-            //_wordToLettersMap.Add(new KeyValuePair<string, Queue<LetterBox>>(word, letterQueue));
-            //_letterBoxes.Add(new KeyValuePair<string, List<LetterBox>>(word, letterList));
-            numberOfLettersUsedInRow += spaceNeededForWord;
+            spaceNeededForWord = wordLength;
         }
+        else
+        {
+            spaceNeededForWord = wordLength + 1;
+        }
+
+        if (numberOfLettersUsedInRow == 0 || spaceNeededForWord > availableSpace)
+        {
+            numberOfLettersUsedInRow = 0;
+            solutionRow = (GameObject)UnityEngine.Object.Instantiate(gamePlayScreenRef.solutionRow);
+            solutionRow.transform.SetParent(gamePlayScreenRef.solutionBox.transform);
+            solutionRow.transform.localScale = new Vector3(1, 1, 1);
+        }
+
+        if (solutionRow == null)
+        {
+            throw new System.Exception("Solution row is not created");
+        }
+
+        if (numberOfLettersUsedInRow != 0)
+        {
+            var emptyLetterBox = (GameObject)UnityEngine.Object.Instantiate(gamePlayScreenRef.solutionEmptyLetterBox);
+            emptyLetterBox.transform.SetParent(solutionRow.transform);
+        }
+
+        for (var i = 0; i < wordLength; i++)
+        {
+            var letterBox = (GameObject)UnityEngine.Object.Instantiate(gamePlayScreenRef.solutionLetterBox);
+            letterBox.transform.SetParent(solutionRow.transform);
+            letterBox.transform.localScale = new Vector3(1, 1, 1);
+            solutionLetterBoxList.Add(letterBox);
+            LetterBoxReferences letterBoxRef = letterBox.GetComponent<LetterBoxReferences>();
+            letterBoxRef.letterLabel.gameObject.SetActive(false);
+            Char character = word.ToCharArray()[i];
+            letterBoxRef.letterLabel.text = character.ToString();
+        }
+        numberOfLettersUsedInRow += spaceNeededForWord;
     }
 
     public void CreateWord(string character, GameObject letterButton)
@@ -251,21 +238,20 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
 
     private void MoveLetterButtonToSolutionRow(string solutionString)
     {
-        List<GameObject> solutionBoxes = solutionLetterBoxDictionary.GetValue(solutionString);
         Sequence sequence = DOTween.Sequence();
-        for (int i = 0; i < solutionBoxes.Count; i++)
+        for (int i = 0; i < solutionLetterBoxList.Count; i++)
         {
             if (i == 0)
             {
-                sequence.Append(wordCreatedLetterButtonList[i].transform.DOMove(solutionBoxes[i].transform.position, 1.0f));
+                sequence.Append(wordCreatedLetterButtonList[i].transform.DOMove(solutionLetterBoxList[i].transform.position, 1.0f));
             }
             else
             {
-                sequence.Join(wordCreatedLetterButtonList[i].transform.DOMove(solutionBoxes[i].transform.position, 1.0f));
+                sequence.Join(wordCreatedLetterButtonList[i].transform.DOMove(solutionLetterBoxList[i].transform.position, 1.0f));
             }
             sequence.Join(wordCreatedLetterButtonList[i].transform.DOScale(Vector3.zero, 1.0f));
         }
-        sequence.AppendCallback(() => SetSolutionWord(solutionBoxes));
+        sequence.AppendCallback(() => SetSolutionWord(solutionLetterBoxList));
     }
 
     private void SetSolutionWord(List<GameObject> solutionBoxes)
@@ -280,7 +266,8 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
         }
         gamePlayScreenRef.wordBeingCreatedLabel.text = "";
         wordCreatedLetterButtonList.Clear();
-        if (currentSolutionIndex + 1 < puzzleModel.Solution.Count)
+        cluesIndexSolvedStatusDictionary[currentSolutionIndex] = true;
+        if (!CheckIfAllCluesAreSolved())
         {
             ReconstructGrid();
         }
@@ -288,6 +275,17 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
         {
             StartCoroutine(ResetScreenAndLoadLevelEnd());
         }
+    }
+
+    private bool CheckIfAllCluesAreSolved() {
+        bool allCluesSolved = true;
+        foreach (KeyValuePair<int, bool> clueStatusPair in cluesIndexSolvedStatusDictionary) {
+            if (clueStatusPair.Value == false) {
+                allCluesSolved = false;
+                break;
+            }
+        }
+        return allCluesSolved;
     }
 
     private void ClearupGamePlayScreen()
@@ -298,11 +296,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
             Destroy(letterButton.gameObject);
         }
         letterButtonDictionary.Clear();
-        foreach (GameObject solutionRow in solutionRowList)
-        {
-            Destroy(solutionRow);
-        }
-        solutionRowList.Clear();
+        Destroy(solutionRow);
     }
 
     private void ReconstructGrid()
@@ -354,9 +348,6 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
                         {
                             updatedLetterButtonDictionary[i + "," + j] = null;
                         }
-                        //						if (i - 1 < 0) {
-                        //							updatedLetterButtonDictionary [i + "," + j] = null;
-                        //						}
                     }
                 }
                 else
@@ -396,23 +387,25 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
                 letterButtonPair.Value.IsMoved = false;
             }
         }
-        currentSolutionIndex++;
-		gamePlayScreenRef.clueLabel.text = "Clue: " + puzzleModel.Clue[currentSolutionIndex];
-
+        ShowNextUnsolvedClue();
     }
 
-    //private bool IsWordAlreadyAdded(string word)
-    //{
-    //	foreach (var keyValuePair in _wordToLettersMap)
-    //	{
-    //		if (keyValuePair.Key == word)
-    //		{
-    //			return true;
-    //		}
-    //	}
+    private void ShowNextUnsolvedClue() {
+        int initialCurrentSolutionIndex = currentSolutionIndex;
+        currentSolutionIndex++;
+        while(currentSolutionIndex != initialCurrentSolutionIndex) {
+            if (currentSolutionIndex == puzzleModel.Solution.Count) {
+                currentSolutionIndex = currentSolutionIndex % puzzleModel.Solution.Count;
+            }
 
-    //	return false;
-    //}
+            if (cluesIndexSolvedStatusDictionary[currentSolutionIndex] == false) {
+                UpdateUIAfterChangingCurrentSolutionIndex();
+                break;
+            }
+            currentSolutionIndex++;
+        }
+    }
+
     public void HandleHints()
     {
 
@@ -431,19 +424,18 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
 
     public bool ReavealHints(string solutionString)
     {
-        List<GameObject> solutionBoxes = solutionLetterBoxDictionary.GetValue(solutionString);
-        for (int i = 0; i < solutionBoxes.Count; i++)
+        for (int i = 0; i < solutionLetterBoxList.Count; i++)
         {
 
-            LetterBoxReferences letterBox = solutionBoxes[i].GetComponent<LetterBoxReferences>();
+            LetterBoxReferences letterBox = solutionLetterBoxList[i].GetComponent<LetterBoxReferences>();
             if (!letterBox.letterLabel.gameObject.activeSelf)
             {
                 GameObject hintRevealLetter = (GameObject)Instantiate(gamePlayScreenRef.hintedLetter);
                 hintRevealLetter.GetComponent<Text>().text = letterBox.letterLabel.text;
-                hintRevealLetter.transform.SetParent(gamePlayScreenRef.CanvasTransform,false);
+                hintRevealLetter.transform.SetParent(gamePlayScreenRef.CanvasTransform, false);
                 hintRevealLetter.transform.position = gamePlayScreenRef.hintsButton.transform.position;
                 hintRevealLetter.SetActive(true);
-                hintRevealLetter.transform.DOMove(solutionBoxes[i].transform.position, 0.1f).SetEase(Ease.InQuad).OnComplete(() => ShowHintInSolutionBox(hintRevealLetter,letterBox.letterLabel.gameObject));
+                hintRevealLetter.transform.DOMove(solutionLetterBoxList[i].transform.position, 0.1f).SetEase(Ease.InQuad).OnComplete(() => ShowHintInSolutionBox(hintRevealLetter, letterBox.letterLabel.gameObject));
                 PlayerModel.Instance.hints--;
                 return true;
 
@@ -452,14 +444,58 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
         return false;
     }
 
-    public void ShowHintInSolutionBox(GameObject objectOld,GameObject objectNew)
+    public void ShowHintInSolutionBox(GameObject objectOld, GameObject objectNew)
     {
         objectOld.SetActive(false);
         objectNew.SetActive(true);
     }
     private void ShowHintsText()
-{
-    gamePlayScreenRef.hintsCount.text = "Hints (" + PlayerModel.Instance.hints.ToString() + ")";
+    {
+        gamePlayScreenRef.hintsCount.text = "Hints (" + PlayerModel.Instance.hints.ToString() + ")";
+    }
 
-}
+    public void ShowPreviousSolutionAndClue() 
+    {
+        currentSolutionIndex--;
+        UpdateUIAfterChangingCurrentSolutionIndex();
+    }
+
+	public void ShowNextSolutionAndClue()
+	{
+        currentSolutionIndex++;
+        UpdateUIAfterChangingCurrentSolutionIndex();
+	}
+
+    private void UpdateUIAfterChangingCurrentSolutionIndex() {
+		if (currentSolutionIndex == 0)
+		{
+			gamePlayScreenRef.leftButton.gameObject.SetActive(false);
+		}
+		else if (currentSolutionIndex > 0)
+		{
+			gamePlayScreenRef.leftButton.gameObject.SetActive(true);
+		}
+
+		if (currentSolutionIndex < puzzleModel.Solution.Count - 1)
+		{
+			gamePlayScreenRef.rightButton.gameObject.SetActive(true);
+		}
+		else if (currentSolutionIndex == puzzleModel.Solution.Count - 1)
+		{
+			gamePlayScreenRef.rightButton.gameObject.SetActive(false);
+		}
+
+		solutionLetterBoxList.Clear();
+		Destroy(solutionRow);
+		GenerateSolutionBox();
+        if (cluesIndexSolvedStatusDictionary[currentSolutionIndex] == true)
+		{
+			for (int i = 0; i < solutionLetterBoxList.Count; i++)
+			{
+				LetterBoxReferences letterBox = solutionLetterBoxList[i].GetComponent<LetterBoxReferences>();
+				letterBox.letterLabel.gameObject.SetActive(true);
+			}
+		}
+		gamePlayScreenRef.clueLabel.text = "Clue: " + puzzleModel.Clue[currentSolutionIndex];
+    }
 }

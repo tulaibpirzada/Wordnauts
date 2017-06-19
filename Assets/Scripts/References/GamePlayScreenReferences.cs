@@ -16,4 +16,6 @@ public class GamePlayScreenReferences : MonoBehaviour {
     public Text hintsCount;
     public Object hintedLetter;
     public Transform CanvasTransform;
+    public Button leftButton;
+    public Button rightButton;
 }

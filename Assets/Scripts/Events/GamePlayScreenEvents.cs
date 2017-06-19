@@ -7,11 +7,19 @@ public class GamePlayScreenEvents : MonoBehaviour {
 	{
         GamePlayScreenController.Instance.SlideBackToMainMenu();
 	}
+
     public void hintButtonPressed()
     {
-        
-       // Transform hintButtonTransform = Ref.hintsButton.transform;
-        GamePlayScreenController.Instance.HandleHints();
-        
+        GamePlayScreenController.Instance.HandleHints();   
     }
+
+    public void LeftButtonTapped()
+    {
+        GamePlayScreenController.Instance.ShowPreviousSolutionAndClue();
+    }
+
+	public void RightButtonTapped()
+	{
+        GamePlayScreenController.Instance.ShowNextSolutionAndClue();
+	}
 }
