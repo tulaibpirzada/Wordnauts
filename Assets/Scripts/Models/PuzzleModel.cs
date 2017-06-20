@@ -71,7 +71,16 @@ public class PuzzleModel {
 			this.hints = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(dataSnapShot, levelPath + "pi"));
 			this.prestigePoints = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(dataSnapShot, levelPath + "prestige"));
 			string solutionString = ServerController.Instance.GetChildDataFromSnapshot (dataSnapShot, levelPath + "solution");
-			this.solution = new List<string> (solutionString.Split(','));
+			this.solution = new List<string> (solutionString.Split(new[] { ',', ' ' }));
+            int countSolutionEntries = this.solution.Count;
+            int countClueEntries = this.clue.Count;
+            if (countSolutionEntries > 0 && countClueEntries == 1)
+            {
+                for (int i=0;i< countSolutionEntries-1; i++)
+                {
+                    this.clue.Add(clueString);
+                }
+            }
 		}
 
 

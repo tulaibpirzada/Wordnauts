@@ -20,6 +20,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
     private PuzzleModel puzzleModel;
     private int currentSolutionIndex;
     private Dictionary<int, bool> cluesIndexSolvedStatusDictionary;
+    private Dictionary<int, bool> solutionIndexSolvedStatusDictionary;
     public bool isGamePlayScreenShowingUp = false;
 
     public void LoadScreen(PuzzleModel puzzleModel)
@@ -38,9 +39,11 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
         GenerateSolutionBox();
         wordCreatedLetterButtonList = new List<GameObject>();
         cluesIndexSolvedStatusDictionary = new Dictionary<int, bool>();
+        solutionIndexSolvedStatusDictionary = new Dictionary<int, bool>();
         for (int index = 0; index < puzzleModel.Solution.Count; index++) {
             cluesIndexSolvedStatusDictionary.Add(index, false);
-        }
+            solutionIndexSolvedStatusDictionary.Add(index, false);
+}
         if (puzzleModel.Solution.Count > 0)
         {
             currentSolutionIndex = 0;
@@ -268,7 +271,8 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
         gamePlayScreenRef.wordBeingCreatedLabel.text = "";
         wordCreatedLetterButtonList.Clear();
         cluesIndexSolvedStatusDictionary[currentSolutionIndex] = true;
-        if (!CheckIfAllCluesAreSolved())
+        solutionIndexSolvedStatusDictionary[currentSolutionIndex] = true;
+        if (!CheckIfAllSolutionsAreSolved() )
         {
             ReconstructGrid();
         }
@@ -279,14 +283,25 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
     }
 
     private bool CheckIfAllCluesAreSolved() {
-        bool allCluesSolved = true;
-        foreach (KeyValuePair<int, bool> clueStatusPair in cluesIndexSolvedStatusDictionary) {
+         bool allCluesSolved = true;
+         foreach (KeyValuePair<int, bool> clueStatusPair in cluesIndexSolvedStatusDictionary) {
+             if (clueStatusPair.Value == false) {
+                 allCluesSolved = false;
+                 break;
+             }
+         }
+         return allCluesSolved;
+    }
+    private bool CheckIfAllSolutionsAreSolved()
+    { 
+        bool allSolutionsSolved = true;
+        foreach (KeyValuePair<int, bool> clueStatusPair in solutionIndexSolvedStatusDictionary) {
             if (clueStatusPair.Value == false) {
-                allCluesSolved = false;
+                allSolutionsSolved = false;
                 break;
             }
         }
-        return allCluesSolved;
+        return allSolutionsSolved;
     }
 
     private void ClearupGamePlayScreen()
@@ -399,7 +414,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
                 currentSolutionIndex = currentSolutionIndex % puzzleModel.Solution.Count;
             }
 
-            if (cluesIndexSolvedStatusDictionary[currentSolutionIndex] == false) {
+            if (solutionIndexSolvedStatusDictionary[currentSolutionIndex] == false) {
                 UpdateUIAfterChangingCurrentSolutionIndex();
                 break;
             }
@@ -489,7 +504,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
 		solutionLetterBoxList.Clear();
 		Destroy(solutionRow);
 		GenerateSolutionBox();
-        if (cluesIndexSolvedStatusDictionary[currentSolutionIndex] == true)
+        if (solutionIndexSolvedStatusDictionary[currentSolutionIndex] == true)
 		{
 			for (int i = 0; i < solutionLetterBoxList.Count; i++)
 			{
