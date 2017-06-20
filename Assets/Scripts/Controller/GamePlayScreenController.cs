@@ -44,6 +44,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
         if (puzzleModel.Solution.Count > 0)
         {
             currentSolutionIndex = 0;
+            gamePlayScreenRef.wordsToFindLabel.text = "Words to find (" + currentSolutionIndex.ToString() + "/" + puzzleModel.Solution.Count.ToString() + ")";
             gamePlayScreenRef.rightButton.gameObject.SetActive(true);
         }
 
@@ -496,6 +497,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
 				letterBox.letterLabel.gameObject.SetActive(true);
 			}
 		}
+        gamePlayScreenRef.wordsToFindLabel.text = "Words to find (" + currentSolutionIndex.ToString() + "/" + puzzleModel.Solution.Count.ToString() + ")";
 		gamePlayScreenRef.clueLabel.text = "Clue: " + puzzleModel.Clue[currentSolutionIndex];
     }
 }
