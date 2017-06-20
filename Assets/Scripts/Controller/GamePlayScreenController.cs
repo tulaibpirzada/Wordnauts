@@ -47,7 +47,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
         if (puzzleModel.Solution.Count > 0)
         {
             currentSolutionIndex = 0;
-            gamePlayScreenRef.wordsToFindLabel.text = "Words to find (" + currentSolutionIndex.ToString() + "/" + puzzleModel.Solution.Count.ToString() + ")";
+			gamePlayScreenRef.wordsToFindLabel.text = "Words to find (" + (currentSolutionIndex + 1).ToString() + "/" + puzzleModel.Solution.Count.ToString() + ")";
             gamePlayScreenRef.rightButton.gameObject.SetActive(true);
         }
 
@@ -68,9 +68,9 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
         letterButtonGridList = new List<LetterButtonReferences>();
         var index = 0;
 
-        for (var i = 0; i < puzzleModel.Columns; i++)
+		for (var i = 0; i < puzzleModel.Rows; i++)
         {
-            for (var j = 0; j < puzzleModel.Rows; j++)
+			for (var j = 0; j < puzzleModel.Columns; j++)
             {
                 var letter = puzzleModel.Puzzle[index];
                 CreateLetterButton(letter, i, j, index++, size.z);
@@ -120,7 +120,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
         return new Vector3(horizontalPadding, verticalPadding, size);
     }
 
-    private void CreateLetterButton(string letter, int row, int column, int index, float size)
+	private void CreateLetterButton(string letter, int row, int column, int index, float size)
     {
         var letterButtonGameObject = (GameObject)UnityEngine.Object.Instantiate(gamePlayScreenRef.letterButton);
         var letterButton = letterButtonGameObject.GetComponent<LetterButtonReferences>();
@@ -512,7 +512,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
 				letterBox.letterLabel.gameObject.SetActive(true);
 			}
 		}
-        gamePlayScreenRef.wordsToFindLabel.text = "Words to find (" + currentSolutionIndex.ToString() + "/" + puzzleModel.Solution.Count.ToString() + ")";
+		gamePlayScreenRef.wordsToFindLabel.text = "Words to find (" + (currentSolutionIndex + 1).ToString() + "/" + puzzleModel.Solution.Count.ToString() + ")";
 		gamePlayScreenRef.clueLabel.text = "Clue: " + puzzleModel.Clue[currentSolutionIndex];
     }
 }
