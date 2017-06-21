@@ -76,7 +76,7 @@ public class PlayerModel: Singleton <PlayerModel>
     }
     public void UpdateCompletionPercentage()
     {
-        completionPercent = ((singleClue.LevelNo) * (singleClue.PackNo)) +(multiClue.LevelNo)/(MultipleMultiPackModel.Instance.TotalLevels+(MultiplePackModel.Instance.TotalPacks* MultiplePackModel.Instance.packsList[0].TotalLevels));
+        completionPercent = ((((singleClue.LevelNo+1) * (singleClue.PackNo+1)) +(multiClue.LevelNo+1))*100)/(MultipleMultiPackModel.Instance.TotalLevels+(MultiplePackModel.Instance.TotalPacks* MultiplePackModel.Instance.packsList[0].TotalLevels));
     }
     public void UpdateStarsAndHints(int PrestigePoints,int Hints)
     {

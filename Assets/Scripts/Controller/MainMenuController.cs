@@ -13,7 +13,11 @@ public class MainMenuController : Singleton<MainMenuController> {
 		mainMenuRef = menuMenuGameObject.GetComponent<MainMenuReferences> ();
         mainMenuRef.percentageLabel.text = PlayerModel.Instance.completionPercent.ToString() +"%";
         mainMenuRef.starLabel.text = PlayerModel.Instance.stars.ToString();
-		mainMenuRef.progressBar.fillAmount =  (PlayerModel.Instance.completionPercent * 0.1f) / 100.0f;
+		mainMenuRef.progressBar.fillAmount =  (PlayerModel.Instance.completionPercent * 0.1f) / 10.0f;
+        if (!PlayerModel.Instance.IsDailyLevelAvailableToday())
+        {
+            mainMenuRef.newIconDailyLevel.SetActive(false);
+        }
 
     }
 
