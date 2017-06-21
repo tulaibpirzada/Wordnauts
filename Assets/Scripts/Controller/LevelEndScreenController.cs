@@ -11,8 +11,7 @@ public class LevelEndScreenController : Singleton<LevelEndScreenController> {
 		
 		//update percentage
 		PlayerModel.Instance.UpdateCompletionPercentage();
-		//update stars and hints
-		PlayerModel.Instance.UpdateStarsAndHints(puzzleModel.PrestigePoints, puzzleModel.Hints);
+		
 		//update level no. / puzzle pack
         if (puzzleModel.PuzzleType==1)
         {
@@ -37,6 +36,7 @@ public class LevelEndScreenController : Singleton<LevelEndScreenController> {
             else if(result==1)
             {
                 // all levels of current pack are finished
+
             }
             else
             {
@@ -58,14 +58,27 @@ public class LevelEndScreenController : Singleton<LevelEndScreenController> {
 	public void LoadScreen(PuzzleModel puzzleModel)
     {
 		this.puzzleModel = puzzleModel;
-		SendUpdateToServer ();
-		GameObject levelEndGameObject = ScreenTransitionManager.Instance.ShowScreen (GameConstants.Screens.LEVEL_END_SCREEN);
-		levelEndScreenRef = levelEndGameObject.GetComponent<LevelEndScreenReferences> ();
-        levelEndScreenRef.Star.text = "+"+ puzzleModel.PrestigePoints.ToString();
+        GameObject levelEndGameObject = ScreenTransitionManager.Instance.ShowScreen(GameConstants.Screens.LEVEL_END_SCREEN);
+        levelEndScreenRef = levelEndGameObject.GetComponent<LevelEndScreenReferences>();
+        if (this.puzzleModel.LevelAlreadyPlayed == false)
+        {
+            SendUpdateToServer();
+            levelEndScreenRef.Star.text = "+" + puzzleModel.PrestigePoints.ToString();
+        }
+        else
+        {
+            levelEndScreenRef.Star.text = 0.ToString();
+        }
+		  
 	}
 
 	public void SlideBackToMainMenu() {
-        puzzleModel.UpdateReward();
+
+        //update stars & hints
+        if (!this.puzzleModel.LevelAlreadyPlayed)
+        {
+            puzzleModel.UpdateReward();
+        }
         MainMenuController.Instance.ShowMainMenuScreen();
         
     }

@@ -7,5 +7,6 @@ public class MainMenuReferences : MonoBehaviour {
     public Text percentageLabel;
     public Text starLabel;
 	public Image progressBar;
+    public GameObject newIconDailyLevel;
 	
 }

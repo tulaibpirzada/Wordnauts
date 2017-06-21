@@ -46,13 +46,14 @@ public class SingleClueLevelSelectionScreenController : Singleton<SingleClueLeve
 				levelListItemRef.lockIcon.SetActive(false);
 				levelListItemRef.button.enabled = true;
 				levelListItemRef.puzzleModel = puzzlePackModel.levelsList[index];
-			} else if (index == PlayerModel.Instance.singleClue.LevelNo) {
+                levelListItemRef.puzzleModel.LevelAlreadyPlayed = true;
+            } else if (index == PlayerModel.Instance.singleClue.LevelNo) {
 				levelListItemRef.tickIcon.SetActive(false);
 				levelListItemRef.newIcon.SetActive(true);
 				levelListItemRef.arrowIcon.SetActive(true);
 				levelListItemRef.lockIcon.SetActive(false);
 				levelListItemRef.button.enabled = true;
-				levelListItemRef.puzzleModel = puzzlePackModel.levelsList[index];
+				levelListItemRef.puzzleModel = puzzlePackModel.levelsList[index];              
 			} else if (index > PlayerModel.Instance.singleClue.LevelNo) {
 				levelListItemRef.tickIcon.SetActive(false);
 				levelListItemRef.newIcon.SetActive(false);

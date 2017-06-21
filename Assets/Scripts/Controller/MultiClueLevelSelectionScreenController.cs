@@ -36,26 +36,34 @@ public class MultiClueLevelSelectionScreenController : Singleton<MultiClueLevelS
 			LevelListItemReferences levelListItemRef = listItemGameObject.GetComponent<LevelListItemReferences> ();
 			levelListItemRef.titleLabel.text = "Level " + (index + 1).ToString ();
 			levelListItemRef.levelListType = LevelListItemReferences.LevelListType.MultiClueLevelList;
-//			//			if (index < PlayerModel.Instance.singleClue.PackNo) {
-//			//				puzzlePackListItemRef.tickIcon.SetActive(true);
-//			//				puzzlePackListItemRef.newIcon.SetActive(false);
-//			//				puzzlePackListItemRef.arrowIcon.SetActive(false);
-//			//				puzzlePackListItemRef.lockIcon.SetActive(false);
-//			//				puzzlePackListItemRef.puzzlePackModel = MultiplePackModel.Instance.packsList [index];
-//			//			} else if (index == PlayerModel.Instance.singleClue.PackNo) {
-			levelListItemRef.tickIcon.SetActive(false);
-			levelListItemRef.newIcon.SetActive(true);
-			levelListItemRef.arrowIcon.SetActive(true);
-			levelListItemRef.lockIcon.SetActive(false);
-			levelListItemRef.puzzleModel = MultipleMultiPackModel.Instance.puzzleModelList[index];
-			//			} else if (index > PlayerModel.Instance.singleClue.PackNo) {
-			//				puzzlePackListItemRef.tickIcon.SetActive(false);
-			//				puzzlePackListItemRef.newIcon.SetActive(false);
-			//				puzzlePackListItemRef.arrowIcon.SetActive(false);
-			//				puzzlePackListItemRef.lockIcon.SetActive(true);
-			//				puzzlePackListItemRef.puzzlePackModel = null;
-			//			}
-		}
+            if (index < PlayerModel.Instance.multiClue.LevelNo)
+            {
+                levelListItemRef.tickIcon.SetActive(true);
+                levelListItemRef.newIcon.SetActive(false);
+                levelListItemRef.arrowIcon.SetActive(false);
+                levelListItemRef.lockIcon.SetActive(false);
+                levelListItemRef.button.enabled = true;
+                levelListItemRef.puzzleModel = MultipleMultiPackModel.Instance.puzzleModelList[index];
+                levelListItemRef.puzzleModel.LevelAlreadyPlayed = true;
+            }
+            else if (index == PlayerModel.Instance.multiClue.LevelNo)
+            {
+                levelListItemRef.tickIcon.SetActive(false);
+            levelListItemRef.newIcon.SetActive(true);
+            levelListItemRef.arrowIcon.SetActive(true);
+            levelListItemRef.lockIcon.SetActive(false);
+                levelListItemRef.button.enabled = true;
+                levelListItemRef.puzzleModel = MultipleMultiPackModel.Instance.puzzleModelList[index];
+        } else if (index > PlayerModel.Instance.multiClue.LevelNo)
+        {
+                levelListItemRef.tickIcon.SetActive(false);
+                levelListItemRef.newIcon.SetActive(false);
+                levelListItemRef.arrowIcon.SetActive(false);
+                levelListItemRef.lockIcon.SetActive(true);
+                levelListItemRef.button.enabled = false;
+                levelListItemRef.puzzleModel = null;
+        }
+    }
 	}
 
 	public void ShowPuzzleScreen(LevelListItemReferences levelListItemRef) {

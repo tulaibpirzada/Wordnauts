@@ -13,6 +13,7 @@ public class PuzzleModel {
 	private List<string> clue = new List<string>();
 	private List<string> solution = new List<string>();
     private int puzzleType;
+    private bool levelAlreadyPlayed=false;
 
 	public List<string> Puzzle
 	{
@@ -55,11 +56,15 @@ public class PuzzleModel {
 		get { return solution; }
 	}
 
-	public void Populate(DataSnapshot dataSnapShot,int pType, string levelPath)
+    public bool LevelAlreadyPlayed
+    {
+        get { return levelAlreadyPlayed; }
+        set { levelAlreadyPlayed = value; }
+    }
+    public void Populate(DataSnapshot dataSnapShot,int pType, string levelPath)
 	{
 		string strPuzzleFromServer = ServerController.Instance.GetChildDataFromSnapshot(dataSnapShot, levelPath + "grid");
         puzzleType=pType;
-
 		if (strPuzzleFromServer != null)
 		{
 			ServerController.Instance.ConvertPuzzletoGrid(strPuzzleFromServer);
