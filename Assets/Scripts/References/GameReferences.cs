@@ -15,5 +15,6 @@ public class GameReferences : MonoBehaviour
     public SettingsScreenReferences settingsScreenRef;
 	public NoMoreDailyLevelPopupReferences noMoreDailyLevelPopupRef;
     public PuzzlePackLockedByPrestigeScreenReferences puzzlePackLockedByPrestigeScreenRef;
+    public BuyHintsPopupReferences buyHintsPopupRef;
 
 }

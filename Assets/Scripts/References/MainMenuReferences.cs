@@ -8,5 +8,6 @@ public class MainMenuReferences : MonoBehaviour {
     public Text starLabel;
 	public Image progressBar;
     public GameObject newIconDailyLevel;
-	
+    public Text hintsButtonText;
+
 }

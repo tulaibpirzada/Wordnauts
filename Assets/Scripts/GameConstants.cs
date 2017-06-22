@@ -14,6 +14,7 @@ public class GameConstants : MonoBehaviour {
 		LEVEL_END_SCREEN,
         SETTINGS_SCREEN,
         NO_MORE_DAILY_LEVELS_POPUP,
-        PUZZLE_PACK_LOCKED_BY_PRESTIGE_POPUP
+        PUZZLE_PACK_LOCKED_BY_PRESTIGE_POPUP,
+        BUY_HINTS_POPUP
 	}
 }

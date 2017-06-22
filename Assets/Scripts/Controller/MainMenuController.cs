@@ -14,6 +14,7 @@ public class MainMenuController : Singleton<MainMenuController> {
         mainMenuRef.percentageLabel.text = PlayerModel.Instance.completionPercent.ToString() +"%";
         mainMenuRef.starLabel.text = PlayerModel.Instance.stars.ToString();
 		mainMenuRef.progressBar.fillAmount =  (PlayerModel.Instance.completionPercent * 0.1f) / 10.0f;
+        mainMenuRef.hintsButtonText.text = "Get More Hints (" + PlayerModel.Instance.hints.ToString() + ")";
         if (!PlayerModel.Instance.IsDailyLevelAvailableToday())
         {
             mainMenuRef.newIconDailyLevel.SetActive(false);
@@ -51,6 +52,7 @@ public class MainMenuController : Singleton<MainMenuController> {
 	}
 
 	public void ShowGetMoreHintsPopup() {
+        BuyHintsPopupController.Instance.LoadScreen();
 		
 	}
 
