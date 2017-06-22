@@ -5,6 +5,6 @@ using UnityEngine;
 public class LevelEndScreenEvents : MonoBehaviour {
 
 	public void screenTapped() {
-		LevelEndScreenController.Instance.SlideBackToMainMenu ();
+		LevelEndScreenController.Instance.HandleNavigation ();
 	}
 }

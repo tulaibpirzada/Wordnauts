@@ -26,6 +26,7 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
     public void LoadScreen(PuzzleModel puzzleModel)
     {
         this.puzzleModel = puzzleModel;
+        currentSolutionIndex = 0;
         isGamePlayScreenShowingUp = true;
         GameObject gamePlayScreenGameObject = ScreenTransitionManager.Instance.ShowScreen(GameConstants.Screens.GAME_PLAY_SCREEN);
         gamePlayScreenRef = gamePlayScreenGameObject.GetComponent<GamePlayScreenReferences>();

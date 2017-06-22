@@ -11,44 +11,23 @@ public class LevelEndScreenController : Singleton<LevelEndScreenController> {
 		
 		//update percentage
 		PlayerModel.Instance.UpdateCompletionPercentage();
-		
-		//update level no. / puzzle pack
+        //update stars & hints
+        puzzleModel.UpdateReward();
+
+        //update level no. / puzzle pack
         if (puzzleModel.PuzzleType==1)
         {
-            if(!PlayerModel.Instance.DailyLevelComplete())
-            {
-                //Show NO more levels to play
-            }
+            PlayerModel.Instance.DailyLevelComplete();
         
         }
         else if (puzzleModel.PuzzleType==2)
         {
-            int result=PlayerModel.Instance.SingleClueLevelComplete();
-            if (result==-1)
-            {
-                //show No more levels to play (All packs are completed)
-            }
-            else if(result==0)
-            {
-                //Prestige points are lower than the required ones screen
-                
-            }
-            else if(result==1)
-            {
-                // all levels of current pack are finished
-
-            }
-            else
-            {
-                // do nothing just unlock the next level
-            }
+           PlayerModel.Instance.SingleClueLevelComplete();
+            
         }
         else
         {
-            if (!PlayerModel.Instance.MultiClueLevelComplete())
-            {
-                //Show NO more levels to play
-            }
+            PlayerModel.Instance.MultiClueLevelComplete();
         }
 		//send update call
 		SendData.Instance.UpdatePlayerData();
@@ -72,15 +51,54 @@ public class LevelEndScreenController : Singleton<LevelEndScreenController> {
 		  
 	}
 
-	public void SlideBackToMainMenu() {
+    public void HandleNavigation()
+    {
 
-        //update stars & hints
-        if (!this.puzzleModel.LevelAlreadyPlayed)
+            
+            // if the puzzle just played is completed first time and is single clue
+            if (this.puzzleModel.PuzzleType == 1)
         {
-            puzzleModel.UpdateReward();
+            MainMenuController.Instance.ShowMainMenuScreen();
         }
-        MainMenuController.Instance.ShowMainMenuScreen();
-        
-    }
+        else if (this.puzzleModel.PuzzleType == 2)
+        {
+            int status = PlayerModel.Instance.CheckSingleClueStageComplete();
+            if (status == 1 || status==0)
+            {
+
+                SingleCluePuzzleSelectionScreenController.Instance.LoadScreen();
+            }
+            else if (status == 2)
+            {
+                //this.puzzleModel = MultiplePackModel.Instance.packsList[PlayerModel.Instance.singleClue.PackNo].levelsList[PlayerModel.Instance.singleClue.LevelNo];
+                SingleClueLevelSelectionScreenController.Instance.LoadScreen(MultiplePackModel.Instance.packsList[PlayerModel.Instance.singleClue.PackNo]);
+                // LevelStartScreenController.Instance.ShowScreen(this.puzzleModel);
+
+            }
+            else
+            {
+                MainMenuController.Instance.ShowMainMenuScreen();
+            }
+        }
+            
+            else
+            {
+                if (PlayerModel.Instance.CheckStageComplete(PlayerModel.Instance.multiClue.LevelNo, MultipleMultiPackModel.Instance.TotalLevels))
+                {
+                    this.puzzleModel = MultipleMultiPackModel.Instance.puzzleModelList[PlayerModel.Instance.multiClue.LevelNo];
+                    MultiClueLevelSelectionScreenController.Instance.LoadScreen();
+                   
+                }
+                else
+                {
+                    MainMenuController.Instance.ShowMainMenuScreen();
+                }
+
+            }
+
+
+
+        }
+    
     
 }

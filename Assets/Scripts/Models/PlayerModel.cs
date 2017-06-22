@@ -59,7 +59,7 @@ public class PlayerModel: Singleton <PlayerModel>
     public void GetPlayerMultiClueDataFromSnapshot()
     {
         multiClue = new multiClueDic();
-        multiClue.LevelNo = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "multiLevel/LevelNo"));
+        multiClue.LevelNo = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(DatabaseModel.Instance.userDataSnapshot, "multiClue/LevelNo"));
        
     }
     public void GetPlayerSingleClueDataFromSnapshot()
@@ -103,37 +103,46 @@ public class PlayerModel: Singleton <PlayerModel>
         dailyLevel.isAvailable = false;
         dailyLevel.LevelNo = dailyLevel.LevelNo + 1;
         int totalLevels=Convert.ToInt32(ServerController.Instance.GetDatasnapshot(DatabaseModel.Instance.dailyLevelSnapshot, DatabaseModel.Instance.subLevelName).ChildrenCount);
-        if (dailyLevel.LevelNo>=totalLevels)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+
+        return CheckStageComplete(dailyLevel.LevelNo, totalLevels);
+
     }
     public bool MultiClueLevelComplete()
     {
         multiClue.LevelNo = multiClue.LevelNo + 1;
         // all levels completed
-        if (multiClue.LevelNo >= MultipleMultiPackModel.Instance.TotalLevels)
-        {
-            return false;
-        }
-        //user can play more levels
-        else
-        {
-            return true;
-        }
+        return CheckStageComplete(multiClue.LevelNo, MultipleMultiPackModel.Instance.TotalLevels);
+       
     }
+   
     public int SingleClueLevelComplete()
     {
         singleClue.LevelNo = singleClue.LevelNo + 1;
+        int result = CheckSingleClueStageComplete();
+        if (result==1)
+        {
+            singleClue.LevelNo = 0;
+            singleClue.PackNo++;
+        }
+        return result;
+
+
+    }
+    public bool CheckStageComplete(int current, int Total)
+    {
+        if (current >= Total)
+            return false;
+        else
+            return true;
+    }
+    public int CheckSingleClueStageComplete()
+    {
         // all levels of a current pack are played
-        if (singleClue.LevelNo >= MultiplePackModel.Instance.packsList[singleClue.PackNo].TotalLevels)
+        if (!CheckStageComplete(singleClue.LevelNo, MultiplePackModel.Instance.packsList[singleClue.PackNo].TotalLevels))
         {
             // All packs played
-            if (singleClue.PackNo>= MultiplePackModel.Instance.TotalPacks)
+
+            if (!CheckStageComplete(singleClue.PackNo, MultiplePackModel.Instance.TotalPacks))
             {
                 return -1;
             }
@@ -141,23 +150,23 @@ public class PlayerModel: Singleton <PlayerModel>
             else
             {
                 //low prestige points
-                if (PlayerModel.Instance.stars<MultiplePackModel.Instance.packsList[singleClue.PackNo+1].RequiredPointsToUnlock)
+                if (PlayerModel.Instance.stars < MultiplePackModel.Instance.packsList[singleClue.PackNo + 1].RequiredPointsToUnlock)
                 {
                     return 0;
                 }
                 // Enough prestige points
-                    else
+                else
                 {
-                    singleClue.PackNo = singleClue.PackNo + 1;
-                    singleClue.LevelNo = 0;
                     return 1;
                 }
             }
         }
         else
         {
-            singleClue.LevelNo = singleClue.LevelNo + 1;
+            
             return 2;
         }
     }
 }
+
+

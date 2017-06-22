@@ -5,6 +5,6 @@ using UnityEngine;
 public class SingleClueLevelSelectionScreenEvents : MonoBehaviour {
 
 	public void BackButtonTapped() {
-		SingleClueLevelSelectionScreenController.Instance.SlideBackToMainMenu ();
+        SingleCluePuzzleSelectionScreenController.Instance.LoadScreen();
 	}
 }
