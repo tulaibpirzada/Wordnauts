@@ -6,6 +6,6 @@ public class BuyHintsPopupEvents : MonoBehaviour {
     
 	public void ScreenTapped()
     {
-        MainMenuController.Instance.ShowMainMenuScreen();
+        BuyHintsPopupController.Instance.SlideBackToMainMenu();
     }
 }
