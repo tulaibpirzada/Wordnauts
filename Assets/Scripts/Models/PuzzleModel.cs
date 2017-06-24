@@ -11,7 +11,8 @@ public class PuzzleModel {
 	private int rows;
 	private int columns;
 	private List<string> clue = new List<string>();
-	private List<string> solution = new List<string>();
+    private List<string> mysteryClue= new List<string>();
+    private List<string> solution = new List<string>();
     private int puzzleType;
     private bool levelAlreadyPlayed=false;
 
@@ -50,8 +51,11 @@ public class PuzzleModel {
 	{
 		get { return clue; }
 	}
-
-	public List<string> Solution
+    public List<string> MysteryClue
+    {
+        get { return mysteryClue; }
+    }
+    public List<string> Solution
 	{
 		get { return solution; }
 	}
@@ -72,7 +76,16 @@ public class PuzzleModel {
 			this.rows = ServerController.Instance.row;
 			this.columns = ServerController.Instance.column;
 			string clueString = ServerController.Instance.GetChildDataFromSnapshot (dataSnapShot, levelPath + "clue");
-			this.clue = new List<string> (clueString.Split (','));
+            if (clueString.Contains("("))
+            {
+                string[] clueSplitter = clueString.Split(')', '(');
+                clue.Add(clueSplitter[0]);
+                mysteryClue.Add(clueSplitter[1]);     
+            }
+            else
+            {
+                this.clue = new List<string>(clueString.Split(','));
+            }
 			this.hints = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(dataSnapShot, levelPath + "pi"));
 			this.prestigePoints = Convert.ToInt32(ServerController.Instance.GetChildDataFromSnapshot(dataSnapShot, levelPath + "prestige"));
 			string solutionString = ServerController.Instance.GetChildDataFromSnapshot (dataSnapShot, levelPath + "solution");

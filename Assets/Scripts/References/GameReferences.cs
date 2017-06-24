@@ -19,5 +19,6 @@ public class GameReferences : MonoBehaviour
     public RateUsPopupReferences rateUsPopupRef;
     public PurchaseFailurePopupReferences purchaseFailurePopupRef;
     public PurchaseSuccessPopupReferences purchaseSuccessPopupRef;
+    public RevealCluePopupReferences revealCluePopupRef;
 
 }

@@ -18,6 +18,7 @@ public class GameConstants : MonoBehaviour {
         BUY_HINTS_POPUP,
         RATE_US_POPUP_SCREEN,
         PURCHASE_SUCCESS_POPUP,
-        PURCHASE_FAILURE_POPUP
+        PURCHASE_FAILURE_POPUP,
+        REVEAL_CLUE_POPUP
     }
 }

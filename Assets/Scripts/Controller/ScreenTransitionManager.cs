@@ -26,6 +26,7 @@ public class ScreenTransitionManager : Singleton<ScreenTransitionManager> {
         screenReferencesDictionary.Add(GameConstants.Screens.RATE_US_POPUP_SCREEN,gameRef.rateUsPopupRef.gameObject);
         screenReferencesDictionary.Add(GameConstants.Screens.PURCHASE_FAILURE_POPUP, gameRef.purchaseFailurePopupRef.gameObject);
         screenReferencesDictionary.Add(GameConstants.Screens.PURCHASE_SUCCESS_POPUP, gameRef.purchaseSuccessPopupRef.gameObject);
+        screenReferencesDictionary.Add(GameConstants.Screens.REVEAL_CLUE_POPUP, gameRef.revealCluePopupRef.gameObject);
     }
 
 	public GameObject ShowScreen(GameConstants.Screens screen) {
