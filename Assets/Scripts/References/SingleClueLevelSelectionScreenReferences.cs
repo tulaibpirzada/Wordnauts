@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class SingleClueLevelSelectionScreenReferences : MonoBehaviour {
 
+	public Text starsCountLabel;
 	public GameObject levelListItem;
 	public ScrollRect scrollView;
 }

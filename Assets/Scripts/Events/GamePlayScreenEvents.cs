@@ -27,4 +27,8 @@ public class GamePlayScreenEvents : MonoBehaviour {
 		GamePlayScreenController.Instance.ShowRevealCluePopup ();
 	}
 
+	public void ResetButtonTapped() {
+		GamePlayScreenController.Instance.ResetScreen ();
+	}
+
 }

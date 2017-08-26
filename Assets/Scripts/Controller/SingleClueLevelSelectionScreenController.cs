@@ -12,6 +12,7 @@ public class SingleClueLevelSelectionScreenController : Singleton<SingleClueLeve
 		this.puzzlePackModel = puzzlePackModel;
 		GameObject levelSelectionGameObject = ScreenTransitionManager.Instance.ShowScreen (GameConstants.Screens.SINGLE_CLUE_LEVEL_SELECTION_SCREEN);
 		singleClueLevelSelectionScreenRef = levelSelectionGameObject.GetComponent<SingleClueLevelSelectionScreenReferences> ();
+		singleClueLevelSelectionScreenRef.starsCountLabel.text = PlayerModel.Instance.stars.ToString();
 		PopulateScrollView ();
 	}
 

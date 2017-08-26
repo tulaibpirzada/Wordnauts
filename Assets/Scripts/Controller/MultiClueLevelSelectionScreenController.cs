@@ -10,6 +10,7 @@ public class MultiClueLevelSelectionScreenController : Singleton<MultiClueLevelS
 	public void LoadScreen() {
 		GameObject levelSelectionGameObject = ScreenTransitionManager.Instance.ShowScreen (GameConstants.Screens.MULTI_CLUE_LEVEL_SELECTION_SCREEN);
 		multiClueLevelSelectionScreenRef = levelSelectionGameObject.GetComponent<MultiClueLevelSelectionScreenReferences> ();
+		multiClueLevelSelectionScreenRef.starsCountLabel.text = PlayerModel.Instance.stars.ToString();
 		PopulateScrollView ();
 	}
 
