@@ -23,7 +23,7 @@ public class PlayerModel: Singleton <PlayerModel>
     }
     public string GetDeviceId()
     {
-        
+		Debug.Log ("DeviceID: " + deviceID);
         return deviceID;
     }
    
@@ -103,13 +103,24 @@ public class PlayerModel: Singleton <PlayerModel>
         dailyLevel.isAvailable = false;
         dailyLevel.LevelNo = dailyLevel.LevelNo + 1;
         int totalLevels=Convert.ToInt32(ServerController.Instance.GetDatasnapshot(DatabaseModel.Instance.dailyLevelSnapshot, DatabaseModel.Instance.subLevelName).ChildrenCount);
-
+		UpdateSingleClueonLevelComplete ();
         return CheckStageComplete(dailyLevel.LevelNo, totalLevels);
 
     }
+	public void UpdateSingleClueonLevelComplete()
+	{
+		if (PlayerModel.Instance.stars >= MultiplePackModel.Instance.packsList[singleClue.PackNo + 1].RequiredPointsToUnlock)
+		{
+			singleClue.LevelNo = 0;
+			singleClue.PackNo++;
+			MultiplePackModel.Instance.UpdatePackList ();
+
+		}
+	}
     public bool MultiClueLevelComplete()
     {
         multiClue.LevelNo = multiClue.LevelNo + 1;
+		UpdateSingleClueonLevelComplete ();
         // all levels completed
         return CheckStageComplete(multiClue.LevelNo, MultipleMultiPackModel.Instance.TotalLevels);
        
@@ -119,10 +130,11 @@ public class PlayerModel: Singleton <PlayerModel>
     {
         singleClue.LevelNo = singleClue.LevelNo + 1;
         int result = CheckSingleClueStageComplete();
-        if (result==1)
+        if (result == 1)
         {
             singleClue.LevelNo = 0;
             singleClue.PackNo++;
+			MultiplePackModel.Instance.UpdatePackList ();
         }
         return result;
 

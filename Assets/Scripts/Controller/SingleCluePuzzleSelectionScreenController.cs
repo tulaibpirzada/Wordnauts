@@ -68,16 +68,21 @@ public class SingleCluePuzzleSelectionScreenController : Singleton<SingleCluePuz
     }
 
     public void SlideBackToMainMenu() {
+		ResetScrollViewAndList ();
+        MainMenuController.Instance.ShowMainMenuScreen();
+    }
+
+	private void ResetScrollViewAndList() {
 		foreach (GameObject puzzleItem in puzzleItemList) {
 			Destroy (puzzleItem);
 		}
 		puzzleItemList.Clear ();
-        MainMenuController.Instance.ShowMainMenuScreen();
-    }
+	}
 
 	public void LoadPuzzlePackModelForSelectedListItem(PuzzlePackListItemReferences puzzlePackListItemRef) {
-        if (puzzlePackListItemRef.puzzlePackModel.RequiredPointsToUnlock < PlayerModel.Instance.stars)
+		if (PlayerModel.Instance.stars >= puzzlePackListItemRef.puzzlePackModel.RequiredPointsToUnlock)
         {
+			ResetScrollViewAndList ();
             SingleClueLevelSelectionScreenController.Instance.LoadScreen(puzzlePackListItemRef.puzzlePackModel);
         }
         else

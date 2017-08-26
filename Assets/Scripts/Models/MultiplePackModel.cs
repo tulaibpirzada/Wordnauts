@@ -15,14 +15,18 @@ class MultiplePackModel: Singleton<MultiplePackModel>
     public void Populate()
     {
         TotalPacks =Convert.ToInt32(DatabaseModel.Instance.singleClueSnapshot.ChildrenCount);
-        int packNo = PlayerModel.Instance.singleClue.PackNo;
+		UpdatePackList ();
+    }
+
+	public void UpdatePackList() {
+		packsList.Clear ();
+		int packNo = PlayerModel.Instance.singleClue.PackNo;
 		for (int index = 0; index <=packNo+1; index++)
-        {
-            PuzzlePackModel pack = new PuzzlePackModel();
+		{
+			PuzzlePackModel pack = new PuzzlePackModel();
 			pack.Populate(index);
 			packsList.Add(pack);
-        }
-
-    }
+		}
+	}
  }
 

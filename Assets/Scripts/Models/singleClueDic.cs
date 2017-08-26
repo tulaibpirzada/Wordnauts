@@ -11,9 +11,8 @@ public class singleClueDic
 
     public singleClueDic()
     {
-    
-        LevelNo=0;
-        PackNo = 0;
+        LevelNo = 0;
+        PackNo = -1;
     }
 }
 
