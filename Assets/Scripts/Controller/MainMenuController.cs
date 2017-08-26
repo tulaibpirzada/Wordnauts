@@ -33,7 +33,7 @@ public class MainMenuController : Singleton<MainMenuController> {
         {
             // Show screen "play again tomorrow"
 
-            NoMoreDailyLevelPopupController.Instance.LoadScreen();
+            NoMoreDailyLevelPopupController.Instance.LoadPopup();
         }
 	}
 
@@ -52,7 +52,7 @@ public class MainMenuController : Singleton<MainMenuController> {
 	}
 
 	public void ShowGetMoreHintsPopup() {
-        BuyHintsPopupController.Instance.LoadScreen();
+        BuyHintsPopupController.Instance.LoadPopup();
 		
 	}
 

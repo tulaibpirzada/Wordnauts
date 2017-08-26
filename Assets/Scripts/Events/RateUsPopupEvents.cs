@@ -8,7 +8,7 @@ public class RateUsPopupEvents: MonoBehaviour
    
     public void ScreenTapped()
     {
-        SettingScreenController.Instance.LoadScreen();
+		RateUsPopUpController.Instance.RemovePopup();
     }
     public void SureButtonPressed()
     {

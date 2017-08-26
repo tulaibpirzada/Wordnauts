@@ -87,7 +87,7 @@ public class SingleCluePuzzleSelectionScreenController : Singleton<SingleCluePuz
         }
         else
         {
-            PuzzlePackLockedByPrestigeScreenController.Instance.LoadScreen();
+            PuzzlePackLockedByPrestigeScreenController.Instance.LoadPopup();
         }
 	}
 }

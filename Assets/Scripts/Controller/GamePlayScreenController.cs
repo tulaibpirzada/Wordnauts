@@ -516,4 +516,8 @@ public class GamePlayScreenController : Singleton<GamePlayScreenController>
 		gamePlayScreenRef.wordsToFindLabel.text = "Words to find (" + (currentSolutionIndex + 1).ToString() + "/" + puzzleModel.Solution.Count.ToString() + ")";
 		gamePlayScreenRef.clueLabel.text = "Clue: " + puzzleModel.Clue[currentSolutionIndex];
     }
+
+	public void ShowRevealCluePopup() {
+		RevealCluePopupController.Instance.LoadPopup ();
+	}
 }

@@ -22,4 +22,9 @@ public class GamePlayScreenEvents : MonoBehaviour {
 	{
         GamePlayScreenController.Instance.ShowNextSolutionAndClue();
 	}
+
+	public void MysteryClueTapped() {
+		GamePlayScreenController.Instance.ShowRevealCluePopup ();
+	}
+
 }

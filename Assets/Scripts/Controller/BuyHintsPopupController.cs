@@ -8,9 +8,9 @@ public class BuyHintsPopupController : Singleton<BuyHintsPopupController>
     BuyHintsPopupReferences buyHintsPopupRef;
     public List<GameObject> levelItemList;
 
-    public void LoadScreen()
+    public void LoadPopup()
     {
-        GameObject buyHintsPopupGameObject = ScreenTransitionManager.Instance.ShowScreen(GameConstants.Screens.BUY_HINTS_POPUP);
+		GameObject buyHintsPopupGameObject = ScreenTransitionManager.Instance.ShowPopup(GameConstants.Screens.BUY_HINTS_POPUP);
         buyHintsPopupRef = buyHintsPopupGameObject.GetComponent<BuyHintsPopupReferences>();
         PopulateScrollView();
     }
@@ -36,11 +36,11 @@ public class BuyHintsPopupController : Singleton<BuyHintsPopupController>
             buyHintsPopupRef.price.text = "10$".ToString();
         }
     }
-    public void SlideBackToMainMenu()
-    {
-        ResetScrollView();
-        MainMenuController.Instance.ShowMainMenuScreen();
-    }
+
+	public void RemovePopup() {
+		ResetScrollView();
+		ScreenTransitionManager.Instance.RemovePopup ();
+	}
 
     private void ResetScrollView()
     {

@@ -5,6 +5,6 @@ using UnityEngine;
 public class PurchaseSuccessPopupEvents : MonoBehaviour {
    public void ScreenTapped()
     {
-        MainMenuController.Instance.ShowMainMenuScreen();
+		PurchaseSuccessPopupController.Instance.RemovePopup();
     }
 }

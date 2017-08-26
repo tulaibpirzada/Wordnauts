@@ -5,11 +5,14 @@ using UnityEngine;
 public class RevealCluePopupController : Singleton<RevealCluePopupController>
 {
     RevealCluePopupReferences revealCluePopupRef;
-    public void LoadScreen()
+    public void LoadPopup()
     {
-        GameObject revealCluePopupGameObject = ScreenTransitionManager.Instance.ShowScreen(GameConstants.Screens.REVEAL_CLUE_POPUP);
+		GameObject revealCluePopupGameObject = ScreenTransitionManager.Instance.ShowPopup(GameConstants.Screens.REVEAL_CLUE_POPUP);
         revealCluePopupRef = revealCluePopupGameObject.GetComponent<RevealCluePopupReferences>();
-
     }
+
+	public void RemovePopup() {
+		ScreenTransitionManager.Instance.RemovePopup ();
+	}
 
 }

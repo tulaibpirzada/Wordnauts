@@ -6,6 +6,6 @@ public class PuzzlePackLockedByPrestigeScreenEvents : MonoBehaviour {
 
 	public void ScreenTapped()
     {
-        MainMenuController.Instance.ShowMainMenuScreen();
+		PuzzlePackLockedByPrestigeScreenController.Instance.RemovePopup();
     }
 }

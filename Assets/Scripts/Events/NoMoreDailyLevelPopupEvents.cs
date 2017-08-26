@@ -7,6 +7,6 @@ public class NoMoreDailyLevelPopupEvents : MonoBehaviour {
     
 	public void ScreenTapped()
     {
-        MainMenuController.Instance.ShowMainMenuScreen();
+		NoMoreDailyLevelPopupController.Instance.RemovePopup();
     }
 }

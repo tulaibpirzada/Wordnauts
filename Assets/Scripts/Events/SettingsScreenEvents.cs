@@ -26,7 +26,7 @@ public class SettingsScreenEvents : MonoBehaviour {
     }
     public void RateUsButtonPressed()
     {
-        RateUsPopUpController.Instance.LoadScreen();
+        RateUsPopUpController.Instance.LoadPopup();
     
     }
 

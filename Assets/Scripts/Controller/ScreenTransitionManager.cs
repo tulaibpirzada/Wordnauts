@@ -46,4 +46,29 @@ public class ScreenTransitionManager : Singleton<ScreenTransitionManager> {
 		}
 		return currentlyVisibleScreen;
 	}
+
+	public GameObject ShowPopup(GameConstants.Screens screen) {
+		GameObject screenToBeShown = null;
+		if (screenReferencesDictionary.TryGetValue (screen, out screenToBeShown)) {
+			if (currentlyVisibleScreen != null) {
+				screenToBeRemoved = currentlyVisibleScreen;
+				currentlyVisibleScreen = screenToBeShown;
+				currentlyVisibleScreen.SetActive (true);
+				screenToBeRemoved.SetActive (false);
+			} else {
+				//never exists
+				//error
+			}
+		} else {
+			//error
+		}
+		return currentlyVisibleScreen;
+	}
+
+	public void RemovePopup() {
+		currentlyVisibleScreen.SetActive (false);
+		currentlyVisibleScreen = screenToBeRemoved;
+		currentlyVisibleScreen.SetActive (true);
+		screenToBeRemoved = null;
+	}
 }

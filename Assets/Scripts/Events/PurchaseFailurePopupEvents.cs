@@ -6,6 +6,6 @@ public class PurchaseFailurePopupEvents : MonoBehaviour {
 
     public void ScreenTapped()
     {
-        MainMenuController.Instance.ShowMainMenuScreen();
+		PurchaseFailurePopupController.Instance.RemovePopup();
     }
 }

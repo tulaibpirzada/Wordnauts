@@ -5,14 +5,18 @@ using UnityEngine;
 public class RateUsPopUpController : Singleton<RateUsPopUpController>
 {
     RateUsPopupReferences rateUsPopupRef;
-    public void LoadScreen()
+    public void LoadPopup()
     {
-        GameObject rateUsPopupGameObject = ScreenTransitionManager.Instance.ShowScreen(GameConstants.Screens.RATE_US_POPUP_SCREEN);
+		GameObject rateUsPopupGameObject = ScreenTransitionManager.Instance.ShowPopup(GameConstants.Screens.RATE_US_POPUP_SCREEN);
         rateUsPopupRef = rateUsPopupGameObject.GetComponent<RateUsPopupReferences>();
     }
    public void SaveRating()
     {
         PlayerModel.Instance.appRating = 5;
     }
+
+	public void RemovePopup() {
+		ScreenTransitionManager.Instance.RemovePopup ();
+	}
 }
 

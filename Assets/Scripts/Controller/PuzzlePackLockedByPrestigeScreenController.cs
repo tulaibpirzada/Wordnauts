@@ -5,16 +5,18 @@ using UnityEngine;
 public class PuzzlePackLockedByPrestigeScreenController : Singleton<PuzzlePackLockedByPrestigeScreenController>
 {
     PuzzlePackLockedByPrestigeScreenReferences puzzlePackLockedByPrestigeScreenRef;
-    public void LoadScreen()
+    public void LoadPopup()
     {
-        GameObject puzzlePackLockedByPrestigeGameObject = ScreenTransitionManager.Instance.ShowScreen(GameConstants.Screens.PUZZLE_PACK_LOCKED_BY_PRESTIGE_POPUP);
+		GameObject puzzlePackLockedByPrestigeGameObject = ScreenTransitionManager.Instance.ShowPopup(GameConstants.Screens.PUZZLE_PACK_LOCKED_BY_PRESTIGE_POPUP);
         puzzlePackLockedByPrestigeScreenRef = puzzlePackLockedByPrestigeGameObject.GetComponent<PuzzlePackLockedByPrestigeScreenReferences>();
         puzzlePackLockedByPrestigeScreenRef.star.text = PlayerModel.Instance.stars.ToString();
         int packNo = PlayerModel.Instance.singleClue.PackNo + 1;
         int prestigePoints = MultiplePackModel.Instance.packsList[packNo].RequiredPointsToUnlock;
         int shortPrestigePoints = prestigePoints - PlayerModel.Instance.stars;
         puzzlePackLockedByPrestigeScreenRef.Message.text = "You are "+ shortPrestigePoints.ToString()+" prestige points short of unlocking Puzzle Pack # "+(packNo+1).ToString();
-        
-        
     }
+
+	public void RemovePopup() {
+		ScreenTransitionManager.Instance.RemovePopup ();
+	}
 }
